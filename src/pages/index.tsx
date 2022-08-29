@@ -222,6 +222,102 @@ const IndexPage = () => {
             </div>
           </div>
         </section>
+
+        <section className="bg-neutral-800 mt-[-80px]">
+          {/* title button */}
+          <section className="container px-[15px] mx-auto pb-[20px] lg:pb-[50px] pt-[160px]">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-[20px] lg:text-[40px] font-bold text-white">What are your Goals Today?</h3>
+                <p className="font-light lg:text-[30px] text-white">Choose from world-class online courses and start your new future today.</p>
+              </div>
+              <div className="hidden lg:block">
+                <button className="w-full lg:w-fit flex items-center justify-between bg-amber-400 py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                  <span className="font-bold mr-[20px]">Go to All Paths</span>
+                  <ArrowRightCircleIcon className="h-6 w-6"/>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* list products */}
+          <section className="container px-[15px] mx-auto pt-[20px]">
+            <div className="pb-[40px] lg:pb-[100px]">
+              <div className="grid gap-6 lg:gap-10 lg:grid-cols-12">
+                <div className="lg:min-w-fit lg:col-span-4">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">CyberSecurity</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+                <div className="lg:min-w-fit lg:col-span-4">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">Data Analyticas</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+                <div className="lg:min-w-fit lg:col-span-4">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">Machine Learning</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+                <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">Software Dev</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+                <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">Entreoreneurship</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+                <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                    <h4 className="text-[20px] lg:text-[40px] font-bold leading-none mt-[20px]">Industrial Eng</h4>
+                    <button className="w-fit flex items-center justify-between bg-amber-400 py-[6px] px-[16px] rounded-full mt-[30px]">
+                      <span className="font-bold">Learn More</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section className="container px-[15px] mx-auto py-[40px] lg:py-[80px]">
+          <div className="">
+            <div className="grid gap-6 lg:gap-10 lg:grid-cols-12 items-center">
+              <div className="lg:col-span-4 order-2 lg:order-1 flex items-center flex-col text-center lg:text-left">
+                <h3 className="text-[20px] lg:text-[80px] font-bold leading-none mb-[10px] lg:mb-[20px]">Learning With Experts</h3>
+                <p className="text-[16px] lg:text-[50px] font-extralight">Meet faculty from UMGC who'll share their experience through videos, articles, quizzes and discussions.</p>
+              </div>
+              <div className="lg:col-span-8 order-1">
+                <img className="h-[300px] :w-full lg:h-[860px] bg-slate-300" src="" alt="" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* footer */}
+        <section className="container px-[15px] mx-auto pt-[20px] pb-[20px]">
+          <div className="bg-neutral-800 rounded-2xl py-[20px] px-[30px] flex items-center justify-between">
+            <img className="w-[50px] h-[50px] lg:w-[340px] lg:h-[60px] bg-slate-300" src="./images/logo.jpeg" alt="" />
+            <p className="text-white font-bold">Copyright</p>
+          </div>
+        </section>
       </div>
     </Layout>
   )
