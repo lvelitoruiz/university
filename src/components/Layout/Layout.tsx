@@ -2,7 +2,7 @@ import React from "react"
 
 const Layout = ({ children }: any) => {
   return (
-    <div className="">
+    <div className="parent-wrapper">
       {children}
     </div>
   )

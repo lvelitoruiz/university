@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import './typography.css';
+
+.parent-wrapper {
+    font-family: 'cg-regular';
+}

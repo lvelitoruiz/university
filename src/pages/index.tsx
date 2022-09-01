@@ -11,6 +11,7 @@ import {
   ArrowRightCircleIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
+import logo from "../images/logo.jpeg";
 
 const IndexPage = () => {
   return (
@@ -102,7 +103,7 @@ const IndexPage = () => {
                 </div>
                 <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
                   <div className="relative">
-                    <img className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src="" alt="" />
+                    <img className="w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ logo } alt="" />
                     <div className="hidden lg:block bg-red-500 text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
                       <h3 className="font-bold">You Unlocked a New Skill!</h3>
                       <p className="font-extralight text-[13px]">Business Analytics</p>
