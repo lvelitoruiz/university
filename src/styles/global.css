@@ -5,5 +5,29 @@
 @import './typography.css';
 
 .parent-wrapper {
-    font-family: 'cg-regular';
+    font-family: 'cg-variable';
+}
+
+.ff-cg--regular {
+    font-family: "cg-regular";
+}
+
+.ff-cg--extralight {
+    font-family: "cg-extralight";
+}
+
+.ff-cg--light {
+    font-family: "cg-light";
+}
+
+.ff-cg--medium {
+    font-family: "cg-medium";
+}
+
+.ff-cg--semibold {
+    font-family: "cg-semibold";
+}
+
+.ff-cg--bold {
+    font-family: "cg-bold";
 }

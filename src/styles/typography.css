@@ -1,4 +1,34 @@
 @font-face {
-    font-family: "cg-regular";
-    src: url("../fonts/ClashGrotesk-Regular.woff2");
-  }
+  font-family: "cg-regular";
+  src: url("../fonts/ClashGrotesk-Regular.woff2");
+}
+
+@font-face {
+  font-family: "cg-variable";
+  src: url("../fonts/ClashGrotesk-Variable.woff2");
+}
+
+@font-face {
+  font-family: "cg-extralight";
+  src: url("../fonts/ClashGrotesk-Extralight.woff2");
+}
+
+@font-face {
+  font-family: "cg-light";
+  src: url("../fonts/ClashGrotesk-Light.woff2");
+}
+
+@font-face {
+  font-family: "cg-medium";
+  src: url("../fonts/ClashGrotesk-Medium.woff2");
+}
+
+@font-face {
+  font-family: "cg-semibold";
+  src: url("../fonts/ClashGrotesk-Semibold.woff2");
+}
+
+@font-face {
+  font-family: "cg-bold";
+  src: url("../fonts/ClashGrotesk-Bold.woff2");
+}
