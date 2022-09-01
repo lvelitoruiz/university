@@ -91,7 +91,10 @@ const Catalog = () => {
         {/* banner img */}
         <section className="container px-[15px] mx-auto mt-[60px] mb-[40px]">
           <div className="relative w-full h-[140px] lg:h-[220px]">
-            <img className="w-full h-full rounded-2xl object-cover" src={ bannerCatalog } alt="" />
+            <div className="relative w-full h-[140px] lg:h-[220px]">
+              <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+              <img className="w-full h-full rounded-2xl object-cover" src={ bannerCatalog } alt="" />
+            </div>
             <div className="absolute top-[30px] lg:top-[50px] left-[30px]">
               <p className="ff-cg--semibold text-white text-[16px] lg:text-[16px] leading-none">The Skills You</p>
               <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[50px] leading-none">Need to <span className="text-amber-400">Succeed</span></h2>
@@ -217,7 +220,10 @@ const Catalog = () => {
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12">
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">
@@ -244,7 +250,10 @@ const Catalog = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">
@@ -271,7 +280,10 @@ const Catalog = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product3 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product3 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">
@@ -298,7 +310,10 @@ const Catalog = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">
@@ -325,7 +340,10 @@ const Catalog = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product4 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product4 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">
@@ -352,7 +370,10 @@ const Catalog = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-4">
                   <div>
-                    <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product5 } alt="" />
+                    <div className="relative">
+                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                      <img className="w-full object-cover h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product5 } alt="" />
+                    </div>
                     <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                       <div>
                         <div className="flex items-center gap-4 mb-[16px]">

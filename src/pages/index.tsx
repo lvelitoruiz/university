@@ -18,6 +18,14 @@ import banner from "../images/banner.png";
 import product1 from "../images/product-1.png";
 import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
+import icon1 from "../images/icon1.png";
+import icon2 from "../images/icon2.png";
+import cyber from "../images/cyber.png";
+import data from "../images/data.png";
+import machine from "../images/machine.png";
+import software from "../images/software.png";
+import entre from "../images/entre.png";
+import industrial from "../images/industrial.png";
 
 const IndexPage = () => {
   return (
@@ -117,10 +125,12 @@ const IndexPage = () => {
                     <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
                       <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
                       <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                      <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
                     </div>
-                    <div className="bg-[#fdbf38] py-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                    <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
                       <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
                       <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                      <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
                     </div>
                   </div>
                 </div>
@@ -151,7 +161,10 @@ const IndexPage = () => {
             <div className="flex lg:grid gap-4 lg:gap-10 lg:grid-cols-12 overflow-x-auto">
               <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
                 <div>
-                  <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                  <div className="relative">
+                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                  </div>
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                     <div>
                       <div className="flex items-center gap-4 mb-[10px]">
@@ -178,7 +191,10 @@ const IndexPage = () => {
               </div>
               <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
                 <div>
-                  <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                  <div className="relative">
+                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                  </div>
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                     <div>
                       <div className="flex items-center gap-4 mb-[10px]">
@@ -205,7 +221,10 @@ const IndexPage = () => {
               </div>
               <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
                 <div>
-                  <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product3 } alt="" />
+                  <div className="relative">
+                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product3 } alt="" />
+                  </div>
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                     <div>
                       <div className="flex items-center gap-4 mb-[10px]">
@@ -255,51 +274,57 @@ const IndexPage = () => {
             <div className="pb-[40px] lg:pb-[100px]">
               <div className="grid gap-6 lg:gap-10 lg:grid-cols-12">
                 <div className="lg:min-w-fit lg:col-span-4">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">CyberSecurity</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[200px] bottom-0 right-0 absolute" src={ cyber } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Data Analyticas</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[200px] bottom-0 right-0 absolute" src={ data } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Machine Learning</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[140px] bottom-0 right-0 absolute" src={ machine } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Software Dev</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[360px] bottom-0 right-0 absolute" src={ software } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Entreoreneurship</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[200px] bottom-0 right-0 absolute" src={ entre } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px]">
+                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
                     <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Industrial Eng</h4>
                     <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                       <span className="ff-cg--semibold">Learn More</span>
                     </button>
+                    <img className="w-[150px] bottom-0 right-0 absolute" src={ industrial } alt="" />
                   </div>
                 </div>
               </div>

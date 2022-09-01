@@ -90,7 +90,10 @@ const Course = () => {
         {/* banner img */}
         <section className="container px-[15px] mx-auto mt-[60px] lg:mb-[40px]">
           <div className="relative w-full h-[500px] lg:h-[360px]">
-            <img className="w-full h-full rounded-2xl object-cover" src={ bannerCourse } alt="" />
+            <div className="relative h-[500px] lg:h-[360px]">
+              <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+              <img className="w-full h-full rounded-2xl object-cover" src={ bannerCourse } alt="" />
+            </div>
             <div className="absolute top-[20px] lg:top-[30px] left-[20px] lg:left-[30px] w-[90%] lg:w-[40%]">
               <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[40px] leading-none mb-[20px]">Introduction to Cybersecurity Tools & Cyber Attacks</h2>
               <p className="text-white text-[14px] mb-[50px]">This course gives you the background needed to understand basic Cybersecurity.  You will learn the types and motives of cyber attacks to further your knowledge of current threats.</p>
