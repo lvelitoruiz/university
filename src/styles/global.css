@@ -31,3 +31,9 @@
 .ff-cg--bold {
     font-family: "cg-bold";
 }
+
+.bg-path {
+    background-image: url("../images/banner-path.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

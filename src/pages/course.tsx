@@ -164,7 +164,7 @@ const Course = () => {
                 </div>
               </div>
             </div>
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 mb-[-40px]">
               <div className="bg-[#da1a32] rounded-2xl p-[20px]">
                 <p className="text-white ff-cg--semibold mb-[10px]">Skills You Will Gain</p>
                 <div className="flex items-center flex-wrap">
