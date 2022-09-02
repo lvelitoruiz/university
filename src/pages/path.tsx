@@ -17,7 +17,6 @@ import logo from "../images/logo-full.png";
 import product1 from "../images/product-1.png";
 import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
-import bannerPath from "../images/banner-path.png";
 
 const Path = () => {
   return (

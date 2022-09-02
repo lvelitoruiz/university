@@ -26,6 +26,7 @@ import machine from "../images/machine.png";
 import software from "../images/software.png";
 import entre from "../images/entre.png";
 import industrial from "../images/industrial.png";
+import imgLarge from "../images/img-large.png";
 
 const IndexPage = () => {
   return (
@@ -340,7 +341,7 @@ const IndexPage = () => {
                 <p className="text-[16px] lg:text-[50px] ff-cg--light">Meet faculty from UMGC who'll share their experience through videos, articles, quizzes and discussions.</p>
               </div>
               <div className="lg:col-span-8 order-1">
-                <img className="object-cover h-[300px] :w-full lg:h-[860px] bg-slate-300" src="" alt="" />
+                <img className="object-cover w-full" src={ imgLarge } alt="" />
               </div>
             </div>
           </div>
