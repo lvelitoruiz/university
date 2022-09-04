@@ -12,7 +12,9 @@ import {
   DocumentIcon,
   CheckIcon,
   ClockIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
+  XMarkIcon,
+  TrashIcon
 } from '@heroicons/react/24/outline'
 import logo from "../images/logo-full.png";
 import logoWhite from "../images/logo-white.png";
@@ -89,10 +91,10 @@ const Course = () => {
 
         {/* banner img */}
         <section className="container px-[15px] mx-auto mt-[60px] lg:mb-[40px]">
-          <div className="relative w-full h-[500px] lg:h-[360px]">
-            <div className="relative h-[500px] lg:h-[360px]">
+          <div className="relative w-full min-h-[500px] lg:min-h-[420px]">
+            <div className="relative min-h-[500px] lg:min-h-[420px]">
               <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-              <img className="w-full h-full rounded-2xl object-cover" src={ bannerCourse } alt="" />
+              <img className="w-full min-h-[500px] lg:min-h-[420px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
             </div>
             <div className="absolute top-[20px] lg:top-[30px] left-[20px] lg:left-[30px] w-[90%] lg:w-[40%]">
               <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[40px] leading-none mb-[20px]">Introduction to Cybersecurity Tools & Cyber Attacks</h2>
@@ -315,6 +317,125 @@ const Course = () => {
             <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
           </div>
         </section>
+      </div>
+
+      <div className="bg-[#000000b3] fixed top-0 left-0 bottom-0 right-0 bg-red">
+        <div className="absolute top-0 bottom-0 right-0 bg-white h-screen p-[15px] lg:p-[40px] w-full md:w-[60%] lg:w-[40%]">
+          <div className="flex items-center justify-between border-b solid pb-[20px]">
+            <div className="flex items-center">
+              <h3 className="text-[20px] lg:text-[30px] ff-cg--semibold">Your Cart</h3>
+              <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px] ml-[20px]">
+                <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+              </span>
+            </div>
+            <div className="flex items-center justify-center bg-[#fdbf38] rounded-full p-[2px] mr-[10px] cursor-pointer">
+              <XMarkIcon className="h-6 w-6"/>
+            </div>
+          </div>
+          <div className="py-[20px] border-b solid overflow-y-auto" style={{height: "calc(100vh - 380px)"}}>
+            <div className="lg:flex items-center justify-between border-b solid py-[15px]">
+              <div className="lg:flex">
+                <img className="w-full mb-[10px] lg:mb-0 h-[100px] lg:w-[190px] lg:h-[90px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
+                <div className="lg:ml-[10px] min-h-full flex flex-col justify-between lg:p-1 lg:w-[50%]">
+                  <p className="ff-cg--semibold text-[20px] leading-none mb-2">Introducion to Cybersecurity Tools & Cyber Attacks</p>
+                  <div className="flex items-center flex-wrap">
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">Course</span>
+                    </span>
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <p className="ff-cg--semibold mr-[10px]">$199</p>
+                <TrashIcon className="h-6 w-6"/>
+              </div>
+            </div>
+            <div className="lg:flex items-center justify-between border-b solid py-[15px]">
+              <div className="lg:flex">
+                <img className="w-full mb-[10px] lg:mb-0 h-[100px] lg:w-[190px] lg:h-[90px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
+                <div className="lg:ml-[10px] min-h-full flex flex-col justify-between lg:p-1 lg:w-[50%]">
+                  <p className="ff-cg--semibold text-[20px] leading-none mb-2">Introducion to Cybersecurity Tools & Cyber Attacks</p>
+                  <div className="flex items-center flex-wrap">
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">Course</span>
+                    </span>
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <p className="ff-cg--semibold mr-[10px]">$199</p>
+                <TrashIcon className="h-6 w-6"/>
+              </div>
+            </div>
+            <div className="lg:flex items-center justify-between border-b solid py-[15px]">
+              <div className="lg:flex">
+                <img className="w-full mb-[10px] lg:mb-0 h-[100px] lg:w-[190px] lg:h-[90px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
+                <div className="lg:ml-[10px] min-h-full flex flex-col justify-between lg:p-1 lg:w-[50%]">
+                  <p className="ff-cg--semibold text-[20px] leading-none mb-2">Introducion to Cybersecurity Tools & Cyber Attacks</p>
+                  <div className="flex items-center flex-wrap">
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">Course</span>
+                    </span>
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <p className="ff-cg--semibold mr-[10px]">$199</p>
+                <TrashIcon className="h-6 w-6"/>
+              </div>
+            </div>
+            <div className="lg:flex items-center justify-between border-b solid py-[15px]">
+              <div className="lg:flex">
+                <img className="w-full mb-[10px] lg:mb-0 h-[100px] lg:w-[190px] lg:h-[90px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
+                <div className="lg:ml-[10px] min-h-full flex flex-col justify-between lg:p-1 lg:w-[50%]">
+                  <p className="ff-cg--semibold text-[20px] leading-none mb-2">Introducion to Cybersecurity Tools & Cyber Attacks</p>
+                  <div className="flex items-center flex-wrap">
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">Course</span>
+                    </span>
+                    <span className="flex items-center border border-black rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                      <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                      <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <p className="ff-cg--semibold mr-[10px]">$199</p>
+                <TrashIcon className="h-6 w-6"/>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center justify-between py-[20px]">
+              <p className="text-[16px] lg:text-[26px] ff-cg--semibold">Total</p>
+              <p className="text-[16px] lg:text-[26px] ff-cg--semibold">$199</p>
+            </div>
+            <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
+              <span className="ff-cg--semibold mr-[20px]">Checkout</span>                
+            </button>
+            <p className="text-center mt-4 text-[13px]">Taxes, shipping, and delivery options calculated at checkout</p>
+            <button className="flex items-center justify-center py-[14px] px-[16px] rounded-2xl mr-[20px] w-full mt-[20px]">
+              <span className="ff-cg--semibold mr-[20px] underline decoration-1">Continue Shopping</span>                
+            </button>
+          </div>
+        </div>
       </div>
     </Layout>
   )
