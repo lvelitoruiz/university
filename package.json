@@ -1,0 +1,34 @@
+{
+  "name": "workforce-learning",
+  "version": "1.0.0",
+  "private": true,
+  "description": "workforce-learning",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.8",
+    "gatsby": "^4.21.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "swiper": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.45",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "autoprefixer": "^10.4.8",
+    "gatsby-plugin-postcss": "^5.21.0",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "typescript": "^4.7.4"
+  }
+}

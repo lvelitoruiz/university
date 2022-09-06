@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './typography.css';
+
+.parent-wrapper {
+    font-family: 'cg-variable';
+}
+
+.ff-cg--regular {
+    font-family: "cg-regular";
+}
+
+.ff-cg--extralight {
+    font-family: "cg-extralight";
+}
+
+.ff-cg--light {
+    font-family: "cg-light";
+}
+
+.ff-cg--medium {
+    font-family: "cg-medium";
+}
+
+.ff-cg--semibold {
+    font-family: "cg-semibold";
+}
+
+.ff-cg--bold {
+    font-family: "cg-bold";
+}
+
+.bg-path {
+    background-image: url("../images/banner-path.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@layer base {
+
+    .swiper-pagination {
+        @apply absolute z-10 items-start;
+        text-align: left!important;
+        left: 0!important;
+        top: 0!important;
+        height: 20px !important;
+        padding-top: 20px!important;
+        padding-left: 30px!important;
+    }
+    .swiper-pagination-bullet {
+      @apply border-white border-2 rounded-full mx-[8px] cursor-pointer duration-100 ease-in-out;
+      width: 12px!important;
+      height: 12px!important;
+      opacity: 1!important;
+    }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active
+    {
+      @apply rounded-[12px] bg-[#da1a32] mx-[8px] cursor-pointer border-none duration-300 ease-in-out;
+      width: 100px!important;
+      height: 12px!important;
+    }
+  }
