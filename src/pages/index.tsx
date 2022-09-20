@@ -34,6 +34,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import Modal from "../components/Modal/Modal";
 
 const IndexPage = () => {
 
@@ -540,6 +541,7 @@ const IndexPage = () => {
           </div>
         </section>
       </div>
+      <Modal />
     </Layout>
   )
 }
