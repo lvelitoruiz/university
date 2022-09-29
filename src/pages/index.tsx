@@ -35,6 +35,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Modal from "../components/Modal/Modal";
+import { useState } from "react";
 
 const IndexPage = () => {
 
@@ -44,6 +45,12 @@ const IndexPage = () => {
 		//   return '<span class="w-3 h-3 mx-[6px] bg-black rounded-full cursor-pointer ' + className + '"></span>'
 		// },
 	};
+
+  const [modalOpen,setModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setModalOpen(!modalOpen);
+  }
 
 
   return (
@@ -97,7 +104,7 @@ const IndexPage = () => {
                       </a>
                     </li>
                     <li className="ml-[15px]">
-                      <a className="flex flex-col items-center" href="">
+                      <a className="flex flex-col items-center cursor-pointer" onClick={handleModal}>
                         <UserCircleIcon className="h-8 w-8"/>
                       </a>
                     </li>
@@ -541,7 +548,10 @@ const IndexPage = () => {
           </div>
         </section>
       </div>
-      <Modal />
+      {
+        (modalOpen) ?
+        <Modal handleModal={handleModal} /> : ""
+      }
     </Layout>
   )
 }
