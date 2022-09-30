@@ -28,12 +28,13 @@ import entre from "../images/entre.png";
 import industrial from "../images/industrial.png";
 import imgLarge from "../images/img-large.png";
 
-import { Pagination } from 'swiper';
+import { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 import Modal from "../components/Modal/Modal";
 import { useState } from "react";
 
@@ -130,8 +131,10 @@ const IndexPage = () => {
             </div>
             {/* item */}
             <Swiper
-											modules={[Pagination]}
+											modules={[Pagination, Autoplay]}
 											pagination={pagination}
+                      autoplay={true}
+                      speed={500}
 											breakpoints={{
 												640: {
 													slidesPerView: 1,
@@ -151,7 +154,7 @@ const IndexPage = () => {
 											onSlideChange={() => console.log('slide change')}
 											onSwiper={(swiper) => console.log(swiper)}
 										>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -181,7 +184,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -211,7 +214,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -241,7 +244,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -271,7 +274,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -301,7 +304,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
