@@ -28,12 +28,15 @@ import entre from "../images/entre.png";
 import industrial from "../images/industrial.png";
 import imgLarge from "../images/img-large.png";
 
-import { Pagination } from 'swiper';
+import { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+import Modal from "../components/Modal/Modal";
+import { useState } from "react";
 
 const IndexPage = () => {
 
@@ -43,6 +46,12 @@ const IndexPage = () => {
 		//   return '<span class="w-3 h-3 mx-[6px] bg-black rounded-full cursor-pointer ' + className + '"></span>'
 		// },
 	};
+
+  const [modalOpen,setModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setModalOpen(!modalOpen);
+  }
 
 
   return (
@@ -64,9 +73,11 @@ const IndexPage = () => {
                 </h1>
               </div>
               <div className="hidden lg:block w-full mx-[20px]">
-                <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border solid w-full cursor-pointer">
-                  <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]"/>
-                  <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="text" placeholder="What skills do you want to lean today?" />
+                <div className="relative">
+                  <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border solid w-full cursor-pointer">
+                    <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]"/>
+                    <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="search" placeholder="What skills do you want to lean today?" />
+                  </div>
                 </div>
               </div>
               <div className="hidden lg:block">
@@ -96,7 +107,7 @@ const IndexPage = () => {
                       </a>
                     </li>
                     <li className="ml-[15px]">
-                      <a className="flex flex-col items-center" href="">
+                      <a className="flex flex-col items-center cursor-pointer" onClick={handleModal}>
                         <UserCircleIcon className="h-8 w-8"/>
                       </a>
                     </li>
@@ -120,8 +131,10 @@ const IndexPage = () => {
             </div>
             {/* item */}
             <Swiper
-											modules={[Pagination]}
+											modules={[Pagination, Autoplay]}
 											pagination={pagination}
+                      autoplay={true}
+                      speed={500}
 											breakpoints={{
 												640: {
 													slidesPerView: 1,
@@ -141,7 +154,7 @@ const IndexPage = () => {
 											onSlideChange={() => console.log('slide change')}
 											onSwiper={(swiper) => console.log(swiper)}
 										>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -171,7 +184,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -201,7 +214,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -231,7 +244,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -261,7 +274,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -291,7 +304,7 @@ const IndexPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] rounded-2xl absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
                   <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
                     <div>
@@ -540,6 +553,10 @@ const IndexPage = () => {
           </div>
         </section>
       </div>
+      {
+        (modalOpen) ?
+        <Modal handleModal={handleModal} /> : ""
+      }
     </Layout>
   )
 }
