@@ -33,8 +33,8 @@ const Modal = ({handleModal}: any) => {
 		.then((response) => {
 			// setUserInfo(response.data);
       console.log('*** processing data *** ',response.data.data._embedded.user.profile);
-			localStorage.setItem('access_token', response.data.access_token);
-			localStorage.setItem('userName', response.data.data._embedded.user.profile.firstName + " " + response.data.data._embedded.user.profile.lastName);
+			typeof window !== 'undefined' && localStorage.setItem('access_token', response.data.access_token);
+			typeof window !== 'undefined' && localStorage.setItem('userName', response.data.data._embedded.user.profile.firstName + " " + response.data.data._embedded.user.profile.lastName);
 			const decoded: any = (jwt_decode(response.data.access_token));
       setCompare(decoded.role);
 		}).catch( function(error) {
@@ -43,7 +43,6 @@ const Modal = ({handleModal}: any) => {
   }
 
   const createUser = (email: string,firstName: string,lastName: string,phoneNumber: string,password: string) => {
-    let token = localStorage.getItem("access_token");
 		axios
       .post('https://accelered-api.whiz.pe/api/users', {
         first_name: firstName,
