@@ -3,6 +3,9 @@ import { Formik, Field, Form } from 'formik';
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { navigate } from 'gatsby';
+import { 
+  AdjustmentsVerticalIcon
+} from '@heroicons/react/24/outline'
 
 const Modal = ({handleModal}: any) => {
   const [signIn,setSignIn] = useState(true);
@@ -89,10 +92,12 @@ const Modal = ({handleModal}: any) => {
     <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-center justify-center">
       <div className="bg-opacity-40 bg-black z-10 absolute left-0 top-0 h-screen w-screen" onClick={handleModal}>
       </div>
-      <div className="bg-white rounded-3xl w-[650px] p-6 lg:pt-[60px] lg:pb-[60px] relative z-50">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer absolute right-0 top-0 my-4 mx-6" onClick={handleModal}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+      <div className="bg-white rounded-3xl w-[750px] p-6 pt-[60px] lg:pb-[60px] relative z-50">
+        <div className='absolute right-0 top-0'>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 p-1 bg-[#fdbf38] rounded-md cursor-pointer my-4 mx-6" onClick={handleModal}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
         {/* Sign In */}
         {
           (signIn) ?
@@ -107,28 +112,51 @@ const Modal = ({handleModal}: any) => {
             }}
           >
             <div className="">
-              <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-8">Sing in to your account</h3>
+              <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-0">Welcome back</h3>
+              <div className='text-center mb-1'>
+                <p>Don't have account? <a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign Up</a></p>
+              </div>
+              <div className='flex items-center justify-center'>
+                <div className="w-full lg:w-[80%] lg:flex items-center justify-center gap-2 lg:gap-4">
+                  <button className="w-full flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[20px]">
+                    <AdjustmentsVerticalIcon className="h-6 w-6"/>
+                    <span className="ff-cg--semibold ml-[20px]">Continue with Google</span>
+                  </button>
+                  <button className="w-full flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[20px]">
+                    <AdjustmentsVerticalIcon className="h-6 w-6"/>
+                    <span className="ff-cg--semibold ml-[20px]">Continue with Faceboock</span>
+                  </button>
+                </div>
+              </div>
+              <div className='flex items-center justify-center py-4'>
+                <div className="w-full lg:w-[80%] flex items-center justify-center">
+                  <div className='w-full flex items-center gap-3'>
+                    <span className='border border-solid w-full'></span>
+                    <p className='text-gray-300'>or</p>
+                    <span className='border border-solid w-full'></span>
+                  </div>
+                </div>
+              </div>
               <Form className="flex items-center justify-center">
                 <div className="w-full lg:w-[80%]">
-                  <div className="mb-4">
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Email</label>
+                  <div className="mb-6">
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
                     <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-xl"
                       name='name'
                       type="text"
                       placeholder="Student@domain.com" />
                   </div>
                   <div>
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Password</label>
+                    <div className='flex items-center justify-between'>
+                      <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
+                      <a className='ff-cg--semibold text-[#da1a32] ml-2 underline' href="">Forgot Password?</a>
+                    </div>
                     <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-xl"
                       name='password'
                       type="password"
                       placeholder="*******" />
-                  </div>
-                  <div className="my-3 flex justify-between px-1">
-                    <p className="cursor-pointer hover:text-orange-400">Forgot your password?</p>
-                    <p className="cursor-pointer hover:text-orange-400" onClick={changeSignIn}>Register instead</p>
                   </div>
                   <button type="submit" className="w-full flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
                     <span className="ff-cg--semibold mr-[20px]">Sign In</span>
@@ -158,63 +186,67 @@ const Modal = ({handleModal}: any) => {
             }}
           >
             <div>
-              <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-8">Register</h3>
+              <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-0">Sign up and start learning</h3>
+              <div className='text-center mb-1'>
+                <p>Already have an account?<a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign Up</a></p>
+              </div>
+              <div className='flex items-center justify-center'>
+                <div className="w-full lg:w-[80%] lg:flex items-center justify-center gap-2 lg:gap-4">
+                  <button className="w-full flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[20px]">
+                    <AdjustmentsVerticalIcon className="h-6 w-6"/>
+                    <span className="ff-cg--semibold ml-[20px]">Sign up with Google</span>
+                  </button>
+                  <button className="w-full flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[20px]">
+                    <AdjustmentsVerticalIcon className="h-6 w-6"/>
+                    <span className="ff-cg--semibold ml-[20px]">Sign up with Faceboock</span>
+                  </button>
+                </div>
+              </div>
+              <div className='flex items-center justify-center py-4'>
+                <div className="w-full lg:w-[80%] flex items-center justify-center">
+                  <div className='w-full flex items-center gap-3'>
+                    <span className='border border-solid w-full'></span>
+                    <p className='text-gray-300'>or</p>
+                    <span className='border border-solid w-full'></span>
+                  </div>
+                </div>
+              </div>
               <Form className="flex items-center justify-center">
                 <div className="w-full lg:w-[80%]">
-                  <div className="mb-4">
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Email</label>
+                  <div className="mb-6">
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
                     <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
-                      type="text"
-                      name='email'
-                      placeholder="Student@domain.com" />
-                  </div>
-                  <div className="mb-4">
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">First Name</label>
-                    <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
                       type="text"
                       name='firstName'
                       placeholder="Your First Name" />
                   </div>
-                  <div className="mb-4">
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Last Name</label>
+                  <div className="mb-6">
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
                     <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
                       type="text"
-                      name='lastName'
-                      placeholder="Your Last Name" />
-                  </div>
-                  <div className="mb-4">
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Phone Number</label>
-                    <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
-                      type="text"
-                      name='phoneNumber'
-                      placeholder="Your Phone Number" />
+                      name='email'
+                      placeholder="Student@domain.com" />
                   </div>
                   <div>
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Password</label>
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
                     <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
                       type="password"
                       name='password'
                       placeholder="*******" />
                   </div>
-                  <div>
-                    <label className="text-[12px] ff-cg--semibold" htmlFor="">Confirm Password</label>
-                    <Field
-                      className="w-full border border-solid placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
-                      type="password"
-                      name='passwordConfirm'
-                      placeholder="*******" />
-                  </div>
-                  <div className="my-3 flex justify-between px-1">
-                    <p className="cursor-pointer hover:text-orange-400" onClick={changeSignIn}>Sign In instead</p>
+                  <div className='flex items-center gap-2 mt-4'>
+                    <span className='w-full h-2 bg-gray-100 rounded-md'></span>
+                    <span className='w-full h-2 bg-gray-100 rounded-md'></span>
+                    <span className='w-full h-2 bg-gray-100 rounded-md'></span>
+                    <span className='w-full h-2 bg-gray-100 rounded-md'></span>
                   </div>
                   <button type="submit" className="w-full flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
                     <span className="ff-cg--semibold mr-[20px]">Sign Up</span>
                   </button>
+                  <p className='mt-6 text-sm text-center'>By Signing up, you agree to our Terms of Use and Privacy Policy</p>
                 </div>
               </Form>
             </div>
