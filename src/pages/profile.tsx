@@ -17,6 +17,9 @@ import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
 
 const Profile = () => {
+
+  const userName = localStorage.getItem('userName');
+
   return (
     <Layout>
       <div className="bg-slate-50">
@@ -87,7 +90,7 @@ const Profile = () => {
         {/* title button */}
         <section className="container px-[15px] mx-auto py-[30px] lg:py-[50px]">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:mt-[60px]">
-            <h3 className="text-[30px] lg:text-[50px] ff-cg--semibold">Good morning, Jennifer!</h3>            
+            <h3 className="text-[30px] lg:text-[50px] ff-cg--semibold">Good morning, { userName }!</h3>            
             <div className="flex flex-col lg:items-end">
               <p className="ff-cg--semibold text-[16px] lg:text-[28px]">It's a beautiful day!</p>
               <p>Let's see how we can help you today</p>
