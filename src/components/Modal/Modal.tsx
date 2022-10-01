@@ -48,14 +48,14 @@ const Modal = ({handleModal}: any) => {
   const createUser = (email: string,firstName: string,lastName: string,phoneNumber: string,password: string) => {
 		axios
       .post('https://accelered-api.whiz.pe/api/users', {
-        first_name: firstName,
-        last_name: lastName,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         password: password,
-        mobile_phone: phoneNumber,
-        profile_url: "",
-        group: "",
-        time_zone: ""
+        mobilePhone: phoneNumber,
+        profileUrl: "",
+        group: "Group 1",
+        timeZone: "UTC-5"
       })
       .then((response) => {
         console.log('**** this is the response ***',response);
@@ -214,12 +214,20 @@ const Modal = ({handleModal}: any) => {
               <Form className="flex items-center justify-center">
                 <div className="w-full lg:w-[80%]">
                   <div className="mb-6">
-                    <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
+                    <label className="text-sm ff-cg--semibold" htmlFor="">First Name</label>
                     <Field
                       className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
                       type="text"
                       name='firstName'
                       placeholder="Your First Name" />
+                  </div>
+                  <div className="mb-6">
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Last Name</label>
+                    <Field
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      type="text"
+                      name='lastName'
+                      placeholder="Your Last Name" />
                   </div>
                   <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
@@ -228,6 +236,14 @@ const Modal = ({handleModal}: any) => {
                       type="text"
                       name='email'
                       placeholder="Student@domain.com" />
+                  </div>
+                  <div className="mb-6">
+                    <label className="text-sm ff-cg--semibold" htmlFor="">Mobile Phone</label>
+                    <Field
+                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                      type="text"
+                      name='phoneNumber'
+                      placeholder="Your Phone Number" />
                   </div>
                   <div>
                     <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
