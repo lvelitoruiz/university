@@ -18,13 +18,16 @@ import logoWhite from "../images/logo-white.png";
 import product1 from "../images/product-1.png";
 import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
+import Header from "../components/Header/Header";
 
 const Dashboard = () => {
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
   return (
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        <section className="bg-white shadow-lg">
+        {/* <section className="bg-white shadow-lg">
           <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
             <div className="flex items-center justify-between">
               <div className="lg:hidden">
@@ -86,7 +89,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+        <Header isSignIn={true} />
 
         {/* Banner */}
         <section>
@@ -95,7 +99,7 @@ const Dashboard = () => {
               <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 justify-center">
                 <div className="md:col-span-5 lg:col-span-4">
                   <div className="mt-10 lg:mt-20">
-                    <h2 className="text-[30px] lg:text-[70px] leading-none mb-[10px] lg:mb-[20px]">Welcome back, <span className="ff-cg--semibold">Alexander!</span></h2>
+                    <h2 className="text-[30px] lg:text-[70px] leading-none mb-[10px] lg:mb-[20px]">Welcome back, <span className="ff-cg--semibold">{ userName }!</span></h2>
                     <p className="font-light lg:text-[30px]">Continue with your learning experience</p>
                     <a className="text-[#da1a32] ff-cg--semibold flex items-center lg:mt-5 my-4" href="">
                       <span className="underline">See all Content</span>
@@ -109,7 +113,7 @@ const Dashboard = () => {
                       <div>
                         <div className="relative">
                           <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                          <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                          <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
                         </div>
                         <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between mt-[-30px] shadow-lg relative">
                           <div>
@@ -123,7 +127,7 @@ const Dashboard = () => {
                               </span>
                             </div>
                             <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity</h4>
-                            <button className="flex items-center justify-between border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[30px]" onClick={() => sidebarShow()}>
+                            <button className="flex items-center justify-between border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[30px]">
                               <span className="ff-cg--semibold mr-4">Go to Courses</span>
                               <ArrowRightCircleIcon className="h-6 w-6"/>
                             </button>
@@ -135,7 +139,7 @@ const Dashboard = () => {
                       <div>
                         <div className="relative">
                           <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                          <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                          <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
                         </div>
                         <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between mt-[-30px] shadow-lg relative">
                           <div>
@@ -149,7 +153,7 @@ const Dashboard = () => {
                               </span>
                             </div>
                             <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity</h4>
-                            <button className="flex items-center justify-between border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[30px]" onClick={() => sidebarShow()}>
+                            <button className="flex items-center justify-between border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-[30px]">
                               <span className="ff-cg--semibold mr-4">Go to Courses</span>
                               <ArrowRightCircleIcon className="h-6 w-6"/>
                             </button>
@@ -174,7 +178,7 @@ const Dashboard = () => {
               <div className="lg:col-span-3"></div>
               <div className="lg:col-span-3 mb-5 lg:mb-0">
                 <div>
-                  <div className="bg-white rounded-3xl bg-white p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
+                  <div className="bg-white rounded-3xl p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
                     <div>
                       <div className="flex w-[70px] h-[70px] rounded-full bg-[#ffeef0] mb-3">
 
@@ -187,7 +191,7 @@ const Dashboard = () => {
               </div>
               <div className="lg:col-span-3 mb-5 lg:mb-0">
                 <div>
-                  <div className="bg-white rounded-3xl bg-white p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
+                  <div className="bg-white rounded-3xl p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
                     <div>     
                       <div className="flex w-[70px] h-[70px] rounded-full bg-[#ffeef0] mb-3">
 
@@ -200,7 +204,7 @@ const Dashboard = () => {
               </div>
               <div className="lg:col-span-3">
                 <div>
-                  <div className="bg-white rounded-3xl bg-white p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
+                  <div className="bg-white rounded-3xl p-5 lg:p-[30px] flex flex-col justify-center shadow-lg relative">
                     <div>    
                       <div className="flex w-[70px] h-[70px] rounded-full bg-[#ffeef0] mb-3">
 
@@ -233,7 +237,7 @@ const Dashboard = () => {
                 <div>
                   <div className="relative">
                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
+                    <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
                   </div>
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                     <div>
@@ -263,7 +267,7 @@ const Dashboard = () => {
                 <div>
                   <div className="relative">
                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
+                    <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
                   </div>
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
                     <div>
@@ -291,10 +295,10 @@ const Dashboard = () => {
               </div>
               <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
                 <div>
-                  <div className="bg-[#222222] rounded-3xl bg-white p-[30px] flex flex-col justify-center h-[520px] shadow-lg relative">
+                  <div className="bg-[#222222] rounded-3xl p-[30px] flex flex-col justify-center h-[520px] shadow-lg relative">
                     <div>             
                       <p className="text-base text-white leading-none ff-cg--semibold mb-2">Explore and Find</p>
-                      <h4 className="text-[30px] lg:text-[60px] text-[#fdbf38] ff-cg--semibold leading-none mb-[10px] text-white">New Paths</h4>
+                      <h4 className="text-[30px] lg:text-[60px] text-[#fdbf38] ff-cg--semibold leading-none mb-[10px]">New Paths</h4>
                       <p className="text-[20px] lg:text-[30px] leading-none text-white">Choose form world-class online courses and start your new future today.</p>
                       <button className="flex items-center justify-between bg-white py-[14px] px-[16px] rounded-2xl mt-[30px]">
                         <span className="ff-cg--semibold mr-4">Explore the Catalog</span>

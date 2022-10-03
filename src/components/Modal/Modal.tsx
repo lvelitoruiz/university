@@ -37,7 +37,8 @@ const Modal = ({handleModal}: any) => {
 			// setUserInfo(response.data);
       console.log('*** processing data *** ',response.data.data._embedded.user.profile);
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response.data.access_token);
-			typeof window !== 'undefined' && localStorage.setItem('userName', response.data.data._embedded.user.profile.firstName + " " + response.data.data._embedded.user.profile.lastName);
+			typeof window !== 'undefined' && localStorage.setItem('name', response.data.data._embedded.user.profile.firstName);
+			typeof window !== 'undefined' && localStorage.setItem('lastName', response.data.data._embedded.user.profile.lastName);
 			const decoded: any = (jwt_decode(response.data.access_token));
       setCompare(decoded.role);
 		}).catch( function(error) {
@@ -80,7 +81,7 @@ const Modal = ({handleModal}: any) => {
         console.log('handling the modal for you');
         handleModal();
         setErrorLogin(false);
-        navigate('/profile');
+        navigate('/dashboard');
       } else {
         setErrorLogin(true);
       }
@@ -188,7 +189,7 @@ const Modal = ({handleModal}: any) => {
             <div>
               <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-0">Sign up and start learning</h3>
               <div className='text-center mb-1'>
-                <p>Already have an account?<a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign Up</a></p>
+                <p>Already have an account?<a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign In</a></p>
               </div>
               <div className='flex items-center justify-center'>
                 <div className="w-full lg:w-[80%] lg:flex items-center justify-center gap-2 lg:gap-4">

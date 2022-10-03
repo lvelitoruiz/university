@@ -18,7 +18,7 @@ import product3 from "../images/product-3.png";
 
 const Profile = () => {
 
-  const userName = typeof window !== 'undefined' && localStorage.getItem('userName');
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
 
   return (
     <Layout>
