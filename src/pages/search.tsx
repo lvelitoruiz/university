@@ -24,20 +24,16 @@ import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
 import product4 from "../images/product-4.png";
 import product5 from "../images/product-5.png";
+import Header from "../components/Header/Header";
 
 const Search = () => {
 
   const [sidebar,setSidebar] = useState(true);
-  const [drop,setDrop] = useState(false);
   const [grid,setGrid] = useState(false);
 
   // useEffect( () => {
   //   setDrop(true);
   // }, []);
-
-  const dropDownUse = () => {
-    setDrop(!drop)
-  }
 
   const sidebarShow = () => {
     setSidebar(true)
@@ -59,129 +55,8 @@ const Search = () => {
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        <section className="bg-white shadow-lg">
-          <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
-            <div className="flex items-center justify-between">
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <Bars3CenterLeftIcon className="h-12 w-12"/>
-                </a>
-              </div>
-              <div className="">
-                <h1>
-                  <img className="hidden lg:block lg:min-w-[332px] lg:h-[60px]" src={ logo } alt="" />
-                  <img className="lg:hidden w-[50px] h-[50px]" src={ logoIso } alt="" />
-                </h1>
-              </div>
-              <div className="hidden lg:block w-full mx-[20px]">
-                <div className="relative">
-                  <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border border-rose-500 border-2 solid w-full cursor-pointer">
-                    <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]"/>
-                    <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" onFocus={() => dropDownUse()} onBlur={() => dropDownUse() } type="search" placeholder="What skills do you want to lean today?" />
-                  </div>
-                  {/* dropdown */}
-                  <div className={`absolute left-0 right-0 top-[70px] rounded-2xl z-10 max-h-0 overflow-hidden ${ drop ? "max-h-[1200px] shadow-lg" : "" }`}>
-                    <div className="rounded-2xl bg-white w-full p-4">
-                      <div className="border-b mb-4">
-                        <div className="mb-4">
-                          <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Suggestions</p>
-                        </div>
-                        <div className="flex flex-col">
-                          <a href="" className="mb-3">CompTIA Security+ (SY-601)</a>
-                          <a href="" className="mb-3">Network Security</a>
-                          <a href="" className="mb-3">OT Cybersecurity</a>
-                        </div>
-                      </div>
-                      <div className="border-b mb-4">
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Courses</p>
-                          <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
-                            <span>See All</span>
-                            <ChevronRightIcon className="h-5 w-5"/>
-                          </a>
-                        </div>
-                        <div className="flex flex-col">
-                          <a href="" className="mb-3">Network Security</a>
-                          <a href="" className="mb-3">OT Cybersecurity</a>
-                        </div>
-                      </div>
-                      <div className="border-b mb-4">
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Certificates</p>
-                          <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
-                            <span>See All</span>
-                            <ChevronRightIcon className="h-5 w-5"/>
-                          </a>
-                        </div>
-                        <div className="flex flex-col">
-                          <a href="" className="mb-3">Network Security</a>
-                          <a href="" className="mb-3">OT Cybersecurity</a>
-                        </div>
-                      </div>
-                      <div className="border-b mb-4">
-                        <div className="mb-4 flex items-center justify-between">
-                          <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Learning Path</p>
-                          <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
-                            <span>See All</span>
-                            <ChevronRightIcon className="h-5 w-5"/>
-                          </a>
-                        </div>
-                        <div className="flex flex-col">
-                          <a href="" className="mb-3">Network Security</a>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <a className="text-base lg:text-[20px] flex items-center justify-center text-red-500 ff-cg--semibold" href="">
-                          <span>See All Results</span>
-                          <ChevronRightIcon className="h-5 w-5"/>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="hidden lg:block">
-                <nav>
-                  <ul className="flex items-center">
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <HomeIcon className="h-5 w-5"/>
-                        <p className="ff-cg--semibold">Home</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <RectangleStackIcon className="h-5 w-5"/>
-                        <p className="ff-cg--semibold">Catalog</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <MagnifyingGlassCircleIcon className="h-5 w-5"/>
-                        <p className="ff-cg--semibold">About</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <ShoppingCartIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                    <li className="ml-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <UserCircleIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <MagnifyingGlassCircleIcon className="h-12 w-12"/>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        
+        <Header isSignIn={false} />
 
         {/* title */}
         <section className="container px-[15px] mx-auto mt-[60px] mb-[40px]">

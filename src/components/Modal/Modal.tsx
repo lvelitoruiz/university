@@ -37,6 +37,7 @@ const Modal = ({handleModal}: any) => {
 			// setUserInfo(response.data);
       console.log('*** processing data *** ',response.data.data._embedded.user.profile);
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response.data.access_token);
+			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response.data.data._embedded.user));
 			typeof window !== 'undefined' && localStorage.setItem('name', response.data.data._embedded.user.profile.firstName);
 			typeof window !== 'undefined' && localStorage.setItem('lastName', response.data.data._embedded.user.profile.lastName);
 			const decoded: any = (jwt_decode(response.data.access_token));
