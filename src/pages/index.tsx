@@ -153,8 +153,8 @@ const IndexPage = () => {
 											}}
 											spaceBetween={0}
 											slidesPerView={1}
-											onSlideChange={() => console.log('slide change')}
-											onSwiper={(swiper) => console.log(swiper)}
+											// onSlideChange={() => console.log('slide change')}
+											// onSwiper={(swiper) => console.log(swiper)}
 										>
               <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
                 <div className="flex flex-col-reverse lg:flex-row">
