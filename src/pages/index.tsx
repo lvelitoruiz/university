@@ -37,6 +37,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import Modal from "../components/Modal/Modal";
 import { useState } from "react";
+import Header from "../components/Header/Header";
 
 const IndexPage = () => {
 
@@ -58,7 +59,7 @@ const IndexPage = () => {
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        <section className="bg-white shadow-lg">
+        {/* <section className="bg-white shadow-lg">
           <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
             <div className="flex items-center justify-between">
               <div className="lg:hidden">
@@ -121,7 +122,8 @@ const IndexPage = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+        <Header isSignIn={false} />
 
         {/* banner */}
         <section className="container px-[15px] mx-auto py-[40px] lg:pt-[80px] lg:pb-[40px]">
@@ -553,10 +555,10 @@ const IndexPage = () => {
           </div>
         </section>
       </div>
-      {
+      {/* {
         (modalOpen) ?
         <Modal handleModal={handleModal} /> : ""
-      }
+      } */}
     </Layout>
   )
 }
