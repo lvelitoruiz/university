@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react'
 import Results from '../../Results/Results';
 import axios from 'axios';
 
-const SearchInput = () => {
+type SearchProps = {
+    handleTerm?: (newTerm: string) => void
+};
+
+const SearchInput = ({handleTerm}: SearchProps) => {
 
     const [drop, setDrop] = useState(false);
     const [value, setValue] = useState(null);
@@ -11,14 +15,27 @@ const SearchInput = () => {
 
     const dropDownUse = (event: any) => {
         setValue(event.target.value);
-        setDrop(!drop)
+        if(handleTerm !== undefined) {
+            handleTerm(event.target.value);
+        }
     }
+
+    const handleDropDown = (status: boolean) => {
+        setDrop(status);
+    }
+
+    useEffect( () => {
+        if(items.length) {
+            setDrop(true);
+            console.log('***** set the items *****',items);
+        }
+    },[items]);
 
     useEffect( () => {
         const delayDebounceFn = setTimeout(() => {
             if( value !== null) {
                 axios
-                .get(`https://accelered-api.whiz.pe/api/info/algolia/search?${value}`)
+                .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${value}&limit=12&page=0`)
                 .then((response) => {
                     // setUserInfo(response.data);
                     setItems(response.data.data.hits);
@@ -39,7 +56,7 @@ const SearchInput = () => {
             </div>
             {/* dropdown */}
             {
-                (items.length) ? <Results items={items} /> : ""
+                (drop) ? <Results items={items} handleDropDown={handleDropDown} searchTerm={value} /> : ""
             }
         </div>
     )
