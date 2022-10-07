@@ -82,7 +82,12 @@ const Modal = ({handleModal}: any) => {
         console.log('handling the modal for you');
         handleModal();
         setErrorLogin(false);
-        navigate('/dashboard');
+        if( compare == USER_ADMIN_GROUP) {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+        
       } else {
         setErrorLogin(true);
       }
