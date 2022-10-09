@@ -5,7 +5,12 @@ import logoIso from "../../images/iso.png";
 import Modal from '../Modal/Modal';
 import SearchInput from '../SearchInput/SearchInput';
 
-export const Header = ({ isSignIn }: { isSignIn: boolean }) => {
+type HeaderProps = {
+    isSignIn: boolean,
+    handleTerm?: (newTerm: string) => void
+};
+
+export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const signed = isSignIn;
@@ -34,7 +39,7 @@ export const Header = ({ isSignIn }: { isSignIn: boolean }) => {
                                 </h1>
                             </div>
                             <div className="hidden lg:block w-full mx-[20px]">
-                                <SearchInput />
+                                <SearchInput handleTerm={handleTerm} />
                             </div>
                             <div className="hidden lg:block">
                                 <nav>
@@ -96,7 +101,7 @@ export const Header = ({ isSignIn }: { isSignIn: boolean }) => {
                                     </h1>
                                 </div>
                                 <div className="hidden lg:block pr-5 pl-10 w-full">
-                                    <SearchInput />
+                                    <SearchInput handleTerm={handleTerm} />
                                 </div>
                                 <div className="hidden lg:block">
                                     <nav className="w-max">

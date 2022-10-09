@@ -38,6 +38,14 @@
     background-size: cover;
 }
 
+.close-icon {
+    @apply absolute h-6 w-6 block opacity-70 hover:opacity-100;
+    fill: #000;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
 @layer base {
 
     .swiper-pagination {
