@@ -36,7 +36,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import Modal from "../components/Modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 
 const IndexPage = () => {
@@ -53,6 +53,15 @@ const IndexPage = () => {
   const handleModal = () => {
     setModalOpen(!modalOpen);
   }
+
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const [signed,setSigned] = useState(false);
+
+  useEffect( () => {
+    if(userName !== null) {
+      setSigned(true);
+    }
+  },[userName]);
 
 
   return (
@@ -123,7 +132,7 @@ const IndexPage = () => {
             </div>
           </div>
         </section> */}
-        <Header isSignIn={false} />
+        <Header isSignIn={signed} />
 
         {/* banner */}
         <section className="container px-[15px] mx-auto py-[40px] lg:pt-[80px] lg:pb-[40px]">

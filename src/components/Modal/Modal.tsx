@@ -35,7 +35,6 @@ const Modal = ({handleModal}: any) => {
 		})
 		.then((response) => {
 			// setUserInfo(response.data);
-      console.log('*** processing data *** ',response.data.data._embedded.user.profile);
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response.data.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response.data.data._embedded.user));
 			typeof window !== 'undefined' && localStorage.setItem('name', response.data.data._embedded.user.profile.firstName);
@@ -60,7 +59,6 @@ const Modal = ({handleModal}: any) => {
         timeZone: "UTC-5"
       })
       .then((response) => {
-        console.log('**** this is the response ***',response);
         handleModal();
         // return navigate("/user/students");
         // setUserInfo(response.data);
@@ -74,12 +72,8 @@ const Modal = ({handleModal}: any) => {
   } 
 
   useEffect( () => {
-    console.log('***** compare jwt ****: ',compare);
-    console.log(typeof compare);
     if(compare !== '') {
-      console.log('upperclass');
       if(compare == USER_ADMIN_GROUP || compare == USER_ANONIMO || compare == USER_GROUP) {
-        console.log('handling the modal for you');
         handleModal();
         setErrorLogin(false);
         if( compare == USER_ADMIN_GROUP) {
@@ -114,7 +108,6 @@ const Modal = ({handleModal}: any) => {
               password: '',
             }}
             onSubmit={(values) => {
-              console.log(values);
               loginUser(values.name,values.password);
             }}
           >
@@ -188,7 +181,6 @@ const Modal = ({handleModal}: any) => {
               passwordConfirm: '',
             }}
             onSubmit={(values) => {
-              console.log(values);
               createUser(values.email,values.firstName,values.lastName,values.phoneNumber,values.password);
             }}
           >

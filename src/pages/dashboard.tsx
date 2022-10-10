@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Layout from "../components/Layout/Layout"
 import { 
   MagnifyingGlassCircleIcon,
@@ -22,6 +22,13 @@ import Header from "../components/Header/Header";
 
 const Dashboard = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const [signed,setSigned] = useState(false);
+
+  useEffect( () => {
+    if(userName !== null) {
+      setSigned(true);
+    }
+  },[userName]);
 
   return (
     <Layout>
@@ -90,7 +97,7 @@ const Dashboard = () => {
             </div>
           </div>
         </section> */}
-        <Header isSignIn={true} />
+        <Header isSignIn={signed} />
 
         {/* Banner */}
         <section>

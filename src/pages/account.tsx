@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Layout from "../components/Layout/Layout"
 import { 
   ClockIcon,
@@ -11,12 +11,20 @@ import Header from "../components/Header/Header";
 import product1 from "../images/product-1.png";
 
 const Account = () => {
+
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const [signed,setSigned] = useState(false);
+
+  useEffect( () => {
+    if(userName !== null) {
+      setSigned(true);
+    }
+  },[userName]);
 
   return (
     <Layout>
       <div className="bg-slate-50">
-        <Header isSignIn={true} />
+        <Header isSignIn={signed} />
 
         {/* Title tab */}
         <section className="container px-[15px] mx-auto">

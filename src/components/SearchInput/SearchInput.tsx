@@ -27,7 +27,6 @@ const SearchInput = ({handleTerm}: SearchProps) => {
     useEffect( () => {
         if(items.length) {
             setDrop(true);
-            console.log('***** set the items *****',items);
         }
     },[items]);
 
@@ -38,7 +37,7 @@ const SearchInput = ({handleTerm}: SearchProps) => {
                 .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${value}&limit=12&page=0`)
                 .then((response) => {
                     // setUserInfo(response.data);
-                    setItems(response.data.data.hits);
+                    setItems(response.data.data.data.hits);
                 }).catch(function (error) {
                     console.log(error);
                 });
