@@ -15,6 +15,7 @@ import {
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import axios from "axios";
+import { Link } from "gatsby";
 
 const Search = ({location}: any) => {
 
@@ -54,7 +55,6 @@ const Search = ({location}: any) => {
     axios
       .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${searchTerm}&limit=12&page=0`)
       .then((response) => {
-        console.log('***** information ****',response.data.data.data.hits)
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
@@ -150,7 +150,6 @@ const Search = ({location}: any) => {
         newQuery = newQuery + `&facetFilters[type.name]=${item}`;
       })
     }
-    console.log('this is for search: ',newQuery);
     setQueryList(newQuery)
     axios
     .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
@@ -168,7 +167,6 @@ const Search = ({location}: any) => {
         newQuery = newQuery + `&facetFilters[categories.name]=${item}`;
       })
     }
-    console.log('this is for search: ',newQuery);
     setQueryCat(newQuery)
     axios
     .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
@@ -186,7 +184,6 @@ const Search = ({location}: any) => {
         newQuery = newQuery + `&facetFilters[skills.name]=${item}`;
       })
     }
-    console.log('this is for search: ',newQuery);
     setQuerySkill(newQuery)
     axios
     .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}`)
@@ -214,7 +211,6 @@ const Search = ({location}: any) => {
   }
 
   const handleQueryCategory = (term: string) => {
-    console.log('***** search for this category ****',term);
     let queryCourses = [...catList];
     queryCourses.push(term)
     catList.map( (item: any, index: number) => {
@@ -239,7 +235,6 @@ const Search = ({location}: any) => {
   }
 
   const handleQuerySkill = (term: string) => {
-    console.log('***** search for this skill ****',term);
     let queryCourses = [...skillList];
     queryCourses.push(term)
     skillList.map( (item: any, index: number) => {
@@ -449,7 +444,11 @@ const Search = ({location}: any) => {
                                       <p>{item.description}</p>
                                     </div>
                                     <div className="flex items-center justify-between">
+                                    <Link className="flex items-center"
+                                      to={`/cursos/${item.slug}`}
+                                      state={{id: item.title}}>
                                       <p className="ff-cg--semibold text-[20px]">${item.price}</p>
+                                    </Link>
                                       <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px]">
                                         <ClockIcon className="h-4 w-4 mr-[6px]" />
                                         <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
@@ -499,8 +498,12 @@ const Search = ({location}: any) => {
                                       </div>
                                     </div>
                                     <button className="lg:w-fit flex flex-col items-center justify-between border solid border-black py-[5px] px-[16px] rounded-2xl ml-[20px]">
-                                      <span className="ff-cg--bold leading-none text-[24px]">${item.price}</span>
-                                      <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
+                                      <Link className="flex flex-col items-center"
+                                      to={`/cursos/${item.slug}`}
+                                      state={{id: item.title}}>
+                                        <span className="ff-cg--bold leading-none text-[24px]">${item.price}</span>
+                                        <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
+                                      </Link>
                                     </button>
                                   </div>
                                 </div>

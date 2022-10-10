@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Layout from "../components/Layout/Layout"
 import { 
   MagnifyingGlassCircleIcon,
@@ -20,74 +20,24 @@ import logo from "../images/logo-full.png";
 import logoWhite from "../images/logo-white.png";
 import logoIso from "../images/iso.png";
 import bannerCourse from "../images/banner-course.png";
+import Header from "../components/Header/Header";
 
 const Course = () => {
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const [signed,setSigned] = useState(false);
+
+  useEffect( () => {
+    if(userName !== null) {
+      setSigned(true);
+    }
+  },[userName]);
+
+  
   return (
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        <section className="bg-white shadow-lg">
-          <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
-            <div className="flex items-center justify-between">
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <Bars3CenterLeftIcon className="h-12 w-12"/>
-                </a>
-              </div>
-              <div className="">
-                <h1>
-                  <img className="object-cover hidden lg:block lg:min-w-[332px] lg:h-[60px]" src={ logo } alt="" />
-                  <img className="object-cover lg:hidden w-[50px] h-[50px]" src={ logoIso } alt="" />
-                </h1>
-              </div>
-              <div className="hidden lg:block w-full mx-[20px]">
-                <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border solid w-full cursor-pointer">
-                  <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]"/>
-                  <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="text" placeholder="What skills do you want to lean today?" />
-                </div>
-              </div>
-              <div className="hidden lg:block">
-                <nav>
-                  <ul className="flex items-center">
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <HomeIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">Home</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <RectangleStackIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">Catalog</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <MagnifyingGlassCircleIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">About</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <ShoppingCartIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                    <li className="ml-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <UserCircleIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <MagnifyingGlassCircleIcon className="h-12 w-12"/>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Header isSignIn={signed} />
 
         {/* banner img */}
         <section className="container px-[15px] mx-auto mt-[60px] lg:mb-[40px]">
