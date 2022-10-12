@@ -1,5 +1,5 @@
 import * as React from "react"
-import type { HeadFC } from "gatsby"
+import { HeadFC, Link } from "gatsby"
 import Layout from "../components/Layout/Layout"
 import { 
   MagnifyingGlassCircleIcon,
@@ -38,6 +38,9 @@ import 'swiper/css/autoplay';
 import Modal from "../components/Modal/Modal";
 import { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
+import axios from "axios";
+import { courses } from "../const";
+import { Pinneds } from "../components/PinnedCourses/Pinneds";
 
 const IndexPage = () => {
 
@@ -49,6 +52,8 @@ const IndexPage = () => {
 	};
 
   const [modalOpen,setModalOpen] = useState(false);
+  const [items, setItems] = useState<any>([]);
+  const [itemsIsolated, setItemsIsolated] = useState([]);
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
@@ -68,70 +73,6 @@ const IndexPage = () => {
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        {/* <section className="bg-white shadow-lg">
-          <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
-            <div className="flex items-center justify-between">
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <Bars3CenterLeftIcon className="h-12 w-12"/>
-                </a>
-              </div>
-              <div className="">
-                <h1>
-                  <img className="object-cover hidden lg:block lg:min-w-[332px] lg:h-[60px]" src={ logo } alt="" />
-                  <img className="object-cover lg:hidden w-[50px] h-[50px]" src={ logoIso } alt="" />
-                </h1>
-              </div>
-              <div className="hidden lg:block w-full mx-[20px]">
-                <div className="relative">
-                  <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border solid w-full cursor-pointer">
-                    <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]"/>
-                    <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="search" placeholder="What skills do you want to lean today?" />
-                  </div>
-                </div>
-              </div>
-              <div className="hidden lg:block">
-                <nav>
-                  <ul className="flex items-center">
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <HomeIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">Home</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <RectangleStackIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">Catalog</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <MagnifyingGlassCircleIcon className="h-6 w-6"/>
-                        <p className="ff-cg--semibold">About</p>
-                      </a>
-                    </li>
-                    <li className="mx-[15px]">
-                      <a className="flex flex-col items-center" href="">
-                        <ShoppingCartIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                    <li className="ml-[15px]">
-                      <a className="flex flex-col items-center cursor-pointer" onClick={handleModal}>
-                        <UserCircleIcon className="h-8 w-8"/>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="lg:hidden">
-                <a className="flex flex-col items-center" href="">
-                  <MagnifyingGlassCircleIcon className="h-12 w-12"/>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section> */}
         <Header isSignIn={signed} />
 
         {/* banner */}
@@ -369,96 +310,53 @@ const IndexPage = () => {
         <section className="container px-[15px] mx-auto pt-[20px]">
           <div>
             <div className="flex lg:grid gap-4 lg:gap-10 lg:grid-cols-12 overflow-x-auto">
-              <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
-                <div>
-                  <div className="relative">
-                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product1 } alt="" />
-                  </div>
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
-                    <div>
-                      <div className="flex items-center gap-4 mb-[10px]">
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px]">
-                          <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                        </span>
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                          <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                          <span className="ff-cg--semibold text-[12px]">4 Course</span>
-                        </span>
-                      </div>
-                      <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity</h4>
-                      <p>Learn how to identify security issues in the cloud and techniques to prevent and mitigate risks.</p>
+              {/* {
+                items.map( (item: any, index: number) => {
+                  console.log('***** comes from the map **** ',item);
+                  return(
+                    <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4" key={index}>
+                      <Link to={`/courses/${item.slug}`} state={{id: item.title}}>
+                        <div className="relative">
+                          <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                          <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ item.imgUrl } alt="" />
+                          <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
+                            <p className="text-white">In partnership with:</p>
+                            <img className="w-12 object-cover h-12 bg-slate-300" src={item.sponsor.imgUrl} alt="" />
+                          </div>
+                        </div>
+                        <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
+                          <div>
+                            <div className="flex items-center gap-4 mb-[10px]">
+                              {
+                                item.categories.map((category: any, index: number) => {
+                                  return (
+                                    <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px] mr-2" key={index}>
+                                      <span className="ff-cg--semibold text-[12px]">{category.name}</span>
+                                    </span>
+                                    )
+                                  })
+                              }
+                            </div>
+                            <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
+                            <p>{item.description}</p>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="ff-cg--semibold text-[20px]">$199.00</p>
+                            <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
+                              <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                              <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <p className="ff-cg--semibold text-[20px]">$199.00</p>
-                      <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                        <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                        <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
-                <div>
-                  <div className="relative">
-                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product2 } alt="" />
-                  </div>
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
-                    <div>
-                      <div className="flex items-center gap-4 mb-[10px]">
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px]">
-                          <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                        </span>
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                          <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                          <span className="ff-cg--semibold text-[12px]">4 Course</span>
-                        </span>
-                      </div>
-                      <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity</h4>
-                      <p>Learn how to identify security issues in the cloud and techniques to prevent and mitigate risks.</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="ff-cg--semibold text-[20px]">$199.00</p>
-                      <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                        <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                        <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
-                <div>
-                  <div className="relative">
-                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-                    <img className="object-cover w-full h-[50px] h-[250px] rounded-3xl bg-slate-300" src={ product3 } alt="" />
-                  </div>
-                  <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
-                    <div>
-                      <div className="flex items-center gap-4 mb-[10px]">
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px]">
-                          <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                        </span>
-                        <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                          <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                          <span className="ff-cg--semibold text-[12px]">4 Course</span>
-                        </span>
-                      </div>
-                      <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity</h4>
-                      <p>Learn how to identify security issues in the cloud and techniques to prevent and mitigate risks.</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="ff-cg--semibold text-[20px]">$199.00</p>
-                      <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
-                        <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                        <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  )
+                })
+              } */}
+              
+              <Pinneds uuid={courses.one} />
+              <Pinneds uuid={courses.two} />
+              <Pinneds uuid={courses.three} />
             </div>
           </div>
         </section>
@@ -485,55 +383,67 @@ const IndexPage = () => {
               <div className="grid gap-6 lg:gap-10 lg:grid-cols-12">
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">CyberSecurity</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px] capitalize">bricks-and-clicks</h4>
+                    <Link to="/search" state={{cat: 'bricks-and-clicks'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[200px] bottom-0 right-0 absolute" src={ cyber } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Data Analyticas</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Vertical</h4>
+                    <Link to="/search" state={{cat: 'vertical'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[200px] bottom-0 right-0 absolute" src={ data } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Machine Learning</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">24/7</h4>
+                    <Link to="/search" state={{cat: '24/7'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[140px] bottom-0 right-0 absolute" src={ machine } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Software Dev</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Visionary</h4>
+                    <Link to="/search" state={{cat: 'visionary'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[360px] bottom-0 right-0 absolute" src={ software } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Entreoreneurship</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Granular</h4>
+                    <Link to="/search" state={{cat: 'granular'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[200px] bottom-0 right-0 absolute" src={ entre } alt="" />
                   </div>
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Industrial Eng</h4>
-                    <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
-                      <span className="ff-cg--semibold">Learn More</span>
-                    </button>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Dynamic</h4>
+                    <Link to="/search" state={{cat: 'dynamic'}}>
+                      <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
+                        <span className="ff-cg--semibold">Learn More</span>
+                      </button>
+                    </Link>
                     <img className="w-[150px] bottom-0 right-0 absolute" src={ industrial } alt="" />
                   </div>
                 </div>

@@ -21,6 +21,7 @@ import logoWhite from "../images/logo-white.png";
 import logoIso from "../images/iso.png";
 import bannerCourse from "../images/banner-course.png";
 import Header from "../components/Header/Header";
+import { navigate } from "gatsby";
 
 const Course = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -29,6 +30,8 @@ const Course = () => {
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
+    }else {
+      navigate("/");
     }
   },[userName]);
 

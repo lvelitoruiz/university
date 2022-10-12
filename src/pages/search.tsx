@@ -15,7 +15,7 @@ import {
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import axios from "axios";
-import { Link } from "gatsby";
+import { Link, navigate } from "gatsby";
 
 const Search = ({location}: any) => {
 
@@ -31,8 +31,13 @@ const Search = ({location}: any) => {
   const [coursesCheck, setCoursesCheck] = useState<any>([
     {name: "Courses", slug: "Program", checked: false},
     {name: "Certificates", slug: "Certificate", checked: false},
-    {name: "Learning Paths", slug: "Learning Path", checked: false}
+    {name: "Learning Paths", slug: "Learning Path", checked: false},
+    {name: "Nano Degrees", slug: "Nano Degree", checked: false},
+    {name: "Bootcamps", slug: "Bootcamp", checked: false}
   ]);
+
+  const [skillsCheck, setSkillsCheck] = useState<any>([]);
+  const [categoriesCheck, setCategoriesCheck] = useState<any>([]);
 
   const [queryList,setQueryList] = useState("");
   const [queryCat,setQueryCat] = useState("");
@@ -40,66 +45,36 @@ const Search = ({location}: any) => {
 
 
   const [searchTerm,setSearchTerm] = useState<any>("");
+  const [searchCategory,setSearchCategory] = useState<any>("");
+
+  const [pagination,setPagination] = useState(false);
+  const [page,setPage] = useState(1);
+  const [pages,setPages] = useState<any>([]);
 
   useEffect(() => {
     if(location.state !== null) {
-      setSearchTerm(location.state.term)
+      console.log(location.state);
+      if(location.state.cat == undefined) {
+        setSearchTerm(location.state.term);
+        getForTerm(location.state.term);
+      } else if(location.state.cat !== undefined && location.state.term !== undefined) {
+        setSearchTerm(location.state.term);
+        getCombined(location.state.cat,location.state.term);
+      } else {
+        setSearchTerm('category ' + location.state.cat);
+        setSearchCategory('category ' + location.state.cat);
+        getForCategory(location.state.cat);
+      }
+      getCategories();
+      getSkills();
     } else {
       setSearchTerm("");
+      console.log('not sending enything');
+      getForTerm("");
+      getCategories();
+      getSkills();
     }
-		
 	}, [location])
-
-  useEffect(() => {
-
-    axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${searchTerm}&limit=12&page=0`)
-      .then((response) => {
-        setItems(response.data.data.data.hits);
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-    axios
-      .get(`https://accelered-api.whiz.pe/api/category`)
-      .then((response) => {
-        setCategories(response.data.data)
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-    axios
-      .get(`https://accelered-api.whiz.pe/api/skill`)
-      .then((response) => {
-        setSkills(response.data.data)
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-  }, [searchTerm]);
-
-  // useEffect( () => {
-  //   console.log('***** categories here *****',categories);
-  //   console.log('***** skills here *****',skills);
-  // },[categories,skills]);
-
-  // useEffect(() => {
-  //   let courseArray: any = [];
-  //   let certArray: any = [];
-  //   let pathArray: any = [];
-  //   items.map((item: any) => {
-  //     if (item.type.name == 'Program') {
-  //       courseArray.push(item)
-  //     } else if (item.type.name == 'Certificate') {
-  //       certArray.push(item)
-  //     } else {
-  //       pathArray.push(item)
-  //     }
-  //   })
-  //   setCourses(courseArray);
-  //   setCerts(certArray);
-  //   setPaths(pathArray);
-  // }, [items])
 
   const sidebarShow = () => {
     setSidebar(true)
@@ -118,7 +93,200 @@ const Search = ({location}: any) => {
   }
 
   const handleTerm = (newTerm: string) => {
-    setSearchTerm(newTerm);
+    getForTerm(newTerm);
+  }
+
+
+
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const [signed,setSigned] = useState(false);
+
+  useEffect( () => {
+    if(userName !== null) {
+      setSigned(true);
+    } else {
+      navigate("/");
+    }
+  },[userName]);
+
+  const getForTerm = (term: string) => {
+    console.log('getting for term here'); 
+    axios
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${term}&limit=12&page=0`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const getForCourse = () => {
+    console.log('getting for term here'); 
+    axios
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      setSearchTerm("All Courses");
+  }
+
+  const getCombined = (catTerm: string, sTerm: string) => {
+    axios
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+      if(catTerm == "") {
+        setSearchTerm("All categories");
+      }
+  }
+
+  const getForCategory = (catTerm: string) => {
+    console.log('getting for term here'); 
+    axios
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+      if(catTerm == "") {
+        setSearchTerm("All categories");
+      }
+  }
+
+  const getForSkill = () => {
+    console.log('getting for term here'); 
+    axios
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      setSearchTerm("All Skills");
+  }
+
+  const getCategories = () => {
+    axios
+      .get(`https://accelered-api.whiz.pe/api/category`)
+      .then((response) => {
+        let catElements: any = [];
+        response.data.data.map( (item: any) => {
+          catElements.push({name: item.name, slug: item.slug, checked: false})
+        })
+        setCategoriesCheck(catElements);
+        setCategories(response.data.data)
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  useEffect( () => {
+    console.log(categories);
+  },[categories])
+
+  const getSkills = () => {
+    axios
+      .get(`https://accelered-api.whiz.pe/api/skill`)
+      .then((response) => {
+        let skillElements: any = [];
+        response.data.data.map( (item: any) => {
+          skillElements.push({name: item.name, slug: item.name, checked: false})
+        })
+        setSkillsCheck(skillElements);
+        setSkills(response.data.data)
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const handlePagination = (pageIndex: number) => {
+    axios
+    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
+      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        setItems(response.data.data.data.hits);
+      }).catch(function (error) {
+        console.log(error);
+      });
   }
 
   const handleQueryCourse = (term: string) => {
@@ -141,69 +309,30 @@ const Search = ({location}: any) => {
     })
     setCourses(queryCourses);
     setCoursesCheck(coursesList);
-  }
-
-  useEffect( () => {
     let newQuery = "";
-    if(courses.length) {
-      courses.map( (item: any) => {
+    if(queryCourses.length) {
+      queryCourses.map( (item: any) => {
         newQuery = newQuery + `&facetFilters[type.name]=${item}`;
       })
     }
     setQueryList(newQuery)
+    console.log('**** query *** ',newQuery);
     axios
     .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
-        setItems(response.data.data.data.hits);
-      }).catch(function (error) {
-        console.log(error);
-      });
-  },[courses]);
-
-  useEffect( () => {
-    let newQuery = "";
-    if(catList.length) {
-      catList.map( (item: any) => {
-        newQuery = newQuery + `&facetFilters[categories.name]=${item}`;
-      })
-    }
-    setQueryCat(newQuery)
-    axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
-      .then((response) => {
-        setItems(response.data.data.data.hits);
-      }).catch(function (error) {
-        console.log(error);
-      });
-  },[catList]);
-
-  useEffect( () => {
-    let newQuery = "";
-    if(skillList.length) {
-      skillList.map( (item: any) => {
-        newQuery = newQuery + `&facetFilters[skills.name]=${item}`;
-      })
-    }
-    setQuerySkill(newQuery)
-    axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}`)
-      .then((response) => {
-        setItems(response.data.data.data.hits);
-      }).catch(function (error) {
-        console.log(error);
-      });
-  },[skillList]);
-
-  const handleAllQueryCourse = () => {
-    let coursesList: any = [];
-    coursesCheck.map((course: any) => {
-      course.checked = false;
-      coursesList.push(course);
-    })
-    setCoursesCheck(coursesList);
-    axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
-      .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        console.log('working?');
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
@@ -211,7 +340,15 @@ const Search = ({location}: any) => {
   }
 
   const handleQueryCategory = (term: string) => {
+    let checksList: any = [];
     let queryCourses = [...catList];
+    categoriesCheck.map((course: any) => {
+      if(course.slug == term) {
+        course.checked = !course.checked;
+      }
+      checksList.push(course);
+    })
+    setCategoriesCheck(checksList);
     queryCourses.push(term)
     catList.map( (item: any, index: number) => {
       if(item == term) {
@@ -222,12 +359,28 @@ const Search = ({location}: any) => {
       }
     })
     setCatsList(queryCourses);
-  }
-
-  const handleAllQueryCategory = () => {
+    let newQuery = "";
+    if(queryCourses.length) {
+      queryCourses.map( (item: any) => {
+        newQuery = newQuery + `&facetFilters[categories.name]=${item}`;
+      })
+    }
+    setQueryCat(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=`)
+    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
@@ -235,7 +388,16 @@ const Search = ({location}: any) => {
   }
 
   const handleQuerySkill = (term: string) => {
+    let skillChecksList: any = [];
     let queryCourses = [...skillList];
+    console.log('***** check of skills **** ',skillsCheck);
+    skillsCheck.map((course: any) => {
+      if(course.slug == term) {
+        course.checked = !course.checked;
+      }
+      skillChecksList.push(course);
+    })
+    setSkillsCheck(skillChecksList);
     queryCourses.push(term)
     skillList.map( (item: any, index: number) => {
       if(item == term) {
@@ -246,24 +408,71 @@ const Search = ({location}: any) => {
       }
     })
     setSkillList(queryCourses);
-  }
-
-  const handleAllQuerySkill = () => {
+    let newQuery = "";
+    if(queryCourses.length) {
+      queryCourses.map( (item: any) => {
+        newQuery = newQuery + `&facetFilters[skills.name]=${item}`;
+      })
+    }
+    setQuerySkill(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=`)
+    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
+        if(parseInt(response.data.data.data.nbPages) > 1) {
+          let pagesToUse = [];
+          setPage(response.data.data.data.nbPages);
+          setPagination(true)
+          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+            pagesToUse.push({number: i + 1, value: i})
+          }
+          setPages(pagesToUse);
+        } else {
+          setPage(1);
+          setPagination(false);
+        }
+        console.log('working 3?');
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
   }
 
+//   useEffect( () => {
+//     let newQuery = "";
+//     if(courses.length) {
+//       courses.map( (item: any) => {
+//         newQuery = newQuery + `&facetFilters[type.name]=${item}`;
+//       })
+//     }
+//   setQueryList(newQuery)
+//   axios
+//   .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
+//     .then((response) => {
+//       if(parseInt(response.data.data.data.nbPages) > 1) {
+//         let pagesToUse = [];
+//         setPage(response.data.data.data.nbPages);
+//         setPagination(true)
+//         for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+//           pagesToUse.push({number: i + 1, value: i})
+//         }
+//         setPages(pagesToUse);
+//       } else {
+//         setPage(1);
+//         setPagination(false);
+//       }
+//       console.log('working?');
+//       setItems(response.data.data.data.hits);
+//     }).catch(function (error) {
+//       console.log(error);
+//     });
+// },[courses]);
+
   return (
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
 
-        <Header isSignIn={false} handleTerm={handleTerm} />
+        <Header isSignIn={signed} handleTerm={handleTerm} />
 
         {/* title */}
         <section className="container px-[15px] mx-auto mt-[60px] mb-[40px]">
@@ -325,7 +534,7 @@ const Search = ({location}: any) => {
                       <div className="flex pt-[14px] pb-[24px]">
                         <div className="course-form">
                           <div className="mb-[13px] flex items-center">
-                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1" onChange={() => handleAllQueryCourse()} />
+                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1" onChange={() => getForCourse()} />
                             <label className="inline-block text-white ff-cg--semibold text-[13px]" htmlFor="flexRadioDefault1">
                               All
                             </label>
@@ -353,16 +562,16 @@ const Search = ({location}: any) => {
                       <div className="flex pt-[14px] pb-[24px]">
                         <div className="category-form">
                           <div className="mb-[13px] flex items-center">
-                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault5" onChange={() => handleAllQueryCategory()} />
+                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault5" onChange={() => getForCategory("")} />
                             <label className="inline-block text-white ff-cg--semibold text-[13px]" htmlFor="flexRadioDefault5">
                               All
                             </label>
                           </div>
                           {
-                            categories.map((category: any, index: number) => {
+                            categoriesCheck.map((category: any, index: number) => {
                               return(
                                 <div className="mb-[13px] flex items-center" key={index}>
-                                  <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault6" onChange={() => handleQueryCategory(category.name)} />
+                                  <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault6" checked={category.checked} onChange={() => handleQueryCategory(category.name)} />
                                   <label className="inline-block text-white ff-cg--semibold text-[13px] capitalize" htmlFor="flexRadioDefault6">
                                     {category.name}
                                   </label>
@@ -381,16 +590,16 @@ const Search = ({location}: any) => {
                       <div className="flex pt-[14px] pb-[24px]">
                         <div className="skill-form">
                           <div className="mb-[13px] flex items-center">
-                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio2" id="flexRadioDefault9" onChange={() => handleAllQuerySkill()} />
+                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio2" id="flexRadioDefault9" onChange={() => getForSkill()} />
                             <label className="inline-block text-white ff-cg--semibold text-[13px]" htmlFor="flexRadioDefault9">
                               All
                             </label>
                           </div>
                           {
-                            skills.map((skill: any, index: number) => {
+                            skillsCheck.map((skill: any, index: number) => {
                               return(
                                 <div className="mb-[13px] flex items-center" key={index}>
-                                  <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault6" onChange={() => handleQuerySkill(skill.name)} />
+                                  <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio" id="flexRadioDefault6" checked={skill.checked} onChange={() => handleQuerySkill(skill.name)} />
                                   <label className="inline-block text-white ff-cg--semibold text-[13px]" htmlFor="flexRadioDefault6">
                                     {skill.name}
                                   </label>
@@ -416,7 +625,8 @@ const Search = ({location}: any) => {
                           items.map((item: any, index: number) => {
                             return (
                               <div className="md:col-span-6 lg:col-span-4" key={index}>
-                                <div>
+                                <Link to={`/courses/${item.slug}`}
+                                      state={{id: item.title}}>
                                   <div className="relative">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
                                     <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
@@ -444,18 +654,16 @@ const Search = ({location}: any) => {
                                       <p>{item.description}</p>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                    <Link className="flex items-center"
-                                      to={`/cursos/${item.slug}`}
-                                      state={{id: item.title}}>
+                                    <div className="flex items-center">
                                       <p className="ff-cg--semibold text-[20px]">${item.price}</p>
-                                    </Link>
+                                    </div>
                                       <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px]">
                                         <ClockIcon className="h-4 w-4 mr-[6px]" />
                                         <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
                                       </span>
                                     </div>
                                   </div>
-                                </div>
+                                </Link>
                               </div>
                             )
                           })
@@ -465,7 +673,9 @@ const Search = ({location}: any) => {
                         {
                           items.map((item: any, index: number) => {
                             return(
-                              <div className="md:col-span-12 lg:col-span-12" key={index + 'b'}>
+                              <div className="md:col-span-12 lg:col-span-12 cursor-pointer" key={index + 'b'}>
+                                <Link to={`/courses/${item.slug}`}
+                                      state={{id: item.title}}>
                                 <div className="rounded-3xl bg-white flex shadow-lg relative items-center">
                                   <div className="relative w-[200px]">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-10"></div>
@@ -498,15 +708,14 @@ const Search = ({location}: any) => {
                                       </div>
                                     </div>
                                     <button className="lg:w-fit flex flex-col items-center justify-between border solid border-black py-[5px] px-[16px] rounded-2xl ml-[20px]">
-                                      <Link className="flex flex-col items-center"
-                                      to={`/cursos/${item.slug}`}
-                                      state={{id: item.title}}>
+                                      <div className="flex flex-col items-center">
                                         <span className="ff-cg--bold leading-none text-[24px]">${item.price}</span>
                                         <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
-                                      </Link>
+                                      </div>
                                     </button>
                                   </div>
                                 </div>
+                                </Link>
                               </div>
                             )
                           })
@@ -521,27 +730,33 @@ const Search = ({location}: any) => {
               
 
               {/* pagination */}
-              <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mt-10">
-                <div className="md:col-span-12 lg:col-span-12">
-                  <div className="flex items-center justify-center">
-                    <a href="">
-                      <ChevronLeftIcon className="h-6 w-6" />
-                    </a>
-                    <button className="mx-2 flex items-center justify-center ff-cg--semibold border border-[#222222] text-white bg-[#222222] w-10 h-10 rounded-xl">
-                      <span>1</span>
-                    </button>
-                    <button className="mx-2 flex items-center justify-center ff-cg--semibold border border-[#222222] text-[#222222] w-10 h-10 rounded-xl">
-                      <span>2</span>
-                    </button>
-                    <button className="mx-2 flex items-center justify-center ff-cg--semibold border border-[#222222] text-[#222222] w-10 h-10 rounded-xl">
-                      <span>3</span>
-                    </button>
-                    <a href="">
-                      <ChevronRightIcon className="h-6 w-6" />
-                    </a>
+              {
+                (pagination) && 
+                <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mt-10">
+                  <div className="md:col-span-12 lg:col-span-12">
+                    <div className="flex items-center justify-center">
+                      <a href="">
+                        <ChevronLeftIcon className="h-6 w-6" />
+                      </a>
+                      {
+                        pages.map( (item: any, index: number) => {
+                          return(
+                            <button key={index} className="mx-2 flex items-center justify-center ff-cg--semibold border border-[#222222] text-white bg-[#222222] w-10 h-10 rounded-xl" onClick={() => handlePagination(item.value)}>
+                              <span>{item.number}</span>
+                            </button>
+                          ) 
+                        })
+                      }
+                      {/* <button className="mx-2 flex items-center justify-center ff-cg--semibold border border-[#222222] text-white bg-[#222222] w-10 h-10 rounded-xl">
+                        <span>1</span>
+                      </button> */}
+                      <a href="">
+                        <ChevronRightIcon className="h-6 w-6" />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              }
             </div>
           </div>
         </section>

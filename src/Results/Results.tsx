@@ -16,11 +16,10 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
     const [paths,setPaths] = useState<any>([]);
 
     useEffect( () => {
-        console.log('**** items on results *** ',searchTerm)
+        // console.log('**** items on results *** ',searchTerm)
     },[])
 
      useEffect( () => {
-        console.log(items);
         setItemsToShow(items);
         let courseArray: any = [];
         let certArray: any = [];
@@ -56,7 +55,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                             {
                                 itemsToShow.slice(0, 5).map( (item: any,index: number) => {
                                     return(
-                                        <Link to="/search" state={{term: searchTerm}} className="mb-3"  key={index}>
+                                        <Link to={`/courses/${item.slug}`} state={{id: item.title}} className="mb-3"  key={index}>
                                             {item.title} 
                                         </Link>
                                     )
@@ -70,15 +69,15 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                             <div className="border-b mb-3">
                                 <div className="mb-3 flex items-center justify-between">
                                     <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Courses</p>
-                                    <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
-                                        <span><Link to="/search" state={{term: searchTerm}}>See All</Link></span>
+                                    <p className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold">
+                                        <span><Link to="/search" state={{term: searchTerm, cat: "Program"}}>See All</Link></span>
                                         <ChevronRightIcon className="h-5 w-5" />
-                                    </a>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col">
                                     {
                                         courses.map( (course: any, index: number) => {
-                                            return(<Link to="/search" state={{term: searchTerm}} className="mb-3"  key={index}>{course.title}</Link>)
+                                            return(<Link to={`/courses/${course.slug}`} state={{id: course.title}} className="mb-3"  key={index}>{course.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
@@ -91,15 +90,15 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                             <div className="border-b mb-3">
                                 <div className="mb-3 flex items-center justify-between">
                                     <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Certificates</p>
-                                    <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
-                                        <span><Link to="/search" state={{term: searchTerm}}>See All</Link></span>
+                                    <p className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" >
+                                        <span><Link to="/search" state={{term: searchTerm, cat: "Certificate"}}>See All</Link></span>
                                         <ChevronRightIcon className="h-5 w-5" />
-                                    </a>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col">
                                     {
                                         certs.slice(0, 3).map( (cert: any, index: number) => {
-                                            return(<Link to="/search" state={{term: searchTerm}} className="mb-3"  key={index}>{cert.title}</Link>)
+                                            return(<Link to={`/courses/${cert.slug}`} state={{id: cert.title}} className="mb-3"  key={index}>{cert.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
@@ -112,15 +111,15 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                             <div className="border-b mb-3">
                                 <div className="mb-3 flex items-center justify-between">
                                     <p className="text-base lg:text-[20px] ff-cg--semibold leading-none">Learning Path</p>
-                                    <a className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold" href="">
+                                    <p className="text-base lg:text-[20px] flex items-center text-red-500 ff-cg--semibold">
                                         <span><Link to="/search" state={{term: searchTerm}}>See All</Link></span>
                                         <ChevronRightIcon className="h-5 w-5" />
-                                    </a>
+                                    </p>
                                 </div>
                                 <div className="flex flex-col">
                                     {
                                         paths.slice(0, 3).map( (path: any, index: number) => {
-                                            return(<Link to="/search" state={{term: searchTerm}} className="mb-3"  key={index}>{path.title}</Link>)
+                                            return(<Link to={`/courses/${path.slug}`} state={{id: path.title}} className="mb-3"  key={index}>{path.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
@@ -155,10 +154,10 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                         </div>
                     </div> */}
                     <div className="flex items-center justify-center">
-                        <a className="text-base lg:text-[20px] flex items-center justify-center text-red-500 ff-cg--semibold" href="">
+                        <p className="text-base lg:text-[20px] flex items-center justify-center text-red-500 ff-cg--semibold">
                             <span><Link to="/search" state={{term: searchTerm}} className="mb-3">See All Results</Link></span>
                             <ChevronRightIcon className="h-5 w-5" />
-                        </a>
+                        </p>
                     </div>
                 </div>
             </div>
