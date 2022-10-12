@@ -9,6 +9,7 @@ import logo from "../images/logo-full.png";
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import product1 from "../images/product-1.png";
+import { navigate } from "gatsby";
 
 const Learning = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -17,6 +18,8 @@ const Learning = () => {
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
+    }else {
+      navigate("/");
     }
   },[userName]);
 

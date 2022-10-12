@@ -20,6 +20,7 @@ import product3 from "../images/product-3.png";
 import product4 from "../images/product-4.png";
 import product5 from "../images/product-5.png";
 import Header from "../components/Header/Header";
+import { navigate } from "gatsby";
 
 const Catalog = () => {
 
@@ -29,6 +30,8 @@ const Catalog = () => {
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
+    }else {
+      navigate("/");
     }
   },[userName]);
 

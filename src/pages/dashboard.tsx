@@ -19,6 +19,7 @@ import product1 from "../images/product-1.png";
 import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
 import Header from "../components/Header/Header";
+import { navigate } from "gatsby";
 
 const Dashboard = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -27,6 +28,8 @@ const Dashboard = () => {
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
+    }else {
+      navigate("/");
     }
   },[userName]);
 
