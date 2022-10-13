@@ -63,7 +63,7 @@ const Search = ({location}: any) => {
       } else {
         setSearchTerm('category ' + location.state.cat);
         setSearchCategory('category ' + location.state.cat);
-        getForCategory(location.state.cat);
+        getForSkill(location.state.cat);
       }
       getCategories();
       getSkills();
@@ -209,10 +209,10 @@ const Search = ({location}: any) => {
       }
   }
 
-  const getForSkill = () => {
+  const getForSkill = (skillTerm: string) => {
     console.log('getting for term here'); 
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=`)
+      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -590,7 +590,7 @@ const Search = ({location}: any) => {
                       <div className="flex pt-[14px] pb-[24px]">
                         <div className="skill-form">
                           <div className="mb-[13px] flex items-center">
-                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio2" id="flexRadioDefault9" onChange={() => getForSkill()} />
+                            <input className="appearance-none rounded-full h-4 w-4 border-2 border-white checked:bg-amber-400 checked:border-amber-400 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" name="flexRadio2" id="flexRadioDefault9" onChange={() => getForSkill("")} />
                             <label className="inline-block text-white ff-cg--semibold text-[13px]" htmlFor="flexRadioDefault9">
                               All
                             </label>
