@@ -383,8 +383,8 @@ const IndexPage = () => {
               <div className="grid gap-6 lg:gap-10 lg:grid-cols-12">
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px] capitalize">bricks-and-clicks</h4>
-                    <Link to="/search" state={{cat: 'bricks-and-clicks'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px] capitalize">Técnico</h4>
+                    <Link to="/search" state={{cat: 'Técnico'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
@@ -394,8 +394,8 @@ const IndexPage = () => {
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Vertical</h4>
-                    <Link to="/search" state={{cat: 'vertical'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Estratega</h4>
+                    <Link to="/search" state={{cat: 'Estratega'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
@@ -405,8 +405,8 @@ const IndexPage = () => {
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">24/7</h4>
-                    <Link to="/search" state={{cat: '24/7'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Agente</h4>
+                    <Link to="/search" state={{cat: 'Agente'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
@@ -416,8 +416,8 @@ const IndexPage = () => {
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Visionary</h4>
-                    <Link to="/search" state={{cat: 'visionary'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Supervisor</h4>
+                    <Link to="/search" state={{cat: 'Supervisor'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
@@ -427,8 +427,8 @@ const IndexPage = () => {
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Granular</h4>
-                    <Link to="/search" state={{cat: 'granular'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Administrador</h4>
+                    <Link to="/search" state={{cat: 'Administrador'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
@@ -438,8 +438,8 @@ const IndexPage = () => {
                 </div>
                 <div className="lg:min-w-fit lg:col-span-4 hidden lg:block">
                   <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between min-h-[220px] relative">
-                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Dynamic</h4>
-                    <Link to="/search" state={{cat: 'dynamic'}}>
+                    <h4 className="text-[20px] lg:text-[40px] ff-cg--semibold leading-none mt-[20px]">Arquitecto</h4>
+                    <Link to="/search" state={{cat: 'Arquitecto'}}>
                       <button className="w-fit flex items-center justify-between bg-[#fdbf38] py-[6px] px-[16px] rounded-full mt-[30px]">
                         <span className="ff-cg--semibold">Learn More</span>
                       </button>
