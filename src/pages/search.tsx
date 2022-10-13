@@ -104,8 +104,6 @@ const Search = ({location}: any) => {
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
-    } else {
-      navigate("/");
     }
   },[userName]);
 
