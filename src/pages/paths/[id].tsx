@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../components/Layout/Layout";
+import Layout from "../../components/Layout/Layout";
 import { 
   ClockIcon,
   CheckIcon,
@@ -7,16 +7,21 @@ import {
   ShoppingCartIcon,
   ComputerDesktopIcon
 } from '@heroicons/react/24/outline'
-import logoWhite from "../images/logo-white.png";
-import product1 from "../images/product-1.png";
-import product2 from "../images/product-2.png";
-import product3 from "../images/product-3.png";
+import logoWhite from "../../images/logo-white.png";
+import product1 from "../../images/product-1.png";
+import product2 from "../../images/product-2.png";
+import product3 from "../../images/product-3.png";
 import { navigate } from "gatsby";
-import { HeaderAlternative } from "../components/HeaderAlternative/HeaderAlternative";
+import { HeaderAlternative } from "../../components/HeaderAlternative/HeaderAlternative";
 
-const Path = () => {
+const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
+
+  const [cursoId,setCursoId] = useState(null);
+  const [description,setDescription] = useState(null);
+  const [duration,setDuration] = useState(null);
+  const [price,setPrice] = useState(null);
 
   useEffect( () => {
     if(userName !== null) {
@@ -25,6 +30,14 @@ const Path = () => {
       navigate("/");
     }
   },[userName]);
+
+  useEffect( () => {
+    console.log('**** location: ',location);
+    setCursoId(location.state.id)
+    setDescription(location.state.course.description);
+    setDuration(location.state.course.duration);
+    setPrice(location.state.course.price);
+  },[location]);
   
   return (
     <Layout>
@@ -38,8 +51,8 @@ const Path = () => {
           <section className="container px-[15px] mx-auto pt-[40px] lg:pt-[60px] pb-[40px] lg:pb-0">
             <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12">
               <div className="lg:col-span-6">
-                <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[50px] leading-none mb-[10px]">Cybersecurity Professional Learning Path</h2>
-                <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Understand contemporary learning theories to develop online learning experiences.</p>
+                <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[50px] leading-none mb-[10px]">{cursoId}</h2>
+                <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">{description}</p>
                 <div className="flex items-center flex-wrap mt-[60px]">
                   <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
                     <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
@@ -47,7 +60,7 @@ const Path = () => {
                   </span>
                   <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
                     <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                    <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
+                    <span className="ff-cg--semibold text-[12px]">{duration}</span>
                   </span>
                   <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
                     <RectangleStackIcon className="h-4 w-4 mr-[6px]"/>
@@ -56,7 +69,7 @@ const Path = () => {
                 </div>
                 <div className="flex items-center mt-[30px] mb-[60px]">
                   <button className="lg:w-fit flex flex-col items-center justify-between border solid border-[#fdbf38] py-[5px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
-                    <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">$199</span>
+                    <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
                     <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
                   </button>
                   <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">

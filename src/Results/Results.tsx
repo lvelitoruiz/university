@@ -55,9 +55,17 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                             {
                                 itemsToShow.slice(0, 5).map( (item: any,index: number) => {
                                     return(
-                                        <Link to={`/courses/${item.slug}`} state={{id: item.title}} className="mb-3"  key={index}>
-                                            {item.title} 
-                                        </Link>
+                                        <>
+                                            {
+                                                (item.type.name == "Program") ?
+                                                <Link to={`/courses/${item.slug}`} state={{id: item.title, course: item}} className="mb-3"  key={index}>
+                                                    {item.title} 
+                                                </Link> :
+                                                <Link to={`/paths/${item.slug}`} state={{id: item.title, course: item}} className="mb-3"  key={index}>
+                                                    {item.title} 
+                                                </Link>
+                                            }
+                                        </>
                                     )
                                 })
                             }
@@ -77,7 +85,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                                 <div className="flex flex-col">
                                     {
                                         courses.map( (course: any, index: number) => {
-                                            return(<Link to={`/courses/${course.slug}`} state={{id: course.title}} className="mb-3"  key={index}>{course.title}</Link>)
+                                            return(<Link to={`/courses/${course.slug}`} state={{id: course.title, course: course}} className="mb-3"  key={index}>{course.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
@@ -98,7 +106,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                                 <div className="flex flex-col">
                                     {
                                         certs.slice(0, 3).map( (cert: any, index: number) => {
-                                            return(<Link to={`/courses/${cert.slug}`} state={{id: cert.title}} className="mb-3"  key={index}>{cert.title}</Link>)
+                                            return(<Link to={`/paths/${cert.slug}`} state={{id: cert.title, course: cert}} className="mb-3"  key={index}>{cert.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
@@ -119,7 +127,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                                 <div className="flex flex-col">
                                     {
                                         paths.slice(0, 3).map( (path: any, index: number) => {
-                                            return(<Link to={`/courses/${path.slug}`} state={{id: path.title}} className="mb-3"  key={index}>{path.title}</Link>)
+                                            return(<Link to={`/paths/${path.slug}`} state={{id: path.title, course: path}} className="mb-3"  key={index}>{path.title}</Link>)
                                         })
                                     }
                                     {/* <a href="" className="mb-3">Network Security</a>
