@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { 
+import {
   RectangleStackIcon,
   ShoppingCartIcon,
   PlayIcon,
@@ -15,36 +15,36 @@ import Header from "../../components/Header/Header";
 import { navigate } from "gatsby";
 import Layout from "../../components/Layout/Layout";
 
-const Course = ({location,params}: any) => {
+const Course = ({ location, params }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
-  const [signed,setSigned] = useState(false);
+  const [signed, setSigned] = useState(false);
 
-  const [cursoId,setCursoId] = useState(null);
-  const [description,setDescription] = useState(null);
-  const [duration,setDuration] = useState(null);
-  const [price,setPrice] = useState(null);
+  const [cursoId, setCursoId] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [sponsor, setSponsor] = useState("");
+  const [price, setPrice] = useState(null);
+  const [skills, setSkills] = useState<any>([]);
 
-  useEffect( () => {
-    console.log('**** location: ',location);
+  useEffect(() => {
+    console.log(location);
     setCursoId(location.state.id)
     setDescription(location.state.course.description);
     setDuration(location.state.course.duration);
     setPrice(location.state.course.price);
-  },[location]);
+    setSponsor(location.state.course.sponsor.imgUrl);
+    setSkills(location.state.course.skills);
+  }, [location]);
 
-	// useEffect(() => {
-	// 	setCursoId(params.id)
-	// }, [params])
-
-  useEffect( () => {
-    if(userName !== null) {
+  useEffect(() => {
+    if (userName !== null) {
       setSigned(true);
-    }else {
+    } else {
       navigate("/");
     }
-  },[userName]);
+  }, [userName]);
 
-  
+
   return (
     <Layout>
       <div className="bg-slate-50">
@@ -56,34 +56,42 @@ const Course = ({location,params}: any) => {
           <div className="relative w-full min-h-[500px] lg:min-h-[420px]">
             <div className="relative min-h-[500px] lg:min-h-[420px]">
               <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-              <img className="w-full min-h-[500px] lg:min-h-[420px] rounded-2xl object-cover" src={ bannerCourse } alt="" />
+              <img className="w-full min-h-[500px] lg:min-h-[420px] rounded-2xl object-cover" src={bannerCourse} alt="" />
             </div>
-            <div className="absolute top-[20px] lg:top-[30px] left-[20px] lg:left-[30px] w-[90%] lg:w-[40%]">
-              <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[40px] leading-none mb-[20px]">{cursoId}</h2>
-              <p className="text-white text-[14px] mb-[50px]">{description}</p>
-              <div className="flex items-center flex-wrap">
-                <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                  <ComputerDesktopIcon className="h-4 w-4 mr-[6px]"/>
-                  <span className="ff-cg--semibold text-[12px]">Course</span>
-                </span>
-                <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                  <ClockIcon className="h-4 w-4 mr-[6px]"/>
-                  <span className="ff-cg--semibold text-[12px]">{duration}</span>
-                </span>
-                <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                  <RectangleStackIcon className="h-4 w-4 mr-[6px]"/>
-                  <span className="ff-cg--semibold text-[12px]">4 Modules</span>
-                </span>
+            <div className="absolute top-[20px] lg:top-[0px] left-[20px] lg:left-[30px] w-[90%] lg:w-[40%] flex items-center h-full">
+              <div className="relative">
+                <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[40px] leading-none mb-[20px]">{cursoId}</h2>
+                <p className="text-white text-[14px] mb-[50px]">{description}</p>
+                <div className="flex items-center flex-wrap">
+                  <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                    <ComputerDesktopIcon className="h-4 w-4 mr-[6px]" />
+                    <span className="ff-cg--semibold text-[12px]">Course</span>
+                  </span>
+                  <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                    <ClockIcon className="h-4 w-4 mr-[6px]" />
+                    <span className="ff-cg--semibold text-[12px]">{duration}</span>
+                  </span>
+                  <span className="flex items-center text-white border border-white rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                    <RectangleStackIcon className="h-4 w-4 mr-[6px]" />
+                    <span className="ff-cg--semibold text-[12px]">4 Modules</span>
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <button className="lg:w-fit flex flex-col items-center justify-between border solid border-[#fdbf38] py-[5px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
+                    <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
+                    <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
+                  </button>
+                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
+                    <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
+                    <ShoppingCartIcon className="h-6 w-6" />
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center">
-                <button className="lg:w-fit flex flex-col items-center justify-between border solid border-[#fdbf38] py-[5px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
-                  <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
-                  <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
-                </button>
-                <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
-                  <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
-                  <ShoppingCartIcon className="h-6 w-6"/>
-                </button>
+            </div>
+            <div className="absolute right-0 w-[40%] top-0 h-full flex justify-center items-center">
+              <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
+                <p className="text-white">In partnership with:</p>
+                <img className="w-12 object-cover h-12 bg-slate-300 mt-6" src={sponsor} alt="" />
               </div>
             </div>
           </div>
@@ -97,7 +105,7 @@ const Course = ({location,params}: any) => {
                 <div className="lg:col-span-6 mb-[20px] lg:mb-0">
                   <div className="flex items-center">
                     <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
+                      <CheckIcon className="h-6 w-6 text-white" />
                     </div>
                     <p className="leading-none">Discuss the evolution of security based on historical events.</p>
                   </div>
@@ -105,7 +113,7 @@ const Course = ({location,params}: any) => {
                 <div className="lg:col-span-6 mb-[20px] lg:mb-0">
                   <div className="flex items-center">
                     <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
+                      <CheckIcon className="h-6 w-6 text-white" />
                     </div>
                     <p className="leading-none">List various types of malicious software.</p>
                   </div>
@@ -113,7 +121,7 @@ const Course = ({location,params}: any) => {
                 <div className="lg:col-span-6 mb-[20px] lg:mb-0">
                   <div className="flex items-center">
                     <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
+                      <CheckIcon className="h-6 w-6 text-white" />
                     </div>
                     <p className="leading-none">Describe key cybersecurity concepts and common cybersecurity best practices.</p>
                   </div>
@@ -121,7 +129,7 @@ const Course = ({location,params}: any) => {
                 <div className="lg:col-span-6 mb-[20px] lg:mb-0">
                   <div className="flex items-center">
                     <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
+                      <CheckIcon className="h-6 w-6 text-white" />
                     </div>
                     <p className="leading-none">Identify cybersecurity tools which include :  firewall, cryptography and digital forensics.</p>
                   </div>
@@ -129,32 +137,23 @@ const Course = ({location,params}: any) => {
               </div>
             </div>
             <div className="lg:col-span-4 mb-[-40px]">
-              <div className="bg-[#da1a32] rounded-2xl p-[20px]">
-                <p className="text-white ff-cg--semibold mb-[10px]">Skills You Will Gain</p>
-                <div className="flex items-center flex-wrap">
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Information Security Analyst</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">IT Security Analyst</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Network Security</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Malware</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                  </span>
-                  <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                    <span className="ff-cg--semibold text-[12px]">Database</span>
-                  </span>
-                </div>
-              </div>
+              {
+                (skills?.length) ?
+                  <div className="bg-[#da1a32] rounded-2xl p-[20px]">
+                    <p className="text-white ff-cg--semibold mb-[10px]">Skills You Will Gain</p>
+                    <div className="flex items-center flex-wrap">
+                      {
+                        skills.map((skill: any, index: number) => {
+                          return (
+                            <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]" key={index}>
+                              <span className="ff-cg--semibold text-[12px]">{skill.name}</span>
+                            </span>
+                          )
+                        })
+                      }
+                    </div>
+                  </div> : ""
+              }
             </div>
             <div className="lg:col-span-12 mt-[30px]">
               <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">About the Course</h3>
@@ -171,19 +170,19 @@ const Course = ({location,params}: any) => {
                 <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">History of Cybersecurity</h4>
                 <div className="flex items-center flex-wrap">
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <FolderIcon className="h-4 w-4 mr-[6px]"/>
+                    <FolderIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">10 Resources</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <DocumentIcon className="h-4 w-4 mr-[6px]"/>
+                    <DocumentIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">2 Quizzes</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                 </div>
@@ -193,19 +192,19 @@ const Course = ({location,params}: any) => {
                 <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">A brief overview of types of actors and their motives</h4>
                 <div className="flex items-center flex-wrap">
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <FolderIcon className="h-4 w-4 mr-[6px]"/>
+                    <FolderIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">10 Resources</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <DocumentIcon className="h-4 w-4 mr-[6px]"/>
+                    <DocumentIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">2 Quizzes</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                 </div>
@@ -215,19 +214,19 @@ const Course = ({location,params}: any) => {
                 <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">An overview of key security concepts</h4>
                 <div className="flex items-center flex-wrap">
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <FolderIcon className="h-4 w-4 mr-[6px]"/>
+                    <FolderIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">10 Resources</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <DocumentIcon className="h-4 w-4 mr-[6px]"/>
+                    <DocumentIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">2 Quizzes</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                 </div>
@@ -237,19 +236,19 @@ const Course = ({location,params}: any) => {
                 <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">An overview of key security concepts</h4>
                 <div className="flex items-center flex-wrap">
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <FolderIcon className="h-4 w-4 mr-[6px]"/>
+                    <FolderIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">10 Resources</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <DocumentIcon className="h-4 w-4 mr-[6px]"/>
+                    <DocumentIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">2 Quizzes</span>
                   </span>
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
-                    <PlayIcon className="h-4 w-4 mr-[6px]"/>
+                    <PlayIcon className="h-4 w-4 mr-[6px]" />
                     <span className="ff-cg--semibold text-[12px]">17 Videos</span>
                   </span>
                 </div>
@@ -266,7 +265,7 @@ const Course = ({location,params}: any) => {
               <p className="ff-cg--light lg:text-[30px] text-white">Completing this course will count towards your learning in the Cybersecurity Professioal Certificate</p>
               <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mx-auto">
                 <span className="ff-cg--semibold mr-[20px]">Go to Learning Path</span>
-                <RectangleStackIcon className="h-6 w-6"/>
+                <RectangleStackIcon className="h-6 w-6" />
               </button>
             </div>
           </div>
@@ -275,7 +274,7 @@ const Course = ({location,params}: any) => {
         {/* footer */}
         <section className="container px-[15px] mx-auto pt-[20px] pb-[20px]">
           <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between">
-            <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={ logoWhite } alt="" />
+            <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={logoWhite} alt="" />
             <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
           </div>
         </section>

@@ -22,6 +22,8 @@ const Path = ({location,params}: any) => {
   const [description,setDescription] = useState(null);
   const [duration,setDuration] = useState(null);
   const [price,setPrice] = useState(null);
+  const [sponsor, setSponsor] = useState("");
+  const [skills, setSkills] = useState<any>([]);
 
   useEffect( () => {
     if(userName !== null) {
@@ -37,6 +39,8 @@ const Path = ({location,params}: any) => {
     setDescription(location.state.course.description);
     setDuration(location.state.course.duration);
     setPrice(location.state.course.price);
+    setSponsor(location.state.course.sponsor.imgUrl);
+    setSkills(location.state.course.skills);
   },[location]);
   
   return (
@@ -49,7 +53,7 @@ const Path = ({location,params}: any) => {
 
           {/* banner */}
           <section className="container px-[15px] mx-auto pt-[40px] lg:pt-[60px] pb-[40px] lg:pb-0">
-            <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12">
+            <div className="relative lg:grid gap-4 lg:gap-10 lg:grid-cols-12">
               <div className="lg:col-span-6">
                 <h2 className="ff-cg--semibold text-white text-[34px] lg:text-[50px] leading-none mb-[10px]">{cursoId}</h2>
                 <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">{description}</p>
@@ -78,33 +82,49 @@ const Path = ({location,params}: any) => {
                   </button>
                 </div>
               </div>
-              <div className="lg:col-span-12 mb-[-40px] hidden lg:block">
-                <div className="bg-[#da1a32] rounded-2xl p-[20px]">
-                  <p className="text-white ff-cg--semibold mb-[10px]">Skills You Will Gain</p>
-                  <div className="flex items-center flex-wrap">
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Information Security Analyst</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">IT Security Analyst</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Network Security</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Malware</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                    </span>
-                    <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
-                      <span className="ff-cg--semibold text-[12px]">Database</span>
-                    </span>
-                  </div>
+              <div className="lg:col-span-6 top-0 h-full flex items-center justify-center">
+                <div className="flex z-100 top-0 flex-col items-center">
+                  <p className="text-white">In partnership with:</p>
+                  <img className="w-12 object-cover h-12 bg-slate-300 mt-6" src={sponsor} alt="" />
                 </div>
+              </div>
+              <div className="lg:col-span-12 mb-[-40px] hidden lg:block">
+                {
+                  (skills.length) ?
+                  <div className="bg-[#da1a32] rounded-2xl p-[20px]">
+                  <p className="text-white ff-cg--semibold mb-[10px]">Skills You Will Gain</p>
+                    <div className="flex items-center flex-wrap">
+                      {
+                        skills.map( (skill:any,index:number) => {
+                          return(
+                            <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]" key={index}>
+                              <span className="ff-cg--semibold text-[12px]">{skill.name}</span>
+                            </span>
+                          )
+                        })
+                      }
+                      
+                      {/* <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">IT Security Analyst</span>
+                      </span>
+                      <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">Network Security</span>
+                      </span>
+                      <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                      </span>
+                      <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">Malware</span>
+                      </span>
+                      <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                      </span>
+                      <span className="flex items-center text-white border border-white rounded-full pl-[10px] pr-[10px] mr-[10px] mb-[10px]">
+                        <span className="ff-cg--semibold text-[12px]">Database</span>
+                      </span> */}
+                    </div>
+                  </div> : ""
+                }
               </div>
             </div>
           </section>
