@@ -15,7 +15,8 @@ import {
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import axios from "axios";
-import { Link, navigate } from "gatsby";
+import { Link } from "gatsby";
+import { API_URL } from '../const';
 
 const Search = ({location}: any) => {
 
@@ -96,8 +97,6 @@ const Search = ({location}: any) => {
     getForTerm(newTerm);
   }
 
-
-
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
 
@@ -110,7 +109,7 @@ const Search = ({location}: any) => {
   const getForTerm = (term: string) => {
     console.log('getting for term here'); 
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${term}&limit=12&page=0`)
+      .get(API_URL + `api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -133,7 +132,7 @@ const Search = ({location}: any) => {
   const getForCourse = () => {
     console.log('getting for term here'); 
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -156,7 +155,7 @@ const Search = ({location}: any) => {
 
   const getCombined = (catTerm: string, sTerm: string) => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -183,7 +182,7 @@ const Search = ({location}: any) => {
   const getForCategory = (catTerm: string) => {
     console.log('getting for term here'); 
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -210,7 +209,7 @@ const Search = ({location}: any) => {
   const getForSkill = (skillTerm: string) => {
     console.log('getting for term here'); 
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -233,7 +232,7 @@ const Search = ({location}: any) => {
 
   const getCategories = () => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/category`)
+      .get(API_URL + `api/category`)
       .then((response) => {
         let catElements: any = [];
         response.data.data.map( (item: any) => {
@@ -252,7 +251,7 @@ const Search = ({location}: any) => {
 
   const getSkills = () => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/skill`)
+      .get(API_URL + `api/skill`)
       .then((response) => {
         let skillElements: any = [];
         response.data.data.map( (item: any) => {
@@ -267,7 +266,7 @@ const Search = ({location}: any) => {
 
   const handlePagination = (pageIndex: number) => {
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -316,7 +315,7 @@ const Search = ({location}: any) => {
     setQueryList(newQuery)
     console.log('**** query *** ',newQuery);
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -365,7 +364,7 @@ const Search = ({location}: any) => {
     }
     setQueryCat(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -414,7 +413,7 @@ const Search = ({location}: any) => {
     }
     setQuerySkill(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -444,7 +443,7 @@ const Search = ({location}: any) => {
 //     }
 //   setQueryList(newQuery)
 //   axios
-//   .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
+//   .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
 //     .then((response) => {
 //       if(parseInt(response.data.data.data.nbPages) > 1) {
 //         let pagesToUse = [];

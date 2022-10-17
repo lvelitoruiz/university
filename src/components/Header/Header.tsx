@@ -13,9 +13,9 @@ type HeaderProps = {
 
 export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
 
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-    const [optionsOpen,setOptionsOpen] = useState(false);
+    const [optionsOpen,setOptionsOpen] = useState<boolean>(false);
 
     const signed = isSignIn;
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const curso = ({location,params}: any) => {
+const curso = ({location, params}: any) => {
 
     const [cursoId,setCursoId] = useState(null);
 

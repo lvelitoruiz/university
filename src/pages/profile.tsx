@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import { 
-  MagnifyingGlassCircleIcon,
-  Bars3CenterLeftIcon,
-  HomeIcon,
-  RectangleStackIcon,
-  UserCircleIcon,
-  ShoppingCartIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline'
-import logo from "../images/logo-full.png";
 import logoWhite from "../images/logo-white.png";
-import logoIso from "../images/iso.png";
 import product1 from "../images/product-1.png";
 import product2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
