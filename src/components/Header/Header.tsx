@@ -17,7 +17,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [checkOpen, setCheckOpen] = useState(false);
 
-    const [optionsOpen,setOptionsOpen] = useState(false);
+    const [optionsOpen,setOptionsOpen] = useState<boolean>(false);
 
     const signed = isSignIn;
 

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Layout from "../components/Layout/Layout"
 import { 
-  MagnifyingGlassCircleIcon,
-  Bars3CenterLeftIcon,
-  HomeIcon,
   RectangleStackIcon,
-  UserCircleIcon,
   ShoppingCartIcon,
   PlayIcon,
   FolderIcon,
@@ -16,9 +12,7 @@ import {
   XMarkIcon,
   TrashIcon
 } from '@heroicons/react/24/outline'
-import logo from "../images/logo-full.png";
 import logoWhite from "../images/logo-white.png";
-import logoIso from "../images/iso.png";
 import bannerCourse from "../images/banner-course.png";
 import Header from "../components/Header/Header";
 import { navigate } from "gatsby";
