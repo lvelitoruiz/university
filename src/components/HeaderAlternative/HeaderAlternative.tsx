@@ -5,6 +5,7 @@ import logoIso from "../../images/iso.png";
 import Modal from '../Modal/Modal';
 import SearchInput from '../SearchInput/SearchInput';
 import { Link, navigate } from 'gatsby';
+import { CheckoutModal } from '../CheckoutModal/CheckoutModal';
 
 type HeaderProps = {
   isSignIn: boolean,
@@ -14,6 +15,7 @@ type HeaderProps = {
 export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [checkOpen, setCheckOpen] = useState(false);
 
   const [optionsOpen, setOptionsOpen] = useState(false);
 
@@ -25,6 +27,10 @@ export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
+  }
+
+  const handleCheck = () => {
+    setCheckOpen(!checkOpen);
   }
 
   const logOut = () => {
@@ -79,7 +85,7 @@ export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
                         </Link>
                       </li>
                       <li className="mx-[15px]">
-                        <a className="flex flex-col items-center text-white" href="">
+                        <a className="flex flex-col items-center text-white"  onClick={handleCheck}>
                           <ShoppingCartIcon className="h-8 w-8" />
                         </a>
                       </li>
@@ -101,6 +107,10 @@ export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
             {
               (modalOpen) ?
                 <Modal handleModal={handleModal} /> : ""
+            }
+            {
+              (checkOpen) ?
+                <CheckoutModal handleCheck={handleCheck} /> : ""
             }
           </section> :
           <section className="">
@@ -138,7 +148,7 @@ export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
                         </Link>
                       </li>
                       <li className="mx-[15px] text-white">
-                        <a className="flex flex-col items-center" href="">
+                        <a className="flex flex-col items-center"  onClick={handleCheck}>
                           <ShoppingCartIcon className="h-8 w-8" />
                         </a>
                       </li>
@@ -193,6 +203,10 @@ export const HeaderAlternative = ({ isSignIn, handleTerm }: HeaderProps) => {
             {
               (modalOpen) ?
                 <Modal handleModal={handleModal} /> : ""
+            }
+            {
+              (checkOpen) ?
+                <CheckoutModal handleCheck={handleCheck} /> : ""
             }
           </section>
       }

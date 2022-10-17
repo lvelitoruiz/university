@@ -17,6 +17,7 @@ import Layout from "../../components/Layout/Layout";
 
 const Course = ({ location, params }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
   const [signed, setSigned] = useState(false);
 
   const [cursoId, setCursoId] = useState(null);
@@ -43,6 +44,17 @@ const Course = ({ location, params }: any) => {
       navigate("/");
     }
   }, [userName]);
+
+  const addToCart = (item: any) => {
+    console.log('this is the item from the parameter: ****** ',item);
+    let cartItems = []
+    let cartOn = typeof window !== 'undefined' && localStorage.getItem('cart');
+    if(cartOn !== null) {
+      cartItems = JSON.parse(cartOn.toString());
+    }
+    cartItems.push(item);
+    typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
+  }
 
 
   return (
@@ -81,7 +93,7 @@ const Course = ({ location, params }: any) => {
                     <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
                     <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
                   </button>
-                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
+                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => addToCart(location.state.course)}>
                     <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
                     <ShoppingCartIcon className="h-6 w-6" />
                   </button>
