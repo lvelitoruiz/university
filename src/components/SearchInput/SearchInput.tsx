@@ -49,7 +49,7 @@ const SearchInput = ({handleTerm}: SearchProps) => {
 
     return (
         <div className="relative">
-            <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border-rose-500 border-2 solid w-full cursor-pointer">
+            <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl border-rose-500 border-2 solid w-full cursor-pointer bg-white">
                 <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]" />
                 <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" onChange={dropDownUse} type="search" placeholder="What skills do you want to lean today?" />
             </div>
