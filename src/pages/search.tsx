@@ -53,7 +53,6 @@ const Search = ({location}: any) => {
 
   useEffect(() => {
     if(location.state !== null) {
-      console.log(location.state);
       if(location.state.cat == undefined) {
         setSearchTerm(location.state.term);
         getForTerm(location.state.term);
@@ -69,7 +68,6 @@ const Search = ({location}: any) => {
       getSkills();
     } else {
       setSearchTerm("");
-      console.log('not sending enything');
       getForTerm("");
       getCategories();
       getSkills();
@@ -108,7 +106,9 @@ const Search = ({location}: any) => {
   },[userName]);
 
   const getForTerm = (term: string) => {
-    console.log('getting for term here'); 
+    if(term == undefined) {
+      term = "";
+    }
     axios
       .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
@@ -131,7 +131,6 @@ const Search = ({location}: any) => {
   }
 
   const getForCourse = () => {
-    console.log('getting for term here'); 
     axios
       .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
@@ -181,7 +180,6 @@ const Search = ({location}: any) => {
   }
 
   const getForCategory = (catTerm: string) => {
-    console.log('getting for term here'); 
     axios
       .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
@@ -208,7 +206,6 @@ const Search = ({location}: any) => {
   }
 
   const getForSkill = (skillTerm: string) => {
-    console.log('getting for term here'); 
     axios
       .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
@@ -247,7 +244,6 @@ const Search = ({location}: any) => {
   }
 
   useEffect( () => {
-    console.log(categories);
   },[categories])
 
   const getSkills = () => {
@@ -314,7 +310,6 @@ const Search = ({location}: any) => {
       })
     }
     setQueryList(newQuery)
-    console.log('**** query *** ',newQuery);
     axios
     .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
@@ -330,7 +325,6 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        console.log('working?');
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
@@ -388,7 +382,6 @@ const Search = ({location}: any) => {
   const handleQuerySkill = (term: string) => {
     let skillChecksList: any = [];
     let queryCourses = [...skillList];
-    console.log('***** check of skills **** ',skillsCheck);
     skillsCheck.map((course: any) => {
       if(course.slug == term) {
         course.checked = !course.checked;
@@ -428,42 +421,11 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        console.log('working 3?');
         setItems(response.data.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
   }
-
-//   useEffect( () => {
-//     let newQuery = "";
-//     if(courses.length) {
-//       courses.map( (item: any) => {
-//         newQuery = newQuery + `&facetFilters[type.name]=${item}`;
-//       })
-//     }
-//   setQueryList(newQuery)
-//   axios
-//   .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
-//     .then((response) => {
-//       if(parseInt(response.data.data.data.nbPages) > 1) {
-//         let pagesToUse = [];
-//         setPage(response.data.data.data.nbPages);
-//         setPagination(true)
-//         for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
-//           pagesToUse.push({number: i + 1, value: i})
-//         }
-//         setPages(pagesToUse);
-//       } else {
-//         setPage(1);
-//         setPagination(false);
-//       }
-//       console.log('working?');
-//       setItems(response.data.data.data.hits);
-//     }).catch(function (error) {
-//       console.log(error);
-//     });
-// },[courses]);
 
   return (
     <Layout>

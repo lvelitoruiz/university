@@ -23,9 +23,15 @@ import bannerCourse from "../images/banner-course.png";
 import Header from "../components/Header/Header";
 import { navigate } from "gatsby";
 
-const Course = () => {
+const Course = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
+
+  const [cursoId,setCursoId] = useState(null);
+
+	useEffect(() => {
+		setCursoId(params.id)
+	}, [params])
 
   useEffect( () => {
     if(userName !== null) {
