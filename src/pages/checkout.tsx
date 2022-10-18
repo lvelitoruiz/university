@@ -9,16 +9,18 @@ import {
 import logoIso from "../images/iso.png";
 import Header from "../components/Header/Header";
 import { navigate } from "gatsby";
+import { getCart, deleteCourseCart } from "../helpers/cart";
 
 const Checkout = () => {
 
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
-  const cart = typeof window !== 'undefined' && localStorage.getItem('cart');
-  const [fprice,setFprice] = useState(0);
+  const [fprice, setFprice] = useState(0);
 
   const [items, setItems] = useState<any>([]);
 
   const [signed, setSigned] = useState(false);
+
+  const [cart, setCart] = useState<any>(null);
 
   useEffect(() => {
     if (userName !== null) {
@@ -29,31 +31,42 @@ const Checkout = () => {
   }, [userName]);
 
   const removeItem = (index: number) => {
-    let newItems = [...items];
-    newItems.splice(index, 1);
-    setItems(newItems);
-    typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(newItems));
+    deleteCourseCart(index);
+    getCartClient().then((response) => {
+      setCart(response);
+    })
   }
 
   useEffect(() => {
+    getCartClient().then((response) => {
+      setCart(response);
+    })
+  }, []);
+
+  useEffect(() => {
     if (cart !== null) {
-      setItems(JSON.parse(cart.toString()));
+      console.log('getting the actual cart ***** ', cart);
+      if (cart.courses !== undefined) {
+        setItems(cart.courses);
+      } else {
+        setItems([]);
+      }
+      if (cart.total !== null) {
+        setFprice(cart.total);
+      } else {
+        setFprice(0);
+      }
     } else {
       setItems([]);
+      setFprice(0);
     }
   }, [cart]);
 
-  useEffect( () => {
-    if(items.length) {
-      let final = 0;
-      items.map( (item:any) => {
-        final = final + parseFloat(item.price)
-      })
-      setFprice(final);
-    } else {
-      setFprice(0);
-    }
-  },[items])
+
+  const getCartClient = async () => {
+    const gotCart = await getCart();
+    return gotCart;
+  }
 
 
   return (

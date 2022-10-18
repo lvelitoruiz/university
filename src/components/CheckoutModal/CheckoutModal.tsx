@@ -1,11 +1,11 @@
 import { ComputerDesktopIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/outline'
 import React, { useEffect, useState } from 'react'
-import bannerCourse from "../../images/banner-course.png";
+import { getCart, deleteCourseCart } from "../../helpers/cart";
 
 export const CheckoutModal = ({ handleCheck }: any) => {
 
-    const cart = typeof window !== 'undefined' && localStorage.getItem('cart');
-    const [fprice,setFprice] = useState(0);
+    const [cart,setCart] = useState<any>(null);
+    const [fprice, setFprice] = useState(0);
 
     const [items, setItems] = useState<any>([]);
 
@@ -13,33 +13,54 @@ export const CheckoutModal = ({ handleCheck }: any) => {
         handleCheck();
     }
 
+    useEffect(() => {
+        getCartClient().then( (response) => {
+            setCart(response);
+        })
+    }, []);
+
+    const getCartClient = async () => {
+        const gotCart = await getCart();
+        return gotCart;
+    }
+
     const removeItem = (index: number) => {
-        console.log('index of the item: **** ',index);
-        let newItems = [...items];
-        newItems.splice(index,1);
-        setItems(newItems);
-        typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(newItems));
+        deleteCourseCart(index);
+        getCartClient().then( (response) => {
+            setCart(response);
+        })
     }
 
     useEffect(() => {
         if (cart !== null) {
-            setItems(JSON.parse(cart.toString()));
+            console.log('getting the actual cart ***** ',cart);
+            if(cart.courses !== undefined) {
+                setItems(cart.courses);
+            } else {
+                setItems([]);
+            }
+            if(cart.total !== null) {
+                setFprice(cart.total);
+            } else {
+                setFprice(0);
+            }
         } else {
             setItems([]);
+            setFprice(0);
         }
     }, [cart]);
 
-    useEffect( () => {
-        if(items.length) {
-          let final = 0;
-          items.map( (item:any) => {
-            final = final + parseFloat(item.price)
-          })
-          setFprice(final);
-        } else {
-          setFprice(0);
-        }
-      },[items])
+    // useEffect(() => {
+    //     if (items.length) {
+    //         let final = 0;
+    //         items.map((item: any) => {
+    //             final = final + parseFloat(item.price)
+    //         })
+    //         setFprice(final);
+    //     } else {
+    //         setFprice(0);
+    //     }
+    // }, [items])
 
     return (
         <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">
@@ -192,7 +213,7 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                         <p className="text-[16px] lg:text-[26px] ff-cg--semibold">Total</p>
                         {
                             (items.length) ?
-                            <p className="text-[16px] lg:text-[26px] ff-cg--semibold">${fprice}</p> : <p className="text-[16px] lg:text-[26px] ff-cg--semibold">$0</p>
+                                <p className="text-[16px] lg:text-[26px] ff-cg--semibold">${fprice}</p> : <p className="text-[16px] lg:text-[26px] ff-cg--semibold">$0</p>
                         }
                     </div>
                     <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">

@@ -13,6 +13,7 @@ import product2 from "../../images/product-2.png";
 import product3 from "../../images/product-3.png";
 import { navigate } from "gatsby";
 import { HeaderAlternative } from "../../components/HeaderAlternative/HeaderAlternative";
+import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 
 const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -44,15 +45,24 @@ const Path = ({location,params}: any) => {
     setSkills(location.state.course.skills);
   },[location]);
 
-  const addToCart = (item: any) => {
+  const addToCart = async (item: any) => {
     console.log('this is the item from the parameter: ****** ',item);
-    let cartItems = []
-    let cartOn = typeof window !== 'undefined' && localStorage.getItem('cart');
-    if(cartOn !== null) {
-      cartItems = JSON.parse(cartOn.toString());
+    let cartIsOn = false;
+    await getCartClient().then( (response) => {
+      cartIsOn = response.status;
+    });
+    if(!cartIsOn) {
+      console.log('create new cart');
+      createCart({"id": item.uuid, "price": item.price});
+    } else {
+      console.log('add element');
+      addCourseToCart({"id": 1, "price": parseFloat(item.price)})
     }
-    cartItems.push(item);
-    typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
+  }
+
+  const getCartClient = async() => {
+    const gotCart = await getCart();
+    return gotCart;
   }
   
   return (

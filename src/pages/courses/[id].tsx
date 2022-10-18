@@ -14,6 +14,7 @@ import bannerCourse from "../../images/banner-course.png";
 import Header from "../../components/Header/Header";
 import { navigate } from "gatsby";
 import Layout from "../../components/Layout/Layout";
+import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 
 const Course = ({ location, params }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -45,15 +46,30 @@ const Course = ({ location, params }: any) => {
     }
   }, [userName]);
 
-  const addToCart = (item: any) => {
+  const addToCart = async (item: any) => {
     console.log('this is the item from the parameter: ****** ',item);
-    let cartItems = []
-    let cartOn = typeof window !== 'undefined' && localStorage.getItem('cart');
-    if(cartOn !== null) {
-      cartItems = JSON.parse(cartOn.toString());
+    let cartIsOn = false;
+    await getCartClient().then( (response) => {
+      cartIsOn = response.status;
+    });
+    if(!cartIsOn) {
+      console.log('create new cart');
+      createCart({"id": item.uuid, "price": item.price});
+    } else {
+      console.log('add element');
+      addCourseToCart({"id": 1, "price": parseFloat(item.price)})
     }
-    cartItems.push(item);
-    typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
+  }
+
+  useEffect( () => {
+    getCartClient().then( (response) => {
+      console.log(response.status)
+    });
+  },[]);
+
+  const getCartClient = async() => {
+    const gotCart = await getCart();
+    return gotCart;
   }
 
 

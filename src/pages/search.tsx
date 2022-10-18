@@ -585,7 +585,7 @@ const Search = ({location}: any) => {
                             return (
                               <div className="md:col-span-6 lg:col-span-4" key={index}>
                                 <Link to={`/courses/${item.slug}`}
-                                      state={{id: item.title}}>
+                                      state={{id: item.title, course: item}}>
                                   <div className="relative">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
                                     <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
@@ -634,7 +634,7 @@ const Search = ({location}: any) => {
                             return(
                               <div className="md:col-span-12 lg:col-span-12 cursor-pointer" key={index + 'b'}>
                                 <Link to={`/courses/${item.slug}`}
-                                      state={{id: item.title}}>
+                                      state={{id: item.title, course: item}}>
                                 <div className="rounded-3xl bg-white flex shadow-lg relative items-center">
                                   <div className="relative w-[200px]">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-10"></div>
