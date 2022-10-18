@@ -5,6 +5,7 @@ import logoIso from "../../images/iso.png";
 import Modal from '../Modal/Modal';
 import SearchInput from '../SearchInput/SearchInput';
 import { Link, navigate } from 'gatsby';
+import { CheckoutModal } from '../CheckoutModal/CheckoutModal';
 
 type HeaderProps = {
     isSignIn: boolean,
@@ -14,8 +15,9 @@ type HeaderProps = {
 export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [checkOpen, setCheckOpen] = useState(false);
 
-    const [optionsOpen,setOptionsOpen] = useState(false);
+    const [optionsOpen,setOptionsOpen] = useState<boolean>(false);
 
     const signed = isSignIn;
 
@@ -27,6 +29,10 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
         setModalOpen(!modalOpen);
     }
 
+    const handleCheck = () => {
+        setCheckOpen(!checkOpen);
+    }
+
     const logOut = () => {
         typeof window !== 'undefined' && localStorage.clear();
         setOptionsOpen(false);
@@ -34,7 +40,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
     }
 
     return (
-        <section className="bg-white shadow-lg z-100">
+        <section className="bg-white shadow-lg z-100 relative" style={{zIndex: '100'}}>
             {
                 (!signed) ?
                     <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
@@ -77,7 +83,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                             </Link>
                                         </li>
                                         <li className="mx-[15px]">
-                                            <a className="flex flex-col items-center" href="">
+                                            <a className="flex flex-col items-center" onClick={handleCheck}>
                                                 <ShoppingCartIcon className="h-8 w-8" />
                                             </a>
                                         </li>
@@ -98,6 +104,10 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                         {
                             (modalOpen) ?
                                 <Modal handleModal={handleModal} /> : ""
+                        }
+                        {
+                            (checkOpen) ?
+                                <CheckoutModal handleCheck={handleCheck} /> : ""
                         }
                     </div> :
                     <section className="bg-white shadow-lg">
@@ -135,7 +145,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                                 </Link>
                                             </li>
                                             <li className="mx-[15px]">
-                                                <a className="flex flex-col items-center" href="">
+                                                <a className="flex flex-col items-center"  onClick={handleCheck}>
                                                     <ShoppingCartIcon className="h-8 w-8" />
                                                 </a>
                                             </li>
@@ -178,6 +188,10 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                                 }
                                             </li>
                                         </ul>
+                                        {
+                                            (checkOpen) ?
+                                                <CheckoutModal handleCheck={handleCheck} /> : ""
+                                        }
                                     </nav>
                                 </div>
                                 <div className="lg:hidden">

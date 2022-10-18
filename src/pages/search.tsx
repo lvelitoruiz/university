@@ -15,7 +15,8 @@ import {
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import axios from "axios";
-import { Link, navigate } from "gatsby";
+import { Link } from "gatsby";
+import { API_URL } from '../const';
 
 const Search = ({location}: any) => {
 
@@ -94,8 +95,6 @@ const Search = ({location}: any) => {
     getForTerm(newTerm);
   }
 
-
-
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
 
@@ -110,7 +109,7 @@ const Search = ({location}: any) => {
       term = "";
     }
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${term}&limit=12&page=0`)
+      .get(API_URL + `api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -132,7 +131,7 @@ const Search = ({location}: any) => {
 
   const getForCourse = () => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -155,7 +154,7 @@ const Search = ({location}: any) => {
 
   const getCombined = (catTerm: string, sTerm: string) => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -181,7 +180,7 @@ const Search = ({location}: any) => {
 
   const getForCategory = (catTerm: string) => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -207,7 +206,7 @@ const Search = ({location}: any) => {
 
   const getForSkill = (skillTerm: string) => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
+      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -230,7 +229,7 @@ const Search = ({location}: any) => {
 
   const getCategories = () => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/category`)
+      .get(API_URL + `api/category`)
       .then((response) => {
         let catElements: any = [];
         response.data.data.map( (item: any) => {
@@ -248,7 +247,7 @@ const Search = ({location}: any) => {
 
   const getSkills = () => {
     axios
-      .get(`https://accelered-api.whiz.pe/api/skill`)
+      .get(API_URL + `api/skill`)
       .then((response) => {
         let skillElements: any = [];
         response.data.data.map( (item: any) => {
@@ -263,7 +262,7 @@ const Search = ({location}: any) => {
 
   const handlePagination = (pageIndex: number) => {
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -311,7 +310,7 @@ const Search = ({location}: any) => {
     }
     setQueryList(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -359,7 +358,7 @@ const Search = ({location}: any) => {
     }
     setQueryCat(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -407,7 +406,7 @@ const Search = ({location}: any) => {
     }
     setQuerySkill(newQuery)
     axios
-    .get(`https://accelered-api.whiz.pe/api/info/algolia/search?limit=12&page=0${newQuery}`)
+    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
         if(parseInt(response.data.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -586,7 +585,7 @@ const Search = ({location}: any) => {
                             return (
                               <div className="md:col-span-6 lg:col-span-4" key={index}>
                                 <Link to={`/courses/${item.slug}`}
-                                      state={{id: item.title}}>
+                                      state={{id: item.title, course: item}}>
                                   <div className="relative">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
                                     <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
@@ -635,7 +634,7 @@ const Search = ({location}: any) => {
                             return(
                               <div className="md:col-span-12 lg:col-span-12 cursor-pointer" key={index + 'b'}>
                                 <Link to={`/courses/${item.slug}`}
-                                      state={{id: item.title}}>
+                                      state={{id: item.title, course: item}}>
                                 <div className="rounded-3xl bg-white flex shadow-lg relative items-center">
                                   <div className="relative w-[200px]">
                                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-10"></div>

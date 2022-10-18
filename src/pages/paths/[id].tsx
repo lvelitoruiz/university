@@ -13,9 +13,11 @@ import product2 from "../../images/product-2.png";
 import product3 from "../../images/product-3.png";
 import { navigate } from "gatsby";
 import { HeaderAlternative } from "../../components/HeaderAlternative/HeaderAlternative";
+import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 
 const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
   const [signed,setSigned] = useState(false);
 
   const [cursoId,setCursoId] = useState(null);
@@ -42,6 +44,26 @@ const Path = ({location,params}: any) => {
     setSponsor(location.state.course.sponsor.imgUrl);
     setSkills(location.state.course.skills);
   },[location]);
+
+  const addToCart = async (item: any) => {
+    console.log('this is the item from the parameter: ****** ',item);
+    let cartIsOn = false;
+    await getCartClient().then( (response) => {
+      cartIsOn = response.status;
+    });
+    if(!cartIsOn) {
+      console.log('create new cart');
+      createCart({"id": item.uuid, "price": item.price});
+    } else {
+      console.log('add element');
+      addCourseToCart({"id": 1, "price": parseFloat(item.price)})
+    }
+  }
+
+  const getCartClient = async() => {
+    const gotCart = await getCart();
+    return gotCart;
+  }
   
   return (
     <Layout>
@@ -76,7 +98,7 @@ const Path = ({location,params}: any) => {
                     <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
                     <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
                   </button>
-                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]">
+                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => addToCart(location.state.course)}>
                     <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
                     <ShoppingCartIcon className="h-6 w-6"/>
                   </button>

@@ -6,17 +6,13 @@ import { navigate } from 'gatsby';
 import { 
   AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline'
+import { UserInfo, API_URL } from '../../const';
 
 const Modal = ({handleModal}: any) => {
-  const [signIn,setSignIn] = useState(true);
-  const [isRegister,setRegister] = useState(false);
+  const [signIn,setSignIn] = useState<boolean>(true);
+  const [isRegister,setRegister] = useState<boolean>(false);
   const [compare,setCompare] = useState<any>(null);
-  const USER_ANONIMO = "46e7807e-8fdb-4722-a718-ef8f950756ef";
-  const USER_GROUP = "bea4d79e-9082-4842-890c-a0d635a3bf44";
-  const USER_ADMIN_GROUP = "7b612f56-b0f5-42ed-9237-4f27b15af5a4";
-  const [errorLogin,setErrorLogin] = useState(false);
-
-  
+  const [errorLogin,setErrorLogin] = useState<boolean>(false);
 
   const changeSignIn = () => {
     setSignIn(!signIn);
@@ -27,28 +23,25 @@ const Modal = ({handleModal}: any) => {
     setErrorLogin(false);
   },[]);
 
-  const loginUser = (user: string,password: string) => {
-    axios
-		.post('https://accelered-api.whiz.pe/api/auth', {
-			username: user,
-			password: password
-		})
+  const loginUser = (user: string, password: string) => {
+    axios.post(
+      API_URL + 'api/auth', { username: user, password: password })
 		.then((response) => {
-			// setUserInfo(response.data);
-			typeof window !== 'undefined' && localStorage.setItem('access_token', response.data.access_token);
-			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response.data.data._embedded.user));
-			typeof window !== 'undefined' && localStorage.setItem('name', response.data.data._embedded.user.profile.firstName);
-			typeof window !== 'undefined' && localStorage.setItem('lastName', response.data.data._embedded.user.profile.lastName);
+			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
+			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
+			typeof window !== 'undefined' && localStorage.setItem('name', response?.data?.data?._embedded?.user?.profile?.firstName);
+			typeof window !== 'undefined' && localStorage.setItem('lastName', response?.data?.data?._embedded?.user?.profile?.lastName);
 			const decoded: any = (jwt_decode(response.data.access_token));
       setCompare(decoded.role);
-		}).catch( function(error) {
-			console.log(error);
+		}).catch(function(error) {
+			console.log('[DEBUG]', error);
 		});
   }
 
-  const createUser = (email: string,firstName: string,lastName: string,phoneNumber: string,password: string) => {
+  const createUser = (
+    email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
 		axios
-      .post('https://accelered-api.whiz.pe/api/users', {
+      .post(API_URL + 'api/users', {
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -61,10 +54,9 @@ const Modal = ({handleModal}: any) => {
       .then((response) => {
         handleModal();
         // return navigate("/user/students");
-        // setUserInfo(response.data);
         // setPost(jwt_decode(response.data.access_token));
       }).catch( function(error) {
-        console.log(error)
+        console.log('[DEBUG]', error)
         // console.log(error);
         // setNoUser(true);
         // setErrors(false);
@@ -72,22 +64,16 @@ const Modal = ({handleModal}: any) => {
   } 
 
   useEffect( () => {
-    if(compare !== '') {
-      if(compare == USER_ADMIN_GROUP || compare == USER_ANONIMO || compare == USER_GROUP) {
+    if (compare) {
+      if (compare == UserInfo.USER_ADMIN_GROUP || compare == UserInfo.USER_ID || compare == UserInfo.USER_GROUP) {
         handleModal();
         setErrorLogin(false);
-        if( compare == USER_ADMIN_GROUP) {
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
-        
+        navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
       } else {
         setErrorLogin(true);
       }
     }
   },[compare]);
-
   
   return (
     <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-center justify-center">
@@ -108,7 +94,7 @@ const Modal = ({handleModal}: any) => {
               password: '',
             }}
             onSubmit={(values) => {
-              loginUser(values.name,values.password);
+              loginUser(values.name, values.password);
             }}
           >
             <div className="">
@@ -266,8 +252,7 @@ const Modal = ({handleModal}: any) => {
               </Form>
             </div>
           </Formik> : ""
-        }
-        
+        }    
       </div>
     </div>
   );

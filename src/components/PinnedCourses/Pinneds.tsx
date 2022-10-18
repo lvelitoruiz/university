@@ -1,8 +1,8 @@
 import { ClockIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
 import { Link } from 'gatsby'
-import { type } from 'os'
 import React, { useEffect, useState } from 'react'
+import { API_URL } from '../../const';
 
 type pinObject = {
     uuid: string
@@ -14,19 +14,18 @@ export const Pinneds = ( {uuid}: pinObject ) => {
 
     useEffect( () => {
           axios
-          .get(`https://accelered-api.whiz.pe/api/info/algolia/search?query=${uuid}&limit=12&page=0`)
+          .get(API_URL + `api/info/algolia/search?query=${uuid}&limit=12&page=0`)
             .then((response) => {
-              console.log('***** got the data ***',response.data.data);
-              setItem(response.data.data.data.hits[0]);
+              console.log('***** got the data ***', response?.data?.data);
+              setItem(response?.data?.data?.data?.hits[0]);
             }).catch(function (error) {
-              console.log(error);
+              console.log('[DEBUG]', error);
             });
       }, []);
 
       useEffect( () => {
         console.log('from component: ***** ',item);
       },[item])
-
 
     return(
         <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
