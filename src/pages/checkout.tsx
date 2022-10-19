@@ -22,43 +22,66 @@ const Checkout = () => {
 
   const [cart, setCart] = useState<any>(null);
 
+  const cartLocal = typeof window !== 'undefined' && localStorage.getItem('cart');
+
   useEffect(() => {
     if (userName !== null) {
       setSigned(true);
-    } else {
-      navigate("/");
     }
   }, [userName]);
 
   const removeItem = (index: number) => {
-    deleteCourseCart(index);
-    getCartClient().then((response) => {
-      setCart(response);
-    })
+    if (signed) {
+      deleteCourseCart(index);
+      getCartClient().then((response) => {
+        setCart(response);
+      })
+    } else {
+      let newItems = [...items];
+      newItems.splice(index, 1);
+      setItems(newItems);
+      typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(newItems));
+    }
   }
 
   useEffect(() => {
-    getCartClient().then((response) => {
-      setCart(response);
-    })
-  }, []);
-
-  useEffect(() => {
-    if (cart !== null) {
-      console.log('getting the actual cart ***** ', cart);
-      if (cart.courses !== undefined) {
-        setItems(cart.courses);
+    if (signed) {
+      getCartClient().then((response) => {
+        setCart(response);
+      })
+    } else {
+      if (cartLocal !== null) {
+        setItems(JSON.parse(cartLocal.toString()));
       } else {
         setItems([]);
       }
-      if (cart.total !== null) {
-        setFprice(cart.total);
+    }
+  }, [cartLocal]);
+
+  // useEffect(() => {
+  //   getCartClient().then((response) => {
+  //     setCart(response);
+  //   })
+  // }, []);
+
+  useEffect(() => {
+    if (signed) {
+      if (cart !== null) {
+        console.log('getting the actual cart ***** ', cart);
+        if (cart.courses !== undefined) {
+          setItems(cart.courses);
+        } else {
+          setItems([]);
+        }
+        if (cart.total !== null) {
+          setFprice(cart.total);
+        } else {
+          setFprice(0);
+        }
       } else {
+        setItems([]);
         setFprice(0);
       }
-    } else {
-      setItems([]);
-      setFprice(0);
     }
   }, [cart]);
 
@@ -67,6 +90,20 @@ const Checkout = () => {
     const gotCart = await getCart();
     return gotCart;
   }
+
+  useEffect(() => {
+    if (!signed) {
+      if (items.length) {
+        let final = 0;
+        items.map((item: any) => {
+          final = final + parseFloat(item.price)
+        })
+        setFprice(final);
+      } else {
+        setFprice(0);
+      }
+    }
+  }, [items])
 
 
   return (

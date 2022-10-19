@@ -4,7 +4,13 @@ import { getCart, deleteCourseCart } from "../../helpers/cart";
 
 export const CheckoutModal = ({ handleCheck }: any) => {
 
-    const [cart,setCart] = useState<any>(null);
+    const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
+    const cartLocal = typeof window !== 'undefined' && localStorage.getItem('cart');
+
+    const [signed, setSigned] = useState(false);
+
+    const [cart, setCart] = useState<any>(null);
     const [fprice, setFprice] = useState(0);
 
     const [items, setItems] = useState<any>([]);
@@ -14,10 +20,31 @@ export const CheckoutModal = ({ handleCheck }: any) => {
     }
 
     useEffect(() => {
-        getCartClient().then( (response) => {
-            setCart(response);
-        })
-    }, []);
+        if (userName !== null) {
+            setSigned(true);
+        }
+    }, [userName]);
+
+    useEffect(() => {
+        if (signed) {
+            getCartClient().then((response) => {
+                setCart(response);
+            })
+        } else {
+            console.log('*** testing items: **** ',cartLocal);
+            if (cartLocal !== null) {
+                setItems(JSON.parse(cartLocal.toString()));
+            } else {
+                setItems([]);
+            }
+        }
+    }, [cartLocal]);
+
+    // useEffect(() => {
+    //     getCartClient().then((response) => {
+    //         setCart(response);
+    //     })
+    // }, []);
 
     const getCartClient = async () => {
         const gotCart = await getCart();
@@ -25,42 +52,54 @@ export const CheckoutModal = ({ handleCheck }: any) => {
     }
 
     const removeItem = (index: number) => {
-        deleteCourseCart(index);
-        getCartClient().then( (response) => {
-            setCart(response);
-        })
+        if (signed) {
+            deleteCourseCart(index);
+            getCartClient().then((response) => {
+                setCart(response);
+            })
+        } else {
+            let newItems = [...items];
+            newItems.splice(index, 1);
+            setItems(newItems);
+            typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(newItems));
+        }
+
     }
 
     useEffect(() => {
-        if (cart !== null) {
-            console.log('getting the actual cart ***** ',cart);
-            if(cart.courses !== undefined) {
-                setItems(cart.courses);
+        if(signed) {
+            if (cart !== null) {
+                console.log('getting the actual cart ***** ', cart);
+                if (cart.courses !== undefined) {
+                    setItems(cart.courses);
+                } else {
+                    setItems([]);
+                }
+                if (cart.total !== null) {
+                    setFprice(cart.total);
+                } else {
+                    setFprice(0);
+                }
             } else {
                 setItems([]);
-            }
-            if(cart.total !== null) {
-                setFprice(cart.total);
-            } else {
                 setFprice(0);
             }
-        } else {
-            setItems([]);
-            setFprice(0);
         }
     }, [cart]);
 
-    // useEffect(() => {
-    //     if (items.length) {
-    //         let final = 0;
-    //         items.map((item: any) => {
-    //             final = final + parseFloat(item.price)
-    //         })
-    //         setFprice(final);
-    //     } else {
-    //         setFprice(0);
-    //     }
-    // }, [items])
+    useEffect(() => {
+        if (!signed) {
+            if (items.length) {
+                let final = 0;
+                items.map((item: any) => {
+                    final = final + parseFloat(item.price)
+                })
+                setFprice(final);
+            } else {
+                setFprice(0);
+            }
+        }
+    }, [items])
 
     return (
         <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">

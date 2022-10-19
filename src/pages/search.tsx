@@ -30,7 +30,8 @@ const Search = ({location}: any) => {
   const [categories, setCategories] = useState<any>([]);
   const [skills, setSkills] = useState<any>([]);
   const [coursesCheck, setCoursesCheck] = useState<any>([
-    {name: "Courses", slug: "Program", checked: false},
+    {name: "Courses", slug: "Course", checked: false},
+    {name: "Program", slug: "Program", checked: false},
     {name: "Certificates", slug: "Certificate", checked: false},
     {name: "Learning Paths", slug: "Learning Path", checked: false},
     {name: "Nano Degrees", slug: "Nano Degree", checked: false},
@@ -426,6 +427,10 @@ const Search = ({location}: any) => {
       });
   }
 
+  useEffect( () => {
+    console.log('items on search: **** ',items)
+  },[items])
+
   return (
     <Layout>
       <div className="bg-slate-50">
@@ -584,45 +589,87 @@ const Search = ({location}: any) => {
                           items.map((item: any, index: number) => {
                             return (
                               <div className="md:col-span-6 lg:col-span-4" key={index}>
-                                <Link to={`/courses/${item.slug}`}
+                                {
+                                  (item.type.name === 'Course') ?
+                                  <Link to={`/courses/${item.slug}`}
                                       state={{id: item.title, course: item}}>
-                                  <div className="relative">
-                                    <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
-                                    <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
-                                    <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
-                                      {/* <div className="text"> */}
-                                        <p className="text-white">In partnership with:</p>
-                                        <img className="w-12 object-cover h-12 bg-slate-300" src={item.sponsor.imgUrl} alt="" />
-                                      {/* </div> */}
-                                    </div>
-                                  </div>
-                                  <div className="rounded-3xl bg-white p-[20px] flex flex-col justify-between h-[270px] mt-[-30px] shadow-lg relative">
-                                    <div>
-                                      <div className="flex items-center gap-4 mb-[16px]">
-                                        {
-                                          item.categories.map((category: any, index:number) => {
-                                            return (
-                                              <span className="flex items-center border border-red-500 rounded-full pl-[10px] pr-[10px]" key={index}>
-                                                <span className="ff-cg--semibold text-[12px]">{category.name}</span>
-                                              </span>
-                                            )
-                                          })
-                                        }
+                                    <div className="relative">
+                                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
+                                      <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
+                                      <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
+                                        {/* <div className="text"> */}
+                                          <p className="text-white">In partnership with:</p>
+                                          <img className="w-12 object-cover h-12 bg-slate-300" src={item.sponsor.imgUrl} alt="" />
+                                        {/* </div> */}
                                       </div>
-                                      <h4 className="text-[16px] lg:text-[20px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
-                                      <p>{item.description}</p>
                                     </div>
-                                    <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                      <p className="ff-cg--semibold text-[20px]">${item.price}</p>
+                                    <div className="rounded-3xl bg-white p-[20px] flex flex-col justify-between h-[270px] mt-[-30px] shadow-lg relative">
+                                      <div>
+                                        <div className="flex items-center gap-4 mb-[16px]">
+                                          {
+                                            item.categories.map((category: any, index:number) => {
+                                              return (
+                                                <span className="flex items-center border border-red-500 rounded-full pl-[10px] pr-[10px]" key={index}>
+                                                  <span className="ff-cg--semibold text-[12px]">{category.name}</span>
+                                                </span>
+                                              )
+                                            })
+                                          }
+                                        </div>
+                                        <h4 className="text-[16px] lg:text-[20px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
+                                        <p>{item.description}</p>
+                                      </div>
+                                      <div className="flex items-center justify-between">
+                                      <div className="flex items-center">
+                                        <p className="ff-cg--semibold text-[20px]">${item.price}</p>
+                                      </div>
+                                        <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px]">
+                                          <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                          <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                                        </span>
+                                      </div>
                                     </div>
-                                      <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px]">
-                                        <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                        <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
-                                      </span>
+                                  </Link> : 
+                                  <Link to={`/paths/${item.slug}`}
+                                  state={{id: item.title, course: item}}>
+                                    <div className="relative">
+                                      <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-30"></div>
+                                      <img className="w-full object-cover h-[160px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
+                                      <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
+                                        {/* <div className="text"> */}
+                                          <p className="text-white">In partnership with:</p>
+                                          <img className="w-12 object-cover h-12 bg-slate-300" src={item.sponsor.imgUrl} alt="" />
+                                        {/* </div> */}
+                                      </div>
                                     </div>
-                                  </div>
-                                </Link>
+                                    <div className="rounded-3xl bg-white p-[20px] flex flex-col justify-between h-[270px] mt-[-30px] shadow-lg relative">
+                                      <div>
+                                        <div className="flex items-center gap-4 mb-[16px]">
+                                          {
+                                            item.categories.map((category: any, index:number) => {
+                                              return (
+                                                <span className="flex items-center border border-red-500 rounded-full pl-[10px] pr-[10px]" key={index}>
+                                                  <span className="ff-cg--semibold text-[12px]">{category.name}</span>
+                                                </span>
+                                              )
+                                            })
+                                          }
+                                        </div>
+                                        <h4 className="text-[16px] lg:text-[20px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
+                                        <p>{item.description}</p>
+                                      </div>
+                                      <div className="flex items-center justify-between">
+                                      <div className="flex items-center">
+                                        <p className="ff-cg--semibold text-[20px]">${item.price}</p>
+                                      </div>
+                                        <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px]">
+                                          <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                          <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </Link>
+                                }
                               </div>
                             )
                           })

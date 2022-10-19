@@ -41,30 +41,42 @@ const Course = ({ location, params }: any) => {
   useEffect(() => {
     if (userName !== null) {
       setSigned(true);
-    } else {
-      navigate("/");
     }
   }, [userName]);
 
   const addToCart = async (item: any) => {
     console.log('this is the item from the parameter: ****** ',item);
-    let cartIsOn = false;
-    await getCartClient().then( (response) => {
-      cartIsOn = response.status;
-    });
-    if(!cartIsOn) {
-      console.log('create new cart');
-      createCart({"id": item.uuid, "price": item.price});
+
+    if(signed) {
+      let cartIsOn = false;
+      await getCartClient().then( (response) => {
+        cartIsOn = response.status;
+      });
+      if(!cartIsOn) {
+        console.log('create new cart');
+        createCart({"id": item.uuid, "price": item.price});
+      } else {
+        console.log('add element');
+        addCourseToCart({"id": 1, "price": parseFloat(item.price)})
+      }
     } else {
-      console.log('add element');
-      addCourseToCart({"id": 1, "price": parseFloat(item.price)})
+      let cartItems = []
+      let cartOn = typeof window !== 'undefined' && localStorage.getItem('cart');
+      if(cartOn !== null) {
+        cartItems = JSON.parse(cartOn.toString());
+      }
+      cartItems.push(item);
+      typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
     }
+    
   }
 
   useEffect( () => {
-    getCartClient().then( (response) => {
-      console.log(response.status)
-    });
+    if(signed) {
+      getCartClient().then( (response) => {
+        console.log(response.status)
+      });
+    }
   },[]);
 
   const getCartClient = async() => {
