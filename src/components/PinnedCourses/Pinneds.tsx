@@ -31,7 +31,7 @@ export const Pinneds = ( {uuid}: pinObject ) => {
         <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
           {
             (item !== undefined) &&
-            <Link to={`/courses/${item.slug}`} state={{id: item.title}}>
+            <Link to={`/courses/${item.slug}`} state={{id: item.title, course: item}}>
                 <div className="relative">
                 <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
                 <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ item.imgUrl } alt="" />
