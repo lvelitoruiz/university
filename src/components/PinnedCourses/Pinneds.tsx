@@ -17,7 +17,7 @@ export const Pinneds = ( {uuid}: pinObject ) => {
           .get(API_URL + `api/info/algolia/search?query=${uuid}&limit=12&page=0`)
             .then((response) => {
               console.log('***** got the data ***', response?.data?.data);
-              setItem(response?.data?.data?.data?.hits[0]);
+              setItem(response?.data?.data?.hits[0]);
             }).catch(function (error) {
               console.log('[DEBUG]', error);
             });
