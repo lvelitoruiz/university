@@ -33,23 +33,15 @@ export const createCart = async (courses: any) => {
     const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
     let element: any;
 
-    var data = JSON.stringify({
-        "courses": [courses]
-        // [
-        //     {
-        //         "id": 1,
-        //         "price": 123
-        //     },
-        //     {
-        //         "id": 2,
-        //         "price": 123
-        //     },
-        //     {
-        //         "id": 3,
-        //         "price": 123
-        //     }
-        // ]
-    });
+    if(courses.length <= 1) {
+        var data = JSON.stringify({
+            "courses": [courses]
+        });
+    } else {
+        var data = JSON.stringify({
+            "courses": courses
+        });
+    }
 
     var config = {
         method: 'post',
@@ -77,10 +69,6 @@ export const addCourseToCart = async (course: any) => {
 
     var data = JSON.stringify(
         course
-        // {
-        //     "id": 1,
-        //     "price": 123
-        // }
     );
 
     var config = {

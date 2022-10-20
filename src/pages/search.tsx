@@ -112,11 +112,11 @@ const Search = ({location}: any) => {
     axios
       .get(API_URL + `api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -124,7 +124,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -134,11 +134,11 @@ const Search = ({location}: any) => {
     axios
       .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -146,7 +146,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -157,11 +157,11 @@ const Search = ({location}: any) => {
     axios
       .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -169,7 +169,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -183,11 +183,11 @@ const Search = ({location}: any) => {
     axios
       .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -195,7 +195,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -209,11 +209,11 @@ const Search = ({location}: any) => {
     axios
       .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -221,7 +221,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -265,11 +265,11 @@ const Search = ({location}: any) => {
     axios
     .get(API_URL + `api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -277,7 +277,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -313,11 +313,11 @@ const Search = ({location}: any) => {
     axios
     .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -325,7 +325,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -361,11 +361,11 @@ const Search = ({location}: any) => {
     axios
     .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -373,7 +373,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });
@@ -409,11 +409,11 @@ const Search = ({location}: any) => {
     axios
     .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
-        if(parseInt(response.data.data.data.nbPages) > 1) {
+        if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
-          setPage(response.data.data.data.nbPages);
+          setPage(response.data.data.nbPages);
           setPagination(true)
-          for(let i = 0; i < parseInt(response.data.data.data.nbPages); i++) {
+          for(let i = 0; i < parseInt(response.data.data.nbPages); i++) {
             pagesToUse.push({number: i + 1, value: i})
           }
           setPages(pagesToUse);
@@ -421,7 +421,7 @@ const Search = ({location}: any) => {
           setPage(1);
           setPagination(false);
         }
-        setItems(response.data.data.data.hits);
+        setItems(response.data.data.hits);
       }).catch(function (error) {
         console.log(error);
       });

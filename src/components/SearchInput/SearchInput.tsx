@@ -38,7 +38,7 @@ const SearchInput = ({handleTerm}: SearchProps) => {
                 .get(API_URL + `api/info/algolia/search?query=${value}&limit=12&page=0`)
                 .then((response) => {
                     // setUserInfo(response.data);
-                    setItems(response.data.data.data.hits);
+                    setItems(response.data.data.hits);
                 }).catch(function (error) {
                     console.log(error);
                 });

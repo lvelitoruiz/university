@@ -7,6 +7,8 @@ import {
   AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline'
 import { UserInfo, API_URL } from '../../const';
+import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
+
 
 const Modal = ({handleModal}: any) => {
   const [signIn,setSignIn] = useState<boolean>(true);
@@ -68,6 +70,26 @@ const Modal = ({handleModal}: any) => {
       if (compare == UserInfo.USER_ADMIN_GROUP || compare == UserInfo.USER_ID || compare == UserInfo.USER_GROUP) {
         handleModal();
         setErrorLogin(false);
+        if(typeof window !== 'undefined' && localStorage.getItem('cart')) {
+          const coursesToSend: any = [];
+          const cart = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
+          cart.map( (item:any) => {
+            const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
+            coursesToSend.push(itemToPush)
+          })
+          console.log('**** these are the courses ***** ',coursesToSend);
+          
+          const isCart = getCart().then( response => {
+            if(!response.status) {
+              createCart(coursesToSend);
+            } else {
+              coursesToSend.map( (item: any) => {
+                addCourseToCart(item);
+              })
+            }
+          });
+          typeof window !== 'undefined' && localStorage.removeItem('cart');
+        }
         navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
       } else {
         setErrorLogin(true);

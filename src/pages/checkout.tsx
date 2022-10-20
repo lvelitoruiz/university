@@ -30,11 +30,11 @@ const Checkout = () => {
     }
   }, [userName]);
 
-  const removeItem = (index: number) => {
+  const removeItem = (index: number, uuid: string) => {
     if (signed) {
-      deleteCourseCart(index);
+      deleteCourseCart(uuid);
       getCartClient().then((response) => {
-        setCart(response);
+        setCart(response.data);
       })
     } else {
       let newItems = [...items];
@@ -47,7 +47,7 @@ const Checkout = () => {
   useEffect(() => {
     if (signed) {
       getCartClient().then((response) => {
-        setCart(response);
+        setCart(response.data);
       })
     } else {
       if (cartLocal !== null) {
@@ -65,7 +65,7 @@ const Checkout = () => {
   // }, []);
 
   useEffect(() => {
-    if (signed) {
+    if (userName !== null) {
       if (cart !== null) {
         console.log('getting the actual cart ***** ', cart);
         if (cart.courses !== undefined) {
@@ -208,7 +208,7 @@ const Checkout = () => {
                                       </div>
                                       <div className="flex items-center">
                                         <p className="ff-cg--semibold mr-[10px]">${item.price}</p>
-                                        <TrashIcon className="h-6 w-6" onClick={() => removeItem(index)} />
+                                        <TrashIcon className="h-6 w-6" onClick={() => removeItem(index,item.uuid)} />
                                       </div>
                                     </div>
                                   </div>

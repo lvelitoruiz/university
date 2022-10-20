@@ -53,10 +53,10 @@ const Path = ({location,params}: any) => {
       });
       if(!cartIsOn) {
         console.log('create new cart');
-        createCart({"id": item.uuid, "price": item.price});
+        createCart({"uuid": item.uuid, "price": parseFloat(item.price)});
       } else {
         console.log('add element');
-        addCourseToCart({"id": 1, "price": parseFloat(item.price)})
+        addCourseToCart({"uuid": item.uuid, "price": parseFloat(item.price)})
       }
     } else {
       let cartItems = []
@@ -64,9 +64,17 @@ const Path = ({location,params}: any) => {
       if(cartOn !== null) {
         cartItems = JSON.parse(cartOn.toString());
       }
-      cartItems.push(item);
+      console.log(item.uuid);
+      console.log(cartItems);
+      const filtered = cartItems.filter( (cartItem:any ) => cartItem.uuid === item.uuid)
+      if(!filtered.length) {
+        cartItems.push(item);
+      } else {
+        alert('This item already is on your cart')
+      }
       typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
     }
+    
   }
 
   useEffect( () => {
