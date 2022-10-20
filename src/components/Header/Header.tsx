@@ -1,11 +1,12 @@
 import { Bars3CenterLeftIcon, MagnifyingGlassCircleIcon, HomeIcon, RectangleStackIcon, ShoppingCartIcon, UserCircleIcon, BellIcon, BookOpenIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from "../../images/logo-full.png";
 import logoIso from "../../images/iso.png";
 import Modal from '../Modal/Modal';
 import SearchInput from '../SearchInput/SearchInput';
 import { Link, navigate } from 'gatsby';
 import { CheckoutModal } from '../CheckoutModal/CheckoutModal';
+import { getCart } from '../../helpers/cart';
 
 type HeaderProps = {
     isSignIn: boolean,
@@ -25,6 +26,8 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
 
     const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
 
+    const [coursesCart,setCoursesCart] = useState(0);
+
     const handleModal = () => {
         setModalOpen(!modalOpen);
     }
@@ -33,10 +36,30 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
         setCheckOpen(!checkOpen);
     }
 
+    const redirectLogin = () => {
+        setCheckOpen(!checkOpen);
+        setModalOpen(true);
+    }
+
     const logOut = () => {
         typeof window !== 'undefined' && localStorage.clear();
         setOptionsOpen(false);
         navigate("/");
+    }
+
+    useEffect( () => {
+        getCart().then( (response ) => {
+            console.log('***** cart from header **** ',response);
+            setCoursesCart(response.data.courses.length)
+        });
+        
+    },[])
+
+    const setCoursesCircle = () => {
+        getCart().then( (response ) => {
+            console.log('***** cart from header **** ',response);
+            setCoursesCart(response.data.courses.length)
+        });
     }
 
     return (
@@ -107,7 +130,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                         }
                         {
                             (checkOpen) ?
-                                <CheckoutModal handleCheck={handleCheck} /> : ""
+                                <CheckoutModal setCoursesCircle={setCoursesCircle} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
                         }
                     </div> :
                     <section className="bg-white shadow-lg">
@@ -144,7 +167,13 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                                     <p className="ff-cg--semibold">Catalog</p>
                                                 </Link>
                                             </li>
-                                            <li className="mx-[15px]">
+                                            <li className="mx-[15px] relative">
+                                                {
+                                                    (coursesCart > 0) ?
+                                                    <span className='rounded-full bg-red-500 text-white h-6 w-6 flex overflow-hidden justify-center items-center absolute right-0 top-0 translate-x-4 -translate-y-4'>1</span>
+                                                    : ""
+                                                }
+                                                
                                                 <a className="flex flex-col items-center"  onClick={handleCheck}>
                                                     <ShoppingCartIcon className="h-8 w-8" />
                                                 </a>
@@ -190,7 +219,7 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                         </ul>
                                         {
                                             (checkOpen) ?
-                                                <CheckoutModal handleCheck={handleCheck} /> : ""
+                                                <CheckoutModal handleCheck={handleCheck} setCoursesCircle={setCoursesCircle} redirectLogin={redirectLogin} /> : ""
                                         }
                                     </nav>
                                 </div>
