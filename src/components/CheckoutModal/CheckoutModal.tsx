@@ -1,4 +1,5 @@
 import { ComputerDesktopIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { Link } from 'gatsby';
 import React, { useEffect, useState } from 'react'
 import { getCart, deleteCourseCart } from "../../helpers/cart";
 
@@ -20,15 +21,19 @@ export const CheckoutModal = ({ handleCheck }: any) => {
     }
 
     useEffect(() => {
+        console.log('established title',userName);
         if (userName !== null) {
             setSigned(true);
         }
     }, [userName]);
 
     useEffect(() => {
-        if (signed) {
+        console.log('set local user',signed);
+        if (userName !== null) {
+            console.log('set signed now');
             getCartClient().then((response) => {
-                setCart(response);
+                console.log('this is the response',response)
+                setCart(response.data);
             })
         } else {
             console.log('*** testing items: **** ',cartLocal);
@@ -51,11 +56,11 @@ export const CheckoutModal = ({ handleCheck }: any) => {
         return gotCart;
     }
 
-    const removeItem = (index: number) => {
+    const removeItem = (index: number,uuid: string) => {
         if (signed) {
-            deleteCourseCart(index);
+            deleteCourseCart(uuid);
             getCartClient().then((response) => {
-                setCart(response);
+                setCart(response.data);
             })
         } else {
             let newItems = [...items];
@@ -149,7 +154,7 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                                                                 <span className="ff-cg--bold leading-none text-[20px]">${item.price}</span>
                                                                 <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
                                                             </div>
-                                                            <button className="border solid border-[#fdbf38] rounded-xl p-2 ml-5" onClick={() => removeItem(index)}>
+                                                            <button className="border solid border-[#fdbf38] rounded-xl p-2 ml-5" onClick={() => removeItem(index,item.uuid)}>
                                                                 <TrashIcon className="h-6 w-6" />
                                                             </button>
                                                         </div>
@@ -256,7 +261,7 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                         }
                     </div>
                     <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
-                        <span className="ff-cg--semibold mr-[20px]">Checkout</span>
+                        <Link to="/checkout"><span className="ff-cg--semibold mr-[20px]">Checkout</span></Link>
                     </button>
                     <p className="text-center mt-4 text-[13px]">Taxes, shipping, and delivery options calculated at checkout</p>
                 </div>
