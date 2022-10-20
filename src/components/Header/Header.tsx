@@ -48,19 +48,28 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
     }
 
     useEffect( () => {
-        getCart().then( (response ) => {
-            console.log('***** cart from header **** ',response);
-            setCoursesCart(response.data.courses.length)
-        });
-        
+        setCoursesCircle()
     },[])
 
     const setCoursesCircle = () => {
-        getCart().then( (response ) => {
-            console.log('***** cart from header **** ',response);
-            setCoursesCart(response.data.courses.length)
-        });
+        console.log('get parent');
+        if(typeof window !== 'undefined' && localStorage.getItem('cart')) {
+            const cartNow = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}' );
+            console.log(cartNow.length);
+            setCoursesCart(cartNow.length);
+        } else {
+            getCart().then( (response ) => {
+                if(response !== undefined) {
+                    console.log('***** cart from header **** ',response);
+                    setCoursesCart(response.data.courses.length)
+                }
+            });
+        }
     }
+
+    useEffect( () => {
+        console.log('***** model courses **** ',coursesCart);
+    },[coursesCart]);
 
     return (
         <section className="bg-white shadow-lg z-100 relative" style={{zIndex: '100'}}>
@@ -105,7 +114,12 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                                 <p className="ff-cg--semibold">About</p>
                                             </Link>
                                         </li>
-                                        <li className="mx-[15px]">
+                                        <li className="mx-[15px] relative">
+                                                {
+                                                    (coursesCart > 0) ?
+                                                    <span className='rounded-full bg-red-500 text-white h-6 w-6 flex overflow-hidden justify-center items-center absolute right-0 top-0 translate-x-4 -translate-y-4'>{coursesCart}</span>
+                                                    : ""
+                                                }
                                             <a className="flex flex-col items-center" onClick={handleCheck}>
                                                 <ShoppingCartIcon className="h-8 w-8" />
                                             </a>
@@ -170,12 +184,12 @@ export const Header = ({ isSignIn, handleTerm }: HeaderProps) => {
                                             <li className="mx-[15px] relative">
                                                 {
                                                     (coursesCart > 0) ?
-                                                    <span className='rounded-full bg-red-500 text-white h-6 w-6 flex overflow-hidden justify-center items-center absolute right-0 top-0 translate-x-4 -translate-y-4'>1</span>
+                                                    <span className='rounded-full bg-red-500 text-white h-6 w-6 flex overflow-hidden justify-center items-center absolute right-0 top-0 translate-x-4 -translate-y-4'>{coursesCart}</span>
                                                     : ""
                                                 }
                                                 
                                                 <a className="flex flex-col items-center"  onClick={handleCheck}>
-                                                    <ShoppingCartIcon className="h-8 w-8" />
+                                                    <ShoppingCartIcon className="h-8 w-8" /> 
                                                 </a>
                                             </li>
                                             <li className="mx-[15px]">

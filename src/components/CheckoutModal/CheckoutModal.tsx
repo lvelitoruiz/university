@@ -27,6 +27,10 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
         }
     }, [userName]);
 
+    useEffect( () => {
+        setCoursesCircle();
+    },[]);
+
     useEffect(() => {
         console.log('set local user',signed);
         if (userName !== null) {
