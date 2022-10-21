@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { 
   ClockIcon,
@@ -17,6 +17,8 @@ import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 
 const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
+  const headerRef: any = useRef();
 
   const [signed,setSigned] = useState(false);
 
@@ -75,6 +77,9 @@ const Path = ({location,params}: any) => {
       typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
     }
     
+    if(headerRef.current) {
+      headerRef.current.setCoursesCircle();
+    }
   }
 
   useEffect( () => {
@@ -96,7 +101,7 @@ const Path = ({location,params}: any) => {
         
         <div className="bg-path mb-[40px]">
           {/* header */}
-          <HeaderAlternative isSignIn={signed} />
+          <HeaderAlternative isSignIn={signed} ref={headerRef} />
 
           {/* banner */}
           <section className="container px-[15px] mx-auto pt-[40px] lg:pt-[60px] pb-[40px] lg:pb-0">

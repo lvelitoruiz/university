@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {
   RectangleStackIcon,
   ShoppingCartIcon,
@@ -18,6 +18,8 @@ import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 
 const Course = ({ location, params }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+
+  const headerRef: any = useRef();
 
   const [signed, setSigned] = useState(false);
 
@@ -75,6 +77,10 @@ const Course = ({ location, params }: any) => {
       }
       typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
     }
+
+    if(headerRef.current) {
+      headerRef.current.setCoursesCircle();
+    }
     
   }
 
@@ -96,7 +102,7 @@ const Course = ({ location, params }: any) => {
     <Layout>
       <div className="bg-slate-50">
         {/* header */}
-        <Header isSignIn={signed} />
+        <Header isSignIn={signed} ref={headerRef} />
 
         {/* banner img */}
         <section className="container px-[15px] mx-auto mt-[60px] lg:mb-[40px]">
