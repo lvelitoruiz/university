@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import React, { useEffect, useState } from 'react'
 import { getCart, deleteCourseCart } from "../../helpers/cart";
 
-export const CheckoutModal = ({ handleCheck }: any) => {
+export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: any) => {
 
     const userName = typeof window !== 'undefined' && localStorage.getItem('name');
 
@@ -26,6 +26,10 @@ export const CheckoutModal = ({ handleCheck }: any) => {
             setSigned(true);
         }
     }, [userName]);
+
+    useEffect( () => {
+        setCoursesCircle();
+    },[]);
 
     useEffect(() => {
         console.log('set local user',signed);
@@ -90,6 +94,7 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                 setFprice(0);
             }
         }
+        setCoursesCircle();
     }, [cart]);
 
     useEffect(() => {
@@ -100,11 +105,18 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                     final = final + parseFloat(item.price)
                 })
                 setFprice(final);
+                setCoursesCircle();
             } else {
                 setFprice(0);
+                setCoursesCircle();
             }
         }
+        setCoursesCircle();
     }, [items])
+
+    const sentToLogin = () => {
+        redirectLogin();
+    }
 
     return (
         <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">
@@ -260,9 +272,18 @@ export const CheckoutModal = ({ handleCheck }: any) => {
                                 <p className="text-[16px] lg:text-[26px] ff-cg--semibold">${fprice}</p> : <p className="text-[16px] lg:text-[26px] ff-cg--semibold">$0</p>
                         }
                     </div>
-                    <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
-                        <Link to="/checkout"><span className="ff-cg--semibold mr-[20px]">Checkout</span></Link>
-                    </button>
+                    {
+                        (items.length) ?
+                        <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
+                            {
+                                (signed) ?
+                                <Link to="/checkout"><span className="ff-cg--semibold mr-[20px]">Checkout</span></Link> :
+                                <a onClick={() => sentToLogin()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a>
+                            }
+                            
+                        </button> : ""
+                    }
+                    
                     <p className="text-center mt-4 text-[13px]">Taxes, shipping, and delivery options calculated at checkout</p>
                 </div>
             </div>
