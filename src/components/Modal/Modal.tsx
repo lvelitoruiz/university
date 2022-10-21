@@ -10,7 +10,7 @@ import { UserInfo, API_URL } from '../../const';
 import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
 
 
-const Modal = ({handleModal}: any) => {
+const Modal = ({handleModal, setCoursesCircle}: any) => {
   const [signIn,setSignIn] = useState<boolean>(true);
   const [isRegister,setRegister] = useState<boolean>(false);
   const [compare,setCompare] = useState<any>(null);
@@ -20,6 +20,41 @@ const Modal = ({handleModal}: any) => {
     setSignIn(!signIn);
     setRegister(!isRegister);
   }
+
+  useEffect( () => {
+    if (compare) {
+      if (compare == UserInfo.USER_ADMIN_GROUP || compare == UserInfo.USER_ID || compare == UserInfo.USER_GROUP) {
+        handleModal();
+        setErrorLogin(false);
+        if(typeof window !== 'undefined' && localStorage.getItem('cart')) {
+          const coursesToSend: any = [];
+          const cart = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
+          cart.map( (item:any) => {
+            const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
+            coursesToSend.push(itemToPush)
+          })
+          console.log('**** these are the courses ***** ',coursesToSend);
+          
+          // const isCart = getCart().then( response => {
+          //   if(!response.status) {
+          //     console.log('groceries');
+          //     createCart(coursesToSend);
+          //   } else {
+          //     coursesToSend.map( (item: any) => {
+          //       addCourseToCart(item);
+          //     })
+          //   }
+          // });
+          firstCart(coursesToSend);
+          typeof window !== 'undefined' && localStorage.removeItem('cart');
+        }
+        setCoursesCircle();
+        navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
+      } else {
+        setErrorLogin(true);
+      }
+    }
+  },[compare]);
 
   useEffect(() => {
     setErrorLogin(false);
@@ -65,37 +100,21 @@ const Modal = ({handleModal}: any) => {
       });
   } 
 
-  useEffect( () => {
-    if (compare) {
-      if (compare == UserInfo.USER_ADMIN_GROUP || compare == UserInfo.USER_ID || compare == UserInfo.USER_GROUP) {
-        handleModal();
-        setErrorLogin(false);
-        if(typeof window !== 'undefined' && localStorage.getItem('cart')) {
-          const coursesToSend: any = [];
-          const cart = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
-          cart.map( (item:any) => {
-            const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
-            coursesToSend.push(itemToPush)
-          })
-          console.log('**** these are the courses ***** ',coursesToSend);
-          
-          const isCart = getCart().then( response => {
-            if(!response.status) {
-              createCart(coursesToSend);
-            } else {
-              coursesToSend.map( (item: any) => {
-                addCourseToCart(item);
-              })
-            }
-          });
-          typeof window !== 'undefined' && localStorage.removeItem('cart');
-        }
-        navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
+  const firstCart = async (coursesToSend: any) => {
+    await getCart().then( response => {
+      console.log(response);
+      if(!response.status) {
+        console.log('groceries');
+        createCart(coursesToSend);
       } else {
-        setErrorLogin(true);
+        coursesToSend.map( (item: any) => {
+          addCourseToCart(item);
+        })
       }
-    }
-  },[compare]);
+    });
+  }
+
+  
   
   return (
     <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-center justify-center">

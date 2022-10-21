@@ -34,8 +34,10 @@ export const createCart = async (courses: any) => {
     let element: any;
 
     if(courses.length <= 1) {
+        console.log('only one course');
+        console.log('this courses: ',courses);
         var data = JSON.stringify({
-            "courses": [courses]
+            "courses": courses
         });
     } else {
         var data = JSON.stringify({

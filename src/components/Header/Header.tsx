@@ -61,7 +61,9 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
             getCart().then((response) => {
                 if (response !== undefined) {
                     console.log('***** cart from header **** ', response);
-                    setCoursesCart(response.data.courses.length)
+                    if(response.status) {
+                        setCoursesCart(response.data.courses.length)
+                    }
                 }
             });
         }
@@ -144,7 +146,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                         </div>
                         {
                             (modalOpen) ?
-                                <Modal handleModal={handleModal} /> : ""
+                                <Modal handleModal={handleModal} setCoursesCircle={setCoursesCircle} /> : ""
                         }
                         {
                             (checkOpen) ?
