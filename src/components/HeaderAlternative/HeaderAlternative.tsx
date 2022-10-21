@@ -15,65 +15,67 @@ type HeaderProps = {
 
 export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, ref: any) => {
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const [checkOpen, setCheckOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [checkOpen, setCheckOpen] = useState(false);
 
-    const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
+  const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
 
-    const signed = isSignIn;
+  const signed = isSignIn;
 
-    const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
 
-    const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
+  const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
 
-    const [coursesCart, setCoursesCart] = useState(0);
+  const [coursesCart, setCoursesCart] = useState(0);
 
-    const handleModal = () => {
-        setModalOpen(!modalOpen);
-    }
+  const handleModal = () => {
+      setModalOpen(!modalOpen);
+  }
 
-    const handleCheck = () => {
-        setCheckOpen(!checkOpen);
-    }
+  const handleCheck = () => {
+      setCheckOpen(!checkOpen);
+  }
 
-    const redirectLogin = () => {
-        setCheckOpen(!checkOpen);
-        setModalOpen(true);
-    }
+  const redirectLogin = () => {
+      setCheckOpen(!checkOpen);
+      setModalOpen(true);
+  }
 
-    const logOut = () => {
-        typeof window !== 'undefined' && localStorage.clear();
-        setOptionsOpen(false);
-        navigate("/");
-    }
+  const logOut = () => {
+      typeof window !== 'undefined' && localStorage.clear();
+      setOptionsOpen(false);
+      navigate("/");
+  }
 
-    useEffect(() => {
-        setCoursesCircle()
-    }, [])
+  useEffect(() => {
+      setCoursesCircle()
+  }, [])
 
-    const setCoursesCircle = () => {
-        console.log('get parent');
-        if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
-            const cartNow = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
-            console.log(cartNow.length);
-            setCoursesCart(cartNow.length);
-        } else {
-            getCart().then((response) => {
-                if (response !== undefined) {
-                    console.log('***** cart from header **** ', response);
-                    setCoursesCart(response.data.courses.length)
-                }
-            });
-        }
-    }
+  const setCoursesCircle = () => {
+      console.log('get parent');
+      if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
+          const cartNow = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
+          console.log(cartNow.length);
+          setCoursesCart(cartNow.length);
+      } else {
+          getCart().then((response) => {
+              if (response !== undefined) {
+                  console.log('***** cart from header **** ', response);
+                  if(response.status) {
+                      setCoursesCart(response.data.courses.length)
+                  }
+              }
+          });
+      }
+  }
 
-    useImperativeHandle(ref, () => ({
-        setCoursesCircle
-    }));
+  useImperativeHandle(ref, () => ({
+      setCoursesCircle
+  }));
 
-    useEffect(() => {
-        console.log('***** model courses **** ', coursesCart);
-    }, [coursesCart]);
+  useEffect(() => {
+      console.log('***** model courses **** ', coursesCart);
+  }, [coursesCart]);
 
     return (
         <section className="z-100 relative" style={{ zIndex: '100' }}>
