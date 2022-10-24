@@ -16,7 +16,7 @@ import logoWhite from "../images/logo-white.png";
 import logoIso from "../images/iso.png";
 import banner from "../images/banner.png";
 import product1 from "../images/product-1.png";
-import product2 from "../images/product-2.png";
+import banner2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
 import icon1 from "../images/icon1.png";
 import icon2 from "../images/icon2.png";
@@ -75,6 +75,27 @@ const IndexPage = () => {
         {/* header */}
         <Header isSignIn={signed} />
 
+        <div className="container px-[15px] mx-auto">
+          <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 mt-[60px]">
+            <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+              <h2 className="text-[26px] lg:text-[54px] mb-4">Welcome, <span className="ff-cg--semibold">Alexander!</span></h2>
+              <p className="text-[24px] mb-[20px]">We're ready to help you start, develop, and grow your career by providing the best learning tools and resources you need. <span className="ff-cg--semibold">Happy learning!</span></p>
+              <div className="md:flex items-center gap-4">
+                <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                  <span className="ff-cg--semibold mr-[20px]">See Your Learning</span>
+                  <ArrowRightCircleIcon className="h-6 w-6"/>
+                </button>
+                <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                  <span className="ff-cg--semibold mr-[20px]">Explore the Catalog</span>
+                  <ArrowRightCircleIcon className="h-6 w-6"/>
+                </button>
+              </div>
+            </div>
+            <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+              <img className="w-full object-cover" src={ banner2 } alt="" />
+            </div>
+          </div>
+        </div>
         {/* banner */}
         <section className="container px-[15px] mx-auto py-[40px] lg:pt-[80px] lg:pb-[40px]">
           <div className="relative h-[580px] lg:h-[400px] rounded-2xl overflow-hidden">
