@@ -16,7 +16,7 @@ import logoWhite from "../images/logo-white.png";
 import logoIso from "../images/iso.png";
 import banner from "../images/banner.png";
 import product1 from "../images/product-1.png";
-import product2 from "../images/product-2.png";
+import banner2 from "../images/product-2.png";
 import product3 from "../images/product-3.png";
 import icon1 from "../images/icon1.png";
 import icon2 from "../images/icon2.png";
@@ -75,220 +75,245 @@ const IndexPage = () => {
         {/* header */}
         <Header isSignIn={signed} />
 
-        {/* banner */}
-        <section className="container px-[15px] mx-auto py-[40px] lg:pt-[80px] lg:pb-[40px]">
-          <div className="relative h-[580px] lg:h-[400px] rounded-2xl overflow-hidden">
-            <div className="swiper-pagination hidden">
-              <div className="swiper-pagination-bullet swiper-pagination-bullet-active"></div>
+        {
+          (signed) ?
+          <div className="container px-[15px] mx-auto">
+            <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 mt-[60px]">
+              <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+                <h2 className="text-[26px] lg:text-[54px] mb-4">Welcome, <span className="ff-cg--semibold">{userName}!</span></h2>
+                <p className="text-[24px] mb-[20px]">We're ready to help you start, develop, and grow your career by providing the best learning tools and resources you need. <span className="ff-cg--semibold">Happy learning!</span></p>
+                <div className="md:flex items-center gap-4">
+                  <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                    <span className="ff-cg--semibold mr-[20px]">See Your Learning</span>
+                    <ArrowRightCircleIcon className="h-6 w-6"/>
+                  </button>
+                  <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                    <span className="ff-cg--semibold mr-[20px]">Explore the Catalog</span>
+                    <ArrowRightCircleIcon className="h-6 w-6"/>
+                  </button>
+                </div>
+              </div>
+              <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+                <img className="w-full object-cover" src={ banner2 } alt="" />
+              </div>
             </div>
-            {/* item */}
-            <Swiper
-											modules={[Pagination, Autoplay]}
-											pagination={pagination}
-                      autoplay={true}
-                      speed={500}
-											breakpoints={{
-												640: {
-													slidesPerView: 1,
-													spaceBetween: 0,
-												},
-												768: {
-													slidesPerView: 1,
-													spaceBetween: 0,
-												},
-												1024: {
-													slidesPerView: 1,
-													spaceBetween: 0,
-												},
-											}}
-											spaceBetween={0}
-											slidesPerView={1}
-											// onSlideChange={() => console.log('slide change')}
-											// onSwiper={(swiper) => console.log(swiper)}
-										>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+          </div> :
+          <section className="container px-[15px] mx-auto py-[40px] lg:pt-[80px] lg:pb-[40px]">
+            <div className="relative h-[580px] lg:h-[400px] rounded-2xl overflow-hidden">
+              <div className="swiper-pagination hidden">
+                <div className="swiper-pagination-bullet swiper-pagination-bullet-active"></div>
+              </div>
+              {/* item */}
+              <Swiper
+                        modules={[Pagination, Autoplay]}
+                        pagination={pagination}
+                        autoplay={true}
+                        speed={500}
+                        breakpoints={{
+                          640: {
+                            slidesPerView: 1,
+                            spaceBetween: 0,
+                          },
+                          768: {
+                            slidesPerView: 1,
+                            spaceBetween: 0,
+                          },
+                          1024: {
+                            slidesPerView: 1,
+                            spaceBetween: 0,
+                          },
+                        }}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        // onSlideChange={() => console.log('slide change')}
+                        // onSwiper={(swiper) => console.log(swiper)}
+                      >
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
                       </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
-                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
                     </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
-                      </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                </SwiperSlide>
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
                       </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
-                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
                     </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
-                      </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                </SwiperSlide>
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
                       </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
-                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
                     </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
-                <div className="flex flex-col-reverse lg:flex-row">
-                  <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
-                    <div>
-                      <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
-                      <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
-                    </div>
-                    <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                      <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
-                      <ArrowRightCircleIcon className="h-6 w-6"/>
-                    </button>
-                  </div>
-                  <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
-                    <div className="relative">
-                      <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
-                      <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
-                        <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
-                        <p className="ff-cg--light text-[13px]">Business Analytics</p>
-                        <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
-                      </div>
-                      <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
-                        <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
-                        <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
-                        <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </section>
+                </SwiperSlide>
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
+                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
+                    </div>
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
+                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
+                    </div>
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide className="bg-[#222222] absolute left-0 right-0 top-0 bottom-0 p-[30px]">
+                  <div className="flex flex-col-reverse lg:flex-row">
+                    <div className="w-full lg:w-[40%] h-full lg:mt-[40px]">
+                      <div>
+                        <h2 className="ff-cg--semibold text-white text-[26px] lg:text-[44px]">Find Your Next <span className="text-[#fdbf38]">Success</span></h2>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Face the future with confidence.</p>
+                        <p className="ff-cg--extralight text-white text-[16px] lg:text-[30px] leading-none">Earn certificates and badge in high-demand fields.</p>
+                      </div>
+                      <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                        <span className="ff-cg--semibold mr-[20px]">Explore Our Offerings</span>
+                        <ArrowRightCircleIcon className="h-6 w-6"/>
+                      </button>
+                    </div>
+                    <div className="w-full lg:w-[60%] h-[300px] lg:h-[340px] flex items-center justify-start lg:justify-end">
+                      <div className="relative">
+                        <img className="object-cover w-[200px] h-[200px] lg:w-[320px] lg:h-[320px] bg-slate-300 rounded-full lg:mr-[100px]" src={ banner } alt="" />
+                        <div className="hidden lg:block bg-[#da1a32] text-white py-[15px] px-[18px] rounded-2xl w-[300px] absolute top-[50px] left-[-250px]">
+                          <h3 className="ff-cg--semibold">You Unlocked a New Skill!</h3>
+                          <p className="ff-cg--light text-[13px]">Business Analytics</p>
+                          <img className="w-[90px] absolute right-[-42px] top-[37px]" src={ icon1 } alt="" />
+                        </div>
+                        <div className="bg-[#fdbf38] pl-[43px] pr-[13px] lg:py-[18px] px-[15px] rounded-2xl w-[250px] lg:w-[300px] absolute right-[-100px] bottom-[20px] lg:bottom-0 lg:right-0">
+                          <h3 className="ff-cg--semibold text-[12px] lg:text-[16px]">You Unlocked a New Interview!</h3>
+                          <p className="ff-cg--light text-[10px] lg:text-[13px]">Cybersecurity</p>
+                          <img className="w-[70px] absolute left-[-42px] top-0" src={ icon2 } alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </section>
+        }
+        {/* banner */}
+        
 
         {/* title button */}
         <section className="container px-[15px] mx-auto py-[30px] lg:py-[50px]">
