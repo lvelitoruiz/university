@@ -45,11 +45,15 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    if (signed) {
+    console.log('set local user', signed);
+    if (userName !== null) {
+      console.log('set signed now');
       getCartClient().then((response) => {
+        console.log('this is the response', response)
         setCart(response.data);
       })
     } else {
+      console.log('*** testing items: **** ', cartLocal);
       if (cartLocal !== null) {
         setItems(JSON.parse(cartLocal.toString()));
       } else {
@@ -65,7 +69,7 @@ const Checkout = () => {
   // }, []);
 
   useEffect(() => {
-    if (userName !== null) {
+    if (signed) {
       if (cart !== null) {
         console.log('getting the actual cart ***** ', cart);
         if (cart.courses !== undefined) {
@@ -208,7 +212,7 @@ const Checkout = () => {
                                       </div>
                                       <div className="flex items-center">
                                         <p className="ff-cg--semibold mr-[10px]">${item.price}</p>
-                                        <TrashIcon className="h-6 w-6" onClick={() => removeItem(index,item.uuid)} />
+                                        <TrashIcon className="h-6 w-6" onClick={() => removeItem(index, item.uuid)} />
                                       </div>
                                     </div>
                                   </div>

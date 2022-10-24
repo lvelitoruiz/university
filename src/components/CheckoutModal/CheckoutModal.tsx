@@ -72,7 +72,6 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
             setItems(newItems);
             typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(newItems));
         }
-
     }
 
     useEffect(() => {
@@ -115,6 +114,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     }, [items])
 
     const sentToLogin = () => {
+        typeof window !== 'undefined' && localStorage.setItem('fromCart', 'true');
         redirectLogin();
     }
 
@@ -177,93 +177,6 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                                     }
                                 </> : <><p className='ff-cg--bold leading-none text-[20px] mt-6'>You have no courses on your cart</p></>
                         }
-                        {/* <div className="lg:flex flex-col border-b solid py-8">
-                            <div className="flex items-center">
-                                <img className="w-[50px] mb-[10px] lg:mb-0 h-[50px] lg:w-[100px] lg:h-[60px] rounded-2xl object-cover" src={bannerCourse} alt="" />
-                                <div className="ml-[10px]">
-                                    <p className="ff-cg--semibold text-[20px] mb-1 leading-none">Introducion to Cybersecurity Tools & Cyber Attacks</p>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center flex-wrap">
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ComputerDesktopIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">Course</span>
-                                            </span>
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="lg:w-fit flex flex-col items-center border-black justify-between border solid py-[5px] px-[16px] rounded-xl">
-                                        <span className="ff-cg--bold leading-none text-[20px]">$199</span>
-                                        <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
-                                    </div>
-                                    <button className="border solid border-[#fdbf38] rounded-xl p-2 ml-5">
-                                        <TrashIcon className="h-6 w-6" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="lg:flex flex-col border-b solid py-8">
-                            <div className="flex items-center">
-                                <img className="w-[50px] mb-[10px] lg:mb-0 h-[50px] lg:w-[100px] lg:h-[60px] rounded-2xl object-cover" src={bannerCourse} alt="" />
-                                <div className="ml-[10px]">
-                                    <p className="ff-cg--semibold text-[20px] mb-1 leading-none">Introducion to Cybersecurity Tools & Cyber Attacks</p>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center flex-wrap">
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ComputerDesktopIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">Course</span>
-                                            </span>
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="lg:w-fit flex flex-col items-center border-black justify-between border solid py-[5px] px-[16px] rounded-xl">
-                                        <span className="ff-cg--bold leading-none text-[20px]">$199</span>
-                                        <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
-                                    </div>
-                                    <button className="border solid border-[#fdbf38] rounded-xl p-2 ml-5">
-                                        <TrashIcon className="h-6 w-6" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="lg:flex flex-col border-b solid py-8">
-                            <div className="flex items-center">
-                                <img className="w-[50px] mb-[10px] lg:mb-0 h-[50px] lg:w-[100px] lg:h-[60px] rounded-2xl object-cover" src={bannerCourse} alt="" />
-                                <div className="ml-[10px]">
-                                    <p className="ff-cg--semibold text-[20px] mb-1 leading-none">Introducion to Cybersecurity Tools & Cyber Attacks</p>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center flex-wrap">
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ComputerDesktopIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">Course</span>
-                                            </span>
-                                            <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
-                                                <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                                <span className="ff-cg--semibold text-[12px]">4 Weeks</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="lg:w-fit flex flex-col items-center border-black justify-between border solid py-[5px] px-[16px] rounded-xl">
-                                        <span className="ff-cg--bold leading-none text-[20px]">$199</span>
-                                        <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
-                                    </div>
-                                    <button className="border solid border-[#fdbf38] rounded-xl p-2 ml-5">
-                                        <TrashIcon className="h-6 w-6" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                     <div className="flex items-center justify-between pb-5 pt-10">
                         <p className="text-[16px] lg:text-[26px] ff-cg--semibold">Total</p>

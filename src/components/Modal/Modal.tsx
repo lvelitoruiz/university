@@ -49,7 +49,13 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
           typeof window !== 'undefined' && localStorage.removeItem('cart');
         }
         setCoursesCircle();
-        navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
+        const comesFromcart = typeof window !== 'undefined' && localStorage.getItem('fromCart');
+        if(comesFromcart === "true") {
+          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/checkout' ));
+        } else {
+          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
+        }
+        
       } else {
         setErrorLogin(true);
       }
