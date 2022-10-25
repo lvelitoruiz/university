@@ -198,7 +198,7 @@ const Account = () => {
         </section>
       </div>
 
-      <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">
+      {/* <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">
         <div className="bg-opacity-40 bg-black z-10 absolute left-0 top-0 h-screen w-screen"></div>
         <div className="bg-white md:rounded-3xl w-[750px] p-3 pt-5 lg:p-6 lg:pt-[30px] lg:pb-[30px] relative z-50">
           <div className='absolute right-0 top-0 lg:top-[18px]'>
@@ -312,7 +312,7 @@ const Account = () => {
             <p className="text-center mt-4 text-[13px]">Taxes, shipping, and delivery options calculated at checkout</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </Layout>
   )
 }
