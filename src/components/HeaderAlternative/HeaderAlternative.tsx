@@ -153,7 +153,7 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
                                 <CheckoutModal setCoursesCircle={setCoursesCircle} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
                         }
                     </div> :
-                    <section className="bg-white shadow-lg">
+                    <section className="">
                         <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
                             <div className="flex items-center justify-between">
                                 <div className="lg:hidden">
@@ -203,13 +203,13 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
                                                     <BellIcon className="h-8 w-8" />
                                                 </a>
                                             </li>
-                                            <li className="ml-[15px] flex items-center border-2 border-[#222222] border-solid rounded-2xl px-4 py-3 cursor-pointer relative">
+                                            <li className="ml-[15px] flex items-center border-2 border-[#fff] border-solid rounded-2xl px-4 py-3 cursor-pointer relative">
                                                 <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" onClick={() => { setOptionsOpen(true) }} />
-                                                <span className="ff-cg--semibold px-2" onClick={() => { setOptionsOpen(true) }}>{userName}</span>
+                                                <span className="ff-cg--semibold px-2 text-white" onClick={() => { setOptionsOpen(true) }}>{userName}</span>
                                                 <ChevronDownIcon className="min-h-[24px] min-w-[24px]" onClick={() => { setOptionsOpen(true) }} />
                                                 {
                                                     (optionsOpen) &&
-                                                    <div className='bg-white shadow-xl w-72 absolute h-[362px] top-[100%] right-0 border-2 border-[#222222] border-solid rounded-2xl mt-2' style={{ zIndex: 9999 }}>
+                                                    <div className='bg-white shadow-xl w-72 absolute h-[362px] top-[100%] right-0 border-2 border-[#222] border-solid rounded-2xl mt-2' style={{ zIndex: 9999 }}>
                                                         <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid'>
                                                             <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" />
                                                             <div className="ff-cg--semibold px-2">

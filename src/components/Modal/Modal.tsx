@@ -53,7 +53,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
         if(comesFromcart === "true") {
           navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/checkout' ));
         } else {
-          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/dashboard' ));
+          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/' ));
         }
         
       } else {

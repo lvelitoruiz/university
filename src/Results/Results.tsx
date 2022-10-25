@@ -26,7 +26,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
         let pathArray: any = [];
         let otherArray: any = [];
         items.map((item: any) => {
-            if(item.type.name == 'Program') {
+            if(item.type.name == 'Course') {
                 courseArray.push(item)
             } else if(item.type.name == 'Certificate') {
                 certArray.push(item)
@@ -57,7 +57,7 @@ const Results: React.FC<ResultProps> = ( {items,handleDropDown,searchTerm} ) => 
                                     return(
                                         <>
                                             {
-                                                (item.type.name == "Program") ?
+                                                (item.type.name == "Course") ?
                                                 <Link to={`/courses/${item.slug}`} state={{id: item.title, course: item}} className="mb-3"  key={index}>
                                                     {item.title} 
                                                 </Link> :

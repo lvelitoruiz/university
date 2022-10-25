@@ -680,6 +680,8 @@ const Search = ({location}: any) => {
                           items.map((item: any, index: number) => {
                             return(
                               <div className="md:col-span-12 lg:col-span-12 cursor-pointer" key={index + 'b'}>
+                              {
+                                (item.type.name === 'Course') ? 
                                 <Link to={`/courses/${item.slug}`}
                                       state={{id: item.title, course: item}}>
                                 <div className="rounded-3xl bg-white flex shadow-lg relative items-center">
@@ -721,7 +723,50 @@ const Search = ({location}: any) => {
                                     </button>
                                   </div>
                                 </div>
-                                </Link>
+                                </Link> :
+                                <Link to={`/paths/${item.slug}`}
+                                state={{id: item.title, course: item}}>
+                                    <div className="rounded-3xl bg-white flex shadow-lg relative items-center">
+                                      <div className="relative w-[200px]">
+                                        <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-10"></div>
+                                        <img className="w-[200px] object-cover h-[150px] rounded-3xl bg-slate-300" src={item.imgUrl} alt="" />
+                                        <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
+                                          {/* <div className="text"> */}
+                                            <p className="text-white">In partnership with:</p>
+                                            <img className="w-12 object-cover h-12 bg-slate-300" src={item.sponsor.imgUrl} alt="" />
+                                          {/* </div> */}
+                                        </div>
+                                      </div>
+                                      <div className="pl-8 p-5 flex items-center justify-between w-full">
+                                        <div>
+                                          <h4 className="text-[16px] lg:text-[20px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
+                                          <p className="mb-[10px]">{item.description}</p>
+                                          <div className="flex items-center">
+                                            {
+                                              item.categories.map((category: any, index: number) => {
+                                                return (
+                                                  <span className="flex items-center border border-red-500 rounded-full pl-[10px] pr-[10px] mr-2" key={index}>
+                                                    <span className="ff-cg--semibold text-[12px]">{category.name}</span>
+                                                  </span>
+                                                )
+                                              })
+                                            }
+                                            <span className="flex items-center border border-red-500 rounded-full pl-[3px] pr-[10px] mr-4">
+                                              <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                              <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <button className="lg:w-fit flex flex-col items-center justify-between border solid border-black py-[5px] px-[16px] rounded-2xl ml-[20px]">
+                                          <div className="flex flex-col items-center">
+                                            <span className="ff-cg--bold leading-none text-[24px]">${item.price}</span>
+                                            <span className="ff-cg--semibold text-[12px] leading-none">Price</span>
+                                          </div>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    </Link>
+                                    }
                               </div>
                             )
                           })
