@@ -84,7 +84,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                     setItems([]);
                 }
                 if (cart.total !== null) {
-                    setFprice(cart.total);
+                    setFprice(cart.subtotal);
                 } else {
                     setFprice(0);
                 }
@@ -131,7 +131,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                     <div className="flex items-center border-b solid pb-5">
                         <h3 className="text-[20px] lg:text-[30px] ff-cg--semibold">Your Cart</h3>
                         <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px] ml-[20px]">
-                            <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                            <span className="ff-cg--semibold text-[12px]">{items.length} Courses</span>
                         </span>
                     </div>
                     <div className="overflow-y-auto">
