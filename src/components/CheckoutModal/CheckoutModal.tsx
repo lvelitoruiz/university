@@ -83,8 +83,8 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                 } else {
                     setItems([]);
                 }
-                if (cart.total !== null) {
-                    setFprice(cart.subtotal);
+                if (cart.subtotal !== null) {
+                    setFprice(cart.subtotal.toFixed(2));
                 } else {
                     setFprice(0);
                 }
