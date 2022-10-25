@@ -27,6 +27,7 @@ const Checkout = () => {
   useEffect(() => {
     if (userName !== null) {
       setSigned(true);
+      typeof window !== 'undefined' && localStorage.removeItem('fromCart');
     }
   }, [userName]);
 

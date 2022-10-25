@@ -13,7 +13,7 @@ type HeaderProps = {
     handleTerm?: (newTerm: string) => void,
 };
 
-export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, ref: any) => {
+export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, ref: any,) => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [checkOpen, setCheckOpen] = useState(false);
@@ -44,7 +44,12 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
     const logOut = () => {
         typeof window !== 'undefined' && localStorage.clear();
         setOptionsOpen(false);
-        navigate("/");
+        const page = typeof window !== 'undefined' && window.location.pathname;
+        if(page === '/') {
+            typeof window !== 'undefined' && window.location.reload();
+        } else {
+            navigate("/");
+        }
     }
 
     useEffect(() => {
