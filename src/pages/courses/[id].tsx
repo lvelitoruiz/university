@@ -29,6 +29,7 @@ const Course = ({ location, params }: any) => {
   const [sponsor, setSponsor] = useState("");
   const [price, setPrice] = useState(null);
   const [skills, setSkills] = useState<any>([]);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     console.log(location);
@@ -38,6 +39,7 @@ const Course = ({ location, params }: any) => {
     setPrice(location.state.course.price);
     setSponsor(location.state.course.sponsor.imgUrl);
     setSkills(location.state.course.skills);
+    setImage(location.state.course.imgUrl)
   }, [location]);
 
   useEffect(() => {
@@ -109,7 +111,9 @@ const Course = ({ location, params }: any) => {
           <div className="relative w-full min-h-[500px] lg:min-h-[420px]">
             <div className="relative min-h-[500px] lg:min-h-[420px]">
               <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
-              <img className="w-full min-h-[500px] lg:min-h-[420px] rounded-2xl object-cover" src={bannerCourse} alt="" />
+              <div className="w-full h-[420px] rounded-2xl overflow-hidden">
+                <img className="w-full min-h-[500px] lg:min-h-[420px] rounded-2xl object-cover" src={image} alt="" />
+              </div>
             </div>
             <div className="absolute top-[20px] lg:top-[0px] left-[20px] lg:left-[30px] w-[90%] lg:w-[40%] flex items-center h-full">
               <div className="relative">

@@ -28,6 +28,7 @@ const Path = ({location,params}: any) => {
   const [price,setPrice] = useState(null);
   const [sponsor, setSponsor] = useState("");
   const [skills, setSkills] = useState<any>([]);
+  const [image, setImage] = useState("");
 
   useEffect( () => {
     if(userName !== null) {
@@ -43,6 +44,7 @@ const Path = ({location,params}: any) => {
     setPrice(location.state.course.price);
     setSponsor(location.state.course.sponsor.imgUrl);
     setSkills(location.state.course.skills);
+    setImage(location.state.course.imgUrl)
   },[location]);
 
   const addToCart = async (item: any) => {
