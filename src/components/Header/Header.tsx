@@ -222,18 +222,18 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                                 <p className='text-xs text-gray-400'>{user?.profile.login}</p>
                                                             </div>
                                                         </button>
-                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false);  }}>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'edit' }}>
                                                             <span className='ff-cg--semibold'>Edit Profile</span>
-                                                        </button>
-                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </Link>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'change' }}>
                                                             <span className='ff-cg--semibold'>Change Password</span>
-                                                        </button>
-                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </Link>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'application' }}>
                                                             <span className='ff-cg--semibold'>Manage Applications</span>
-                                                        </button>
-                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </Link>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'notification' }}>
                                                             <span className='ff-cg--semibold'>Manage Notifications</span>
-                                                        </button>
+                                                        </Link>
                                                         <button className='flex py-4 w-[100%] px-8' onClick={() => logOut()}>
                                                             <span className='ff-cg--semibold'>Logout</span>
                                                         </button>

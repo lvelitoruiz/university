@@ -15,7 +15,7 @@ import bannerCourse from "../images/banner-course.png";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const Account = () => {
+const Account = ({ location }) => {
 
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
@@ -25,6 +25,14 @@ const Account = () => {
   const [change,setChange] = useState(false);
   const [application,setApplication] = useState(false);
   const [notification,setNotification] = useState(false);
+
+  useEffect(() => {
+    console.log('this is the location', location.state);
+    if (location.state !== null) {
+      const { editStatus } = location.state;
+      handleChange(editStatus);
+    }
+  }, [location]);
 
   const formikEdit = useFormik({
 		enableReinitialize: true,
