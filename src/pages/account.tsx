@@ -12,52 +12,60 @@ import Header from "../components/Header/Header";
 import product1 from "../images/product-1.png";
 import { navigate } from "gatsby";
 import bannerCourse from "../images/banner-course.png";
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const Account = () => {
+const Account = ({ location }) => {
 
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
+  const [userData, setUserData] = useState<any>([]);
   const [signed,setSigned] = useState(false);
   const [edit,setEdit] = useState(false);
   const [change,setChange] = useState(false);
   const [application,setApplication] = useState(false);
   const [notification,setNotification] = useState(false);
 
-  console.log(user);
+  useEffect(() => {
+    console.log('this is the location', location.state);
+    if (location.state !== null) {
+      const { editStatus } = location.state;
+      handleChange(editStatus);
+    }
+  }, [location]);
 
   const formikEdit = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			firstname: '',
-			lastname: '',
-			email: '',
-			phone: '+51'
+			firstName: userData.firstName,
+			lastName: userData.lastName,
+			email: userData.email,
+			mobilePhone: userData.mobilePhone
 		},
 		validate: (values) => {
-			const errors: { firstname?: string; lastname?: string; email?: string; phone?: string; } = {};
+			const errors: { firstName?: string; lastName?: string; email?: string; mobilePhone?: string; } = {};
 
-			if (!values.firstname) {
-				errors.firstname = 'Required';
+			if (!values.firstName) {
+				errors.firstName = 'Required';
 			}
 
-			if (!values.lastname) {
-				errors.lastname = 'Required';
+			if (!values.lastName) {
+				errors.lastName = 'Required';
 			}
 
 			if (!values.email) {
 				errors.email = 'Required';
 			}
 
-			if (!values.phone) {
-				errors.phone = 'Required';
+			if (!values.mobilePhone) {
+				errors.mobilePhone = 'Required';
 			}
 
 			return errors;
 		},
 		validateOnChange: false,
 		onSubmit: (values) => {
-			console.log(values);
+			//console.log(values);
       updateUser(values);
 		}
 	});
@@ -65,28 +73,45 @@ const Account = () => {
   const formikChange = useFormik({
 		enableReinitialize: true,
 		initialValues: {
-			password: '',
-			repeatPassword: ''
+			oldPassword: '',
+			newPassword: ''
 		},
 		validate: (values) => {
-			const errors: { password?: string; repeatPassword?: string; } = {};
+			const errors: { oldPassword?: string; newPassword?: string; } = {};
 
-			if (!values.password) {
-				errors.password = 'Required';
+			if (!values.oldPassword) {
+				errors.oldPassword = 'Required';
 			}
 
-			if (!values.repeatPassword) {
-				errors.repeatPassword = 'Required';
+			if (!values.newPassword) {
+				errors.newPassword = 'Required';
 			}
 
 			return errors;
 		},
 		validateOnChange: false,
 		onSubmit: (values) => {
-			console.log(values);
+			//console.log(values);
       changePassword(values);
 		}
 	});
+
+  useEffect(() => {
+		getUser();
+	}, []);
+
+  const getUser = () => {
+		axios.get(process.env.API_URL + '/api/users/' + user.id )
+		.then((response) => {
+			let user = response.data.data.profile;
+			user.id = response.data.data.id;
+			user.status = response.data.data.status;
+			setUserData(user);
+		})
+		.catch( (error) => {
+			console.log('**** error from user **** ',error);
+		});
+	}
 
   const updateUser = (data: any) => {
 		let token = localStorage.getItem("access_token");
@@ -96,17 +121,22 @@ const Account = () => {
 			headers: {
 				Authorization : `Bearer ${token}`
 			},
-			data: JSON.stringify(data)
+			data: data
 		})
 		.then( (response: any) => {
 			if(response.data.status){
+        toast.success('Editado exitosamente')
 				setTimeout( () => {
-					return navigate("/account");
-				}, 3000);
+					return navigate("/account")
+				}, 3000)
 			}
+      else{
+        toast.error("Ha ocurrido un error intenta nuevamente")
+      }
 		})
 		.catch( (error: any) => {
-			console.log(error);
+      toast.error("Ha ocurrido un error intenta nuevamente")
+			console.log(error)
 		});
 	};
 
@@ -120,19 +150,22 @@ const Account = () => {
 			  'Content-Type': 'application/json',
 			  'Authorization': `Bearer ${token}`
 			},
-			data: JSON.stringify(data)
+			data: data
 		})
 		.then(function (response) {
 			if(response.data.status){
+        toast.success('Editado exitosamente')
 				setTimeout( () => {
-					return navigate("/account");
+					return navigate("/account")
 				}, 3000);
 			}
-			else{
-			}
+      else{
+        toast.error("Ha ocurrido un error intenta nuevamente")
+      }
 		})
 		.catch(function (error) {
-			console.log(error);
+      toast.error("Ha ocurrido un error intenta nuevamente")
+			console.log(error)
 		})
 	}
 
@@ -180,7 +213,6 @@ const Account = () => {
     <Layout>
       <div className="bg-slate-50">
         <Header isSignIn={signed} />
-
         {/* Title tab */}
         <section className="container px-[15px] mx-auto">
           <div className="mt-10  mb-10 flex lg:items-center justify-between flex-col lg:flex-row">
@@ -218,10 +250,10 @@ const Account = () => {
                   </div>
                   <input 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
-                    name="firstname"
+                    name="firstName"
                     type="text" 
                     onChange={formikEdit.handleChange}
-                    value={formikEdit.values.firstname}
+                    value={formikEdit.values.firstName}
                   />
                 </div>
                 <div className="md:col-span-6 lg:col-span-6">
@@ -230,10 +262,10 @@ const Account = () => {
                   </div>
                   <input 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
-                    name="lastname"
+                    name="lastName"
                     type="text" 
                     onChange={formikEdit.handleChange}
-                    value={formikEdit.values.lastname}
+                    value={formikEdit.values.lastName}
                   />
                 </div>
                 <div className="md:col-span-6 lg:col-span-6">
@@ -254,9 +286,9 @@ const Account = () => {
                   </div>
                   <MuiTelInput 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
-                    name="phone"
-                    onChange={(value) => formikEdit.setFieldValue("phone", value)}
-                    value={formikEdit.values.phone} 
+                    name="mobilePhone"
+                    onChange={(value) => formikEdit.setFieldValue("mobilePhone", value)}
+                    value={formikEdit.values.mobilePhone} 
                   />
                 </div>
                 {/* <div className="md:col-span-6 lg:col-span-6">
@@ -294,26 +326,26 @@ const Account = () => {
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mb-10">
                 <div className="md:col-span-6 lg:col-span-6">
                   <div className="flex items-center justify-between">
-                    <p className="ff-cg--semibold">New Password</p>
+                    <p className="ff-cg--semibold">Old Password</p>
                   </div>
                   <input 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
-                    name="password"
-                    type="text" 
+                    name="oldPassword"
+                    type="password" 
                     onChange={formikChange.handleChange}
-                    value={formikChange.values.password}
+                    value={formikChange.values.oldPassword}
                   />
                 </div>
                 <div className="md:col-span-6 lg:col-span-6">
                   <div className="flex items-center justify-between">
-                    <p className="ff-cg--semibold">Repeat New Password</p>
+                    <p className="ff-cg--semibold">New Password</p>
                   </div>
                   <input 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
-                    name="repeatPassword"
-                    type="text" 
+                    name="newPassword"
+                    type="password" 
                     onChange={formikChange.handleChange}
-                    value={formikChange.values.repeatPassword}
+                    value={formikChange.values.newPassword}
                   />
                 </div>
               </div>
