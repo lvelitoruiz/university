@@ -71,3 +71,13 @@
       height: 12px!important;
     }
   }
+
+.MuiTelInput-TextField{
+    border: 0;
+    padding: 0;
+    border-radius: 1rem;
+    
+}
+.MuiTelInput-TextField .MuiInputBase-root{
+    border-radius: 1rem;
+}
