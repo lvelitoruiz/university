@@ -17,12 +17,14 @@ import axios from 'axios';
 const Account = () => {
 
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
   const [signed,setSigned] = useState(false);
-  const [uuid, setUuid] = useState(false);
   const [edit,setEdit] = useState(false);
   const [change,setChange] = useState(false);
   const [application,setApplication] = useState(false);
   const [notification,setNotification] = useState(false);
+
+  console.log(user);
 
   const formikEdit = useFormik({
 		enableReinitialize: true,
@@ -30,9 +32,9 @@ const Account = () => {
 			firstname: '',
 			lastname: '',
 			email: '',
-			phone: ''
+			phone: '+51'
 		},
-		/* validate: (values) => {
+		validate: (values) => {
 			const errors: { firstname?: string; lastname?: string; email?: string; phone?: string; } = {};
 
 			if (!values.firstname) {
@@ -52,10 +54,11 @@ const Account = () => {
 			}
 
 			return errors;
-		}, */
+		},
 		validateOnChange: false,
 		onSubmit: (values) => {
 			console.log(values);
+      updateUser(values);
 		}
 	});
 
@@ -85,17 +88,39 @@ const Account = () => {
 		}
 	});
 
-  const changePassword = (values: any) => {
+  const updateUser = (data: any) => {
+		let token = localStorage.getItem("access_token");
+		axios({
+			method: 'patch',
+			url: process.env.API_URL + '/api/users/current/me',
+			headers: {
+				Authorization : `Bearer ${token}`
+			},
+			data: JSON.stringify(data)
+		})
+		.then( (response: any) => {
+			if(response.data.status){
+				setTimeout( () => {
+					return navigate("/account");
+				}, 3000);
+			}
+		})
+		.catch( (error: any) => {
+			console.log(error);
+		});
+	};
+
+  const changePassword = (data: any) => {
 		let token = localStorage.getItem("access_token");
 		  
 		axios({
 			method: 'post',
-			url: process.env.REACT_APP_API_URL + '/api/users/' + uuid + '/changePassword',
+			url: process.env.API_URL + '/api/users/' + user.id + '/changePassword',
 			headers: { 
 			  'Content-Type': 'application/json',
 			  'Authorization': `Bearer ${token}`
 			},
-			data: JSON.stringify(values)
+			data: JSON.stringify(data)
 		})
 		.then(function (response) {
 			if(response.data.status){
@@ -281,7 +306,7 @@ const Account = () => {
                 </div>
                 <div className="md:col-span-6 lg:col-span-6">
                   <div className="flex items-center justify-between">
-                    <p className="ff-cg--semibold">New Password</p>
+                    <p className="ff-cg--semibold">Repeat New Password</p>
                   </div>
                   <input 
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
