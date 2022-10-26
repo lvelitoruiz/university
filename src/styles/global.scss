@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './typography.css';
+@import './typography';
 
 .parent-wrapper {
     font-family: 'cg-variable';
@@ -71,3 +71,15 @@
       height: 12px!important;
     }
   }
+
+.MuiTelInput-TextField{
+    border-radius: 1rem;
+    margin-top: 0.5rem !important;
+    .MuiInputBase-root{
+        border-radius: 1rem;
+    }
+
+    .MuiOutlinedInput-notchedOutline{
+        border: 0;
+    }
+}

@@ -215,28 +215,28 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                 {
                                                     (optionsOpen) &&
                                                     <div className='bg-white shadow-xl w-72 absolute h-[362px] top-[100%] right-0 border-2 border-[#222222] border-solid rounded-2xl mt-2' style={{ zIndex: 9999 }}>
-                                                        <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid'>
+                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid'>
                                                             <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" />
                                                             <div className="ff-cg--semibold px-2">
                                                                 <p>{userName}</p>
                                                                 <p className='text-xs text-gray-400'>{user?.profile.login}</p>
                                                             </div>
-                                                        </div>
-                                                        <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </button>
+                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false);  }}>
                                                             <span className='ff-cg--semibold'>Edit Profile</span>
-                                                        </div>
-                                                        <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </button>
+                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
                                                             <span className='ff-cg--semibold'>Change Password</span>
-                                                        </div>
-                                                        <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </button>
+                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
                                                             <span className='ff-cg--semibold'>Manage Applications</span>
-                                                        </div>
-                                                        <div className='flex py-4 px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
+                                                        </button>
+                                                        <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }}>
                                                             <span className='ff-cg--semibold'>Manage Notifications</span>
-                                                        </div>
-                                                        <div className='flex py-4 px-8' onClick={() => logOut()}>
+                                                        </button>
+                                                        <button className='flex py-4 w-[100%] px-8' onClick={() => logOut()}>
                                                             <span className='ff-cg--semibold'>Logout</span>
-                                                        </div>
+                                                        </button>
                                                     </div>
 
                                                 }
