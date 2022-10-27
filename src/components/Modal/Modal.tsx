@@ -8,13 +8,16 @@ import {
 } from '@heroicons/react/24/outline'
 import { UserInfo, API_URL } from '../../const';
 import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
-
+import { Loader } from '../Loader/Loader';
+import toast from 'react-hot-toast';
 
 const Modal = ({handleModal, setCoursesCircle}: any) => {
   const [signIn,setSignIn] = useState<boolean>(true);
   const [isRegister,setRegister] = useState<boolean>(false);
   const [compare,setCompare] = useState<any>(null);
   const [errorLogin,setErrorLogin] = useState<boolean>(false);
+
+  const [loader,setLoader] = useState<boolean>(false);
 
   const changeSignIn = () => {
     setSignIn(!signIn);
@@ -67,6 +70,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   },[]);
 
   const loginUser = (user: string, password: string) => {
+    setLoader(true);
     axios.post(
       API_URL + 'api/auth', { username: user, password: password })
 		.then((response) => {
@@ -76,8 +80,11 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
 			typeof window !== 'undefined' && localStorage.setItem('lastName', response?.data?.data?._embedded?.user?.profile?.lastName);
 			const decoded: any = (jwt_decode(response.data.access_token));
       setCompare(decoded.role);
+      setLoader(false);
 		}).catch(function(error) {
 			console.log('[DEBUG]', error);
+      setLoader(false);
+      toast.error(""+error)
 		});
   }
 
@@ -300,7 +307,9 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
             </div>
           </Formik> : ""
         }    
+        <Loader open={loader} dimention={"24"} min={"104"}></Loader>
       </div>
+      
     </div>
   );
 };

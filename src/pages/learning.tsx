@@ -58,7 +58,7 @@ const Learning = () => {
 
   return (
     <Layout>
-      <div className="bg-slate-50">
+      <div className="bg-slate-50 min-h-screen relative pb-[140px]">
         <Header isSignIn={signed} />
 
         {/* Title tab */}
@@ -280,8 +280,8 @@ const Learning = () => {
         }
 
         {/* footer */}
-        <section className="container px-[15px] mx-auto pt-[20px] pb-[20px]">
-          <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between">
+        <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] absolute bottom-0 flex justify-center">
+          <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between container">
             <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={ logoWhite } alt="" />
             <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
           </div>
