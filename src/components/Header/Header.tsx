@@ -1,5 +1,5 @@
 import { Bars3CenterLeftIcon, MagnifyingGlassCircleIcon, HomeIcon, RectangleStackIcon, ShoppingCartIcon, UserCircleIcon, BellIcon, BookOpenIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import logo from "../../images/logo-full.png";
 import logoIso from "../../images/iso.png";
 import Modal from '../Modal/Modal';
@@ -17,6 +17,8 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
 
     const [modalOpen, setModalOpen] = useState(false);
     const [checkOpen, setCheckOpen] = useState(false);
+
+    const optionsRef = useRef<HTMLDivElement>(null);
 
     const [optionsOpen, setOptionsOpen] = useState<boolean>(false);
 
@@ -45,7 +47,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
         typeof window !== 'undefined' && localStorage.clear();
         setOptionsOpen(false);
         const page = typeof window !== 'undefined' && window.location.pathname;
-        if(page === '/') {
+        if (page === '/') {
             typeof window !== 'undefined' && window.location.reload();
         } else {
             navigate("/");
@@ -55,6 +57,15 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
     useEffect(() => {
         setCoursesCircle()
     }, [])
+
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if (!ref?.current?.contains(event.target)) {
+                setOptionsOpen(false);
+            }
+        };
+        // typeof window !== 'undefined' && document.addEventListener("mousedown", handleClickOutside);
+    }, [ref]);
 
     const setCoursesCircle = () => {
         console.log('get parent');
@@ -66,7 +77,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
             getCart().then((response) => {
                 if (response !== undefined) {
                     console.log('***** cart from header **** ', response);
-                    if(response.status) {
+                    if (response.status) {
                         setCoursesCart(response.data.courses.length)
                     }
                 }
@@ -208,13 +219,16 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                     <BellIcon className="h-8 w-8" />
                                                 </a>
                                             </li>
-                                            <li className="ml-[15px] flex items-center border-2 border-[#222222] border-solid rounded-2xl px-4 py-3 cursor-pointer relative">
-                                                <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" onClick={() => { setOptionsOpen(true) }} />
-                                                <span className="ff-cg--semibold px-2" onClick={() => { setOptionsOpen(true) }}>{userName}</span>
-                                                <ChevronDownIcon className="min-h-[24px] min-w-[24px]" onClick={() => { setOptionsOpen(true) }} />
+                                            <li className="ml-[15px] pb-1 relative">
+                                                <div className='flex items-center border-2 border-[#222222] border-solid rounded-2xl px-4 py-3 cursor-pointer relative'>
+                                                    <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" onClick={() => { setOptionsOpen(true) }} />
+                                                    <span className="ff-cg--semibold px-2" onClick={() => { setOptionsOpen(true) }}>{userName}</span>
+                                                    <ChevronDownIcon className="min-h-[24px] min-w-[24px]" onClick={() => { setOptionsOpen(true) }} />
+
+                                                </div>
                                                 {
-                                                    (optionsOpen) &&
-                                                    <div className='bg-white shadow-xl w-72 absolute h-[362px] top-[100%] right-0 border-2 border-[#222222] border-solid rounded-2xl mt-2' style={{ zIndex: 9999 }}>
+                                                    (!optionsOpen) &&
+                                                    <div className='bg-white shadow-xl w-72 absolute h-[362px] top-[100%] right-0 border-2 border-[#222222] border-solid rounded-2xl sub-menu' ref={optionsRef} style={{ zIndex: 9999 }}>
                                                         <button className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid'>
                                                             <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" />
                                                             <div className="ff-cg--semibold px-2">
@@ -222,16 +236,16 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                                 <p className='text-xs text-gray-400'>{user?.profile.login}</p>
                                                             </div>
                                                         </button>
-                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'edit' }}>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }} to={'/account'} state={{ editStatus: 'edit' }}>
                                                             <span className='ff-cg--semibold'>Edit Profile</span>
                                                         </Link>
-                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'change' }}>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }} to={'/account'} state={{ editStatus: 'change' }}>
                                                             <span className='ff-cg--semibold'>Change Password</span>
                                                         </Link>
-                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'application' }}>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }} to={'/account'} state={{ editStatus: 'application' }}>
                                                             <span className='ff-cg--semibold'>Manage Applications</span>
                                                         </Link>
-                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false)  }} to={'/account'} state={{ editStatus: 'notification' }}>
+                                                        <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }} to={'/account'} state={{ editStatus: 'notification' }}>
                                                             <span className='ff-cg--semibold'>Manage Notifications</span>
                                                         </Link>
                                                         <button className='flex py-4 w-[100%] px-8' onClick={() => logOut()}>

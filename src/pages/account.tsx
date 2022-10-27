@@ -15,7 +15,7 @@ import bannerCourse from "../images/banner-course.png";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const Account = ({ location }) => {
+const Account = ({ location }: any) => {
 
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
