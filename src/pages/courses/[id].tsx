@@ -5,6 +5,7 @@ import {
   PlayIcon,
   FolderIcon,
   DocumentIcon,
+  PencilSquareIcon,
   CheckIcon,
   ClockIcon,
   ComputerDesktopIcon,
@@ -12,6 +13,7 @@ import {
 import logoWhite from "../../images/logo-white.png";
 import { API_URL } from '../../const';
 import Header from "../../components/Header/Header";
+import ModalApplication from "../../components/Modal/Application";
 import { navigate } from "gatsby";
 import Layout from "../../components/Layout/Layout";
 import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
@@ -22,13 +24,14 @@ const Course = ({ location, params }: any) => {
 
   const headerRef: any = useRef();
 
+  const [modalOpen,setModalOpen] = useState(false);
   const [signed, setSigned] = useState(false);
 
   const [cursoId, setCursoId] = useState(null);
   const [cursoUuid, setCursoUuid] = useState(null);
   const [description, setDescription] = useState(null);
   const [duration, setDuration] = useState(null);
-  const [sponsor, setSponsor] = useState("");
+  const [sponsor, setSponsor] = useState<any>(null);
   const [price, setPrice] = useState(null);
   const [skills, setSkills] = useState<any>([]);
   const [image, setImage] = useState("");
@@ -42,7 +45,7 @@ const Course = ({ location, params }: any) => {
     setDescription(location.state.course.description);
     setDuration(location.state.course.duration);
     setPrice(location.state.course.price);
-    setSponsor(location.state.course.sponsor.imgUrl);
+    setSponsor(location.state.course.sponsor);
     setSkills(location.state.course.skills);
     setImage(location.state.course.imgUrl)
   }, [location]);
@@ -71,6 +74,14 @@ const Course = ({ location, params }: any) => {
         });
     }
   }, [cursoUuid]);
+
+  const handleModal = () => {
+    setModalOpen(!modalOpen);
+  }
+ 
+  const openApplication = () => {
+    setModalOpen(true);
+  }
 
   const addToCart = async (item: any) => {
 
@@ -157,17 +168,24 @@ const Course = ({ location, params }: any) => {
                     <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
                     <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
                   </button>
-                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => addToCart(location.state.course)}>
-                    <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
-                    <ShoppingCartIcon className="h-6 w-6" />
+                  { sponsor && (sponsor.name == 'Springboard' || sponsor.name == 'MedCerts') ? (
+                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => openApplication()}>
+                    <span className="ff-cg--semibold mr-[20px]">Apply Now </span>
+                    <PencilSquareIcon className="h-6 w-6"/>
                   </button>
+                  ) : (
+                    <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => addToCart(location.state.course)}>
+                      <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
+                      <ShoppingCartIcon className="h-6 w-6" />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
             <div className="absolute right-0 w-[40%] top-0 h-full flex justify-center items-center">
               <div className="absolute w-full h-full z-100 flex items-center justify-center top-0 flex-col">
                 <p className="text-white">In partnership with:</p>
-                <img className="w-12 object-cover h-12 bg-slate-300 mt-6" src={sponsor} alt="" />
+                <img className="w-12 object-cover h-12 bg-slate-300 mt-6" src={ sponsor ? sponsor.imgUrl : ''} alt="" />
               </div>
             </div>
           </div>
@@ -381,6 +399,10 @@ const Course = ({ location, params }: any) => {
           </div>
         </section>
       </div>
+      {
+        (modalOpen) ?
+        <ModalApplication handleModal={handleModal} /> : ""
+      }
     </Layout>
   )
 }
