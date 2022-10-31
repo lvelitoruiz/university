@@ -11,12 +11,13 @@ import {
   ComputerDesktopIcon,
 } from '@heroicons/react/24/outline'
 import logoWhite from "../../images/logo-white.png";
-import bannerCourse from "../../images/banner-course.png";
+import { API_URL } from '../../const';
 import Header from "../../components/Header/Header";
 import ModalApplication from "../../components/Modal/Application";
 import { navigate } from "gatsby";
 import Layout from "../../components/Layout/Layout";
 import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
+import axios from "axios";
 
 const Course = ({ location, params }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -27,16 +28,20 @@ const Course = ({ location, params }: any) => {
   const [signed, setSigned] = useState(false);
 
   const [cursoId, setCursoId] = useState(null);
+  const [cursoUuid, setCursoUuid] = useState(null);
   const [description, setDescription] = useState(null);
   const [duration, setDuration] = useState(null);
   const [sponsor, setSponsor] = useState<any>(null);
   const [price, setPrice] = useState(null);
   const [skills, setSkills] = useState<any>([]);
   const [image, setImage] = useState("");
+  const [courseObject, setCourseObject] = useState<any>(null)
+  const [learns, setLearns] = useState<any>(null)
+  const [modules, setModules] = useState<any>(null)
 
   useEffect(() => {
-    console.log(location);
     setCursoId(location.state.id)
+    setCursoUuid(location.state.course.uuid)
     setDescription(location.state.course.description);
     setDuration(location.state.course.duration);
     setPrice(location.state.course.price);
@@ -51,61 +56,75 @@ const Course = ({ location, params }: any) => {
     }
   }, [userName]);
 
+  useEffect(() => {
+    if (cursoUuid !== null) {
+      axios.get(API_URL + 'api/course/' + cursoUuid)
+        .then((response) => {
+          const learnsArray: any = [];
+          setCourseObject(response.data.data);
+          const learnString = response.data.data.detail.learns;
+          learnString.split('|').map( (item: string) => {
+            learnsArray.push(item.trim());
+          })
+          setLearns(learnsArray);
+          setModules(response.data.data.detail.modules.data);
+        })
+        .catch((error) => {
+          console.log('**** error from user **** ', error);
+        });
+    }
+  }, [cursoUuid]);
+
   const handleModal = () => {
     setModalOpen(!modalOpen);
   }
-
+ 
   const openApplication = () => {
     setModalOpen(true);
   }
 
   const addToCart = async (item: any) => {
-    console.log('this is the item from the parameter: ****** ',item);
 
-    if(signed) {
+    if (signed) {
       let cartIsOn = false;
-      await getCartClient().then( (response) => {
+      await getCartClient().then((response) => {
         cartIsOn = response.status;
       });
-      if(!cartIsOn) {
-        console.log('create new cart');
-        createCart({"uuid": item.uuid, "price": parseFloat(item.price)});
+      if (!cartIsOn) {
+        createCart({ "uuid": item.uuid, "price": parseFloat(item.price) });
       } else {
-        console.log('add element');
-        addCourseToCart({"uuid": item.uuid, "price": parseFloat(item.price)})
+        addCourseToCart({ "uuid": item.uuid, "price": parseFloat(item.price) })
       }
     } else {
       let cartItems = []
       let cartOn = typeof window !== 'undefined' && localStorage.getItem('cart');
-      if(cartOn !== null) {
+      if (cartOn !== null) {
         cartItems = JSON.parse(cartOn.toString());
       }
-      console.log(item.uuid);
-      console.log(cartItems);
-      const filtered = cartItems.filter( (cartItem:any ) => cartItem.uuid === item.uuid)
-      if(!filtered.length) {
+      const filtered = cartItems.filter((cartItem: any) => cartItem.uuid === item.uuid)
+      if (!filtered.length) {
         cartItems.push(item);
       } else {
         alert('This item already is on your cart')
       }
-      typeof window !== 'undefined' && localStorage.setItem('cart',JSON.stringify(cartItems));
+      typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(cartItems));
     }
 
-    if(headerRef.current) {
+    if (headerRef.current) {
       headerRef.current.setCoursesCircle();
     }
-    
+
   }
 
-  useEffect( () => {
-    if(signed) {
-      getCartClient().then( (response) => {
+  useEffect(() => {
+    if (signed) {
+      getCartClient().then((response) => {
         console.log(response.status)
       });
     }
-  },[]);
+  }, []);
 
-  const getCartClient = async() => {
+  const getCartClient = async () => {
     const gotCart = await getCart();
     return gotCart;
   }
@@ -177,38 +196,25 @@ const Course = ({ location, params }: any) => {
             <div className="lg:col-span-8">
               <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">What You Will Learn</h3>
               <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 mb-[20px] lg:mb-0">
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <p className="leading-none">Discuss the evolution of security based on historical events.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <p className="leading-none">List various types of malicious software.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <p className="leading-none">Describe key cybersecurity concepts and common cybersecurity best practices.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <p className="leading-none">Identify cybersecurity tools which include :  firewall, cryptography and digital forensics.</p>
-                  </div>
-                </div>
+                {
+                  (learns !== null) && 
+                  <>
+                    {
+                      learns.map( (item:any, index: number) => {
+                        return(
+                          <div className="lg:col-span-6 mb-[20px] lg:mb-0" key={index}>
+                            <div className="flex items-center">
+                              <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
+                                <CheckIcon className="h-6 w-6 text-white" />
+                              </div>
+                              <p className="leading-none">{item}</p>
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
+                  </>
+                }
               </div>
             </div>
             <div className="lg:col-span-4 mb-[-40px]">
@@ -231,8 +237,14 @@ const Course = ({ location, params }: any) => {
               }
             </div>
             <div className="lg:col-span-12 mt-[30px]">
-              <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">About the Course</h3>
-              <p className="lg:text-[26px]">This course gives you the background needed to understand basic Cybersecurity.  You will learn the history of Cybersecurity, types and motives of cyber attacks to further your knowledge of current threats to organizations and individuals.  Key terminology, basic system concepts and tools will be examined as an introduction to the Cybersecurity field.</p>
+              {
+                (courseObject !== null) && 
+                <>
+                  <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">{courseObject.detail.highlight}</h3>
+                  <p className="lg:text-[26px]">{courseObject.detail.description}</p>
+                </>                
+              }
+              
             </div>
           </div>
         </section>
@@ -241,7 +253,40 @@ const Course = ({ location, params }: any) => {
           <div className="container px-[15px] mx-auto pt-[20px] pb-[20px] lg:pb-[40px]">
             <h3 className="text-[#fdbf38] text-[20px] lg:text-[40px] mb-[20px] ff-cg--semibold text-center">What’s Included</h3>
             <div className="border solid rounded-2xl">
-              <div className="flex flex-col p-[20px] border-b solid">
+              {
+                (modules !== null) &&
+                <>
+                  {
+                    modules.map( (item:any, index:number) => {
+                      return(
+                        <div className={`flex flex-col p-[20px] ${ (index === modules.length - 1) ? "" : "border-b solid"}`} key={index}>
+                          <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">{item.attributes.title}</h4>
+                          <div className="flex items-center flex-wrap">
+                            <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                              <PlayIcon className="h-4 w-4 mr-[6px]" />
+                              <span className="ff-cg--semibold text-[12px]">{item.attributes.video} Videos</span>
+                            </span>
+                            <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                              <FolderIcon className="h-4 w-4 mr-[6px]" />
+                              <span className="ff-cg--semibold text-[12px]">{item.attributes.resource} Resources</span>
+                            </span>
+                            <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                              <DocumentIcon className="h-4 w-4 mr-[6px]" />
+                              <span className="ff-cg--semibold text-[12px]">{item.attributes.quizzes} Quizzes</span>
+                            </span>
+                            {/* <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
+                              <PlayIcon className="h-4 w-4 mr-[6px]" />
+                              <span className="ff-cg--semibold text-[12px]">17 Videos</span>
+                            </span> */}
+                          </div>
+                          <p className="text-white">{item.attributes.description}</p>
+                        </div>
+                      )
+                    })
+                  }
+                </>
+              }
+              {/* <div className="flex flex-col p-[20px] border-b solid">
                 <h4 className="text-[16px] lg:text-[30px] ff-cg--semibold text-white mb-[10px]">History of Cybersecurity</h4>
                 <div className="flex items-center flex-wrap">
                   <span className="flex items-center text-[#fdbf38] border border-[#fdbf38] rounded-full pl-[3px] pr-[10px] mr-[10px] mb-[10px]">
@@ -328,7 +373,7 @@ const Course = ({ location, params }: any) => {
                   </span>
                 </div>
                 <p className="text-white">This module will describe various key security concepts that are important in any cybersecurity position. The CIA Triad will be further explained.</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

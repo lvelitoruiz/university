@@ -15,6 +15,8 @@ import product3 from "../../images/product-3.png";
 import { navigate } from "gatsby";
 import { HeaderAlternative } from "../../components/HeaderAlternative/HeaderAlternative";
 import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
+import axios from "axios";
+import { API_URL } from "../../const";
 
 const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
@@ -24,6 +26,7 @@ const Path = ({location,params}: any) => {
   const [signed,setSigned] = useState(false);
 
   const [cursoId,setCursoId] = useState(null);
+  const [cursoUuid, setCursoUuid] = useState(null);
   const [description,setDescription] = useState(null);
   const [duration,setDuration] = useState(null);
   const [price,setPrice] = useState(null);
@@ -31,15 +34,44 @@ const Path = ({location,params}: any) => {
   const [skills, setSkills] = useState<any>([]);
   const [image, setImage] = useState("");
 
+  const [courseObject, setCourseObject] = useState<any>(null)
+  const [learns, setLearns] = useState<any>(null)
+  const [modules, setModules] = useState<any>(null)
+
   useEffect( () => {
     if(userName !== null) {
       setSigned(true);
     }
   },[userName]);
 
+  useEffect(() => {
+    if (cursoUuid !== null) {
+      axios.get(API_URL + 'api/course/' + cursoUuid)
+        .then((response) => {
+          console.log(response);
+          const learnsArray: any = [];
+          setCourseObject(response.data.data);
+          const learnString = response.data.data.detail.learns;
+          learnString.split('|').map( (item: string) => {
+            learnsArray.push(item.trim());
+          })
+          setLearns(learnsArray);
+          setModules(response.data.data.children);
+        })
+        .catch((error) => {
+          console.log('**** error from user **** ', error);
+        });
+    }
+  }, [cursoUuid]);
+
+  useEffect( () => {
+    console.log('**** modules ***** ',modules);
+  },[modules]);
+
   useEffect( () => {
     console.log('**** location: ',location);
     setCursoId(location.state.id)
+    setCursoUuid(location.state.course.uuid)
     setDescription(location.state.course.description);
     setDuration(location.state.course.duration);
     setPrice(location.state.course.price);
@@ -102,7 +134,7 @@ const Path = ({location,params}: any) => {
     <Layout>
       <div className="bg-slate-50">
         
-        <div className="bg-path mb-[40px]">
+        <div className="bg-path bg-cover mb-[40px]" style={{'backgroundImage': `url(${image})`}}>
           {/* header */}
           <HeaderAlternative isSignIn={signed} ref={headerRef} />
 
@@ -220,49 +252,42 @@ const Path = ({location,params}: any) => {
             <div className="lg:col-span-12">
               <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">What You Will Learn</h3>
               <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 mb-[20px] lg:mb-0">
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
-                    </div>
-                    <p className="leading-none text-[24px] ff-cg--light">Discuss the evolution of security based on historical events.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
-                    </div>
-                    <p className="leading-none text-[24px] ff-cg--light">List various types of malicious software.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
-                    </div>
-                    <p className="leading-none text-[24px] ff-cg--light">Describe key cybersecurity concepts and common cybersecurity best practices.</p>
-                  </div>
-                </div>
-                <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-                  <div className="flex items-center">
-                    <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
-                      <CheckIcon className="h-6 w-6 text-white"/>
-                    </div>
-                    <p className="leading-none text-[24px] ff-cg--light">Identify cybersecurity tools which include :  firewall, cryptography and digital forensics.</p>
-                  </div>
-                </div>
+                {
+                  (learns !== null) && 
+                  <>
+                    {
+                      learns.map( (item:any, index: number) => {
+                        return(
+                          <div className="lg:col-span-6 mb-[20px] lg:mb-0" key={index}>
+                            <div className="flex items-center">
+                              <div className="flex items-center justify-center bg-[#da1a32] rounded-full p-[2px] mr-[10px]">
+                                <CheckIcon className="h-6 w-6 text-white" />
+                              </div>
+                              <p className="leading-none">{item}</p>
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
+                  </>
+                }
+                
               </div>
             </div>
           </div>
           <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12 mt-[60px]">
-            <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-              <h3 className="text-[20px] lg:w-[80%] lg:text-[70px] ff-cg--semibold leading-none mb-[10px] lg:mt-[20px]">Kickstart your Cybersecurity career today</h3>
-            </div>
-            <div className="lg:col-span-6 mb-[20px] lg:mb-0">
-              <p className="text-[24px] ff-cg--light mb-[20px]">This 8-course Professional Certificate will give you the technical skills to become job-ready for a Cybersecurity Analyst role.</p>
-              <p className="text-[24px] ff-cg--light mb-[50px]">This certificate will provide the foundational concepts for the cybersecurity field. We will look at the field as a whole, examine various types of attacks, and wrap up looking at more advanced topics.</p>
-            </div>
+              {
+                (courseObject !== null) && 
+                <>
+                  <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+                    <h3 className="text-[20px] lg:w-[80%] lg:text-[70px] ff-cg--semibold leading-none mb-[10px] lg:mt-[20px]">{courseObject.detail.highlight}</h3>
+                  </div>
+                  <div className="lg:col-span-6 mb-[20px] lg:mb-0">
+                    <p className="text-[24px] ff-cg--light mb-[20px]">{courseObject.detail.description}</p>
+                  </div>
+                </>                
+              }
+            
           </div>
         </section>
 
@@ -270,7 +295,48 @@ const Path = ({location,params}: any) => {
           <div className="container px-[15px] mx-auto pt-[40px] pb-[40px] lg:pt-[60px] lg:pb-[60px]">
             <h3 className="text-[20px] lg:text-[40px] mb-[40px] ff-cg--semibold text-white text-center">What’s Included</h3>
             <div className="flex lg:grid gap-4 lg:gap-10 lg:grid-cols-12 overflow-x-auto">
-              <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-3">
+              {
+                (modules !== null) &&
+                <>
+                  {
+                    modules.map( (item:any,index:number) => {
+                      return(
+                        <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-3">
+                          <div>
+                            <div className="relative">
+                              <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
+                              <img className="object-cover w-full h-[250px] rounded-3xl bg-slate-300" src={ item.imgUrl } alt="" />
+                            </div>
+                            <div className="rounded-3xl bg-white p-[30px] flex flex-col justify-between h-[300px] mt-[-30px] shadow-lg relative">
+                              <div>
+                                <div className="flex items-center gap-4 mb-[16px]">
+                                  {/* <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[10px] pr-[10px]">
+                                    <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                                  </span> */}
+                                  <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
+                                    <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                                    <span className="ff-cg--semibold text-[12px]">Access: {item.access}</span>
+                                  </span>
+                                </div>
+                                <h4 className="text-[16px] lg:text-[20px] ff-cg--semibold leading-none mb-[10px]">{item.title}</h4>
+                                <p>{item.description}</p>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <p className="ff-cg--semibold text-[20px]">${item.price}</p>
+                                <span className="flex items-center text-[#da1a32] border border-[#da1a32] rounded-full pl-[3px] pr-[10px]">
+                                  <ClockIcon className="h-4 w-4 mr-[6px]"/>
+                                  <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+                </>
+              }
+              {/* <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-3">
                 <div>
                   <div className="relative">
                     <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-3xl before:opacity-50"></div>
@@ -389,7 +455,7 @@ const Path = ({location,params}: any) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
