@@ -8,7 +8,6 @@ import {
   PencilSquareIcon,
   ComputerDesktopIcon
 } from '@heroicons/react/24/outline';
-import ModalApplication from "../../components/Modal/Application";
 import logoWhite from "../../images/logo-white.png";
 import product1 from "../../images/product-1.png";
 import product2 from "../../images/product-2.png";
@@ -22,7 +21,6 @@ const Path = ({location,params}: any) => {
 
   const headerRef: any = useRef();
 
-  const [modalOpen,setModalOpen] = useState(false);
   const [signed,setSigned] = useState(false);
 
   const [cursoId,setCursoId] = useState(null);
@@ -49,10 +47,6 @@ const Path = ({location,params}: any) => {
     setSkills(location.state.course.skills);
     setImage(location.state.course.imgUrl)
   },[location]);
-
-  const handleModal = () => {
-    setModalOpen(!modalOpen);
-  }
 
   const addToCart = async (item: any) => {
     console.log('this is the item from the parameter: ****** ',item);
@@ -89,10 +83,6 @@ const Path = ({location,params}: any) => {
     if(headerRef.current) {
       headerRef.current.setCoursesCircle();
     }
-  }
-
-  const openApplication = () => {
-    setModalOpen(true);
   }
 
   useEffect( () => {
@@ -145,10 +135,7 @@ const Path = ({location,params}: any) => {
                     <span className="ff-cg--semibold mr-[20px]">Buy this Course</span>
                     <ShoppingCartIcon className="h-6 w-6"/>
                   </button>
-                  <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => openApplication()}>
-                    <span className="ff-cg--semibold mr-[20px]">Apply Now </span>
-                    <PencilSquareIcon className="h-6 w-6"/>
-                  </button>
+                  
                 </div>
               </div>
               <div className="lg:col-span-6 top-0 h-full flex items-center justify-center">
@@ -415,10 +402,6 @@ const Path = ({location,params}: any) => {
           </div>
         </section>
       </div>
-      {
-        (modalOpen) ?
-        <ModalApplication handleModal={handleModal} /> : ""
-      }
     </Layout>
   );
 };
