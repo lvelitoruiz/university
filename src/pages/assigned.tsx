@@ -7,7 +7,7 @@ import { MuiTelInput } from 'mui-tel-input';
 
 import { 
   ArrowLeftCircleIcon,
-  PencilSquareIcon
+  XCircleIcon
 } from '@heroicons/react/24/outline'
 
 const Students = () => {
@@ -47,60 +47,80 @@ const Students = () => {
             </div>
             <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12">
               <div className="col-span-12">
-                <div className="rounded-xl bg-white shadow-lg h-full p-[3px]">
-                  <div className="overflow-x-auto">
-                    <table className="lg:w-full rounded-2xl">
-                      <thead className="text-white rounded-2xl  border-[#da1a32]">
-                        <tr>
-                          <th className="bg-[#da1a32] rounded-tl-xl text-left ff-cg--semibold py-4 px-8">Name</th>
-                          <th className="bg-[#da1a32] text-left ff-cg--semibold py-4 px-8">Email</th>
-                          <th className="bg-[#da1a32] rounded-tr-xl text-right ff-cg--semibold py-4 px-8"></th>
-                        </tr>
-                      </thead>
-                      <tbody className="">
-                        <tr className="border-b border-solid">
-                          <td className="py-4 px-8">John Doe</td>
-                          <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">
-                            <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                              <PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr className="border-b border-solid">
-                          <td className="py-4 px-8">John Doe</td>
-                          <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">
-                            <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                              <PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr className="border-b border-solid">
-                          <td className="py-4 px-8">John Doe</td>
-                          <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">
-                            <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                              <PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="flex items-center justify-between py-4 px-8">
-                    <p className="ff-cg--semibold">Showing 1 - 5 of 10 Items</p>
-                    <div className="flex items-center gap-4">
-                      <button className="rounded-md flex items-center justify-center text-[18px] bg-[#da1a32] text-white w-10 h-10">
-                        <span className="ff-cg--semibold">1</span>
-                      </button>
-                      <button className="rounded-md flex items-center justify-center text-[18px] border-2 border-solid border-[#da1a32] text-[#da1a32] w-10 h-10">
-                        <span className="ff-cg--semibold">2</span>
-                      </button>
+                <div className="rounded-xl bg-white shadow-lg h-full p-[30px]">
+                  <p className="text-2xl mb-4">Enter user’s email addresses to add them to this course. You have <span className="ff-cg--semibold">90</span> remaining seats available</p>
+                  <div className="mb-6">
+                    <div className="w-full">
+                      <div className="flex items-center justify-between">
+                        <p className="ff-cg--semibold">Enter email address</p>
+                      </div>
+                      <input 
+                        className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
+                        name="firstName"
+                        type="search"
+                      />
                     </div>
+                  </div>
+                  <div>
+                    <div className="bg-white shadow-lg border-l-4 border-solid border-[#da1a32] mb-5">
+                      <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12 p-4">
+                        <div className="col-span-3">
+                          <p className="ff-cg--semibold text-[18px]">Name</p>
+                          <p>John Doe</p>
+                        </div>
+                        <div className="col-span-4">
+                          <p className="ff-cg--semibold text-[18px]">Email</p>
+                          <p>johndoe@microsoft.com</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white shadow-lg border-l-4 border-solid border-[#da1a32] mb-5">
+                      <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12 p-4">
+                        <div className="col-span-3">
+                          <p className="ff-cg--semibold text-[18px]">Name</p>
+                          <p>John Doe</p>
+                        </div>
+                        <div className="col-span-4">
+                          <p className="ff-cg--semibold text-[18px]">Email</p>
+                          <p>johndoe@microsoft.com</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <p className="ff-cg--semibold mb-2">Assigned Seats</p>
+                    </div>
+                    <div className="bg-white shadow-lg border-l-4 border-solid border-[#da1a32] mb-5">
+                      <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12 p-4 items-center">
+                        <div className="col-span-3">
+                          <p className="ff-cg--semibold text-[18px]">Name</p>
+                          <p>John Doe</p>
+                        </div>
+                        <div className="col-span-6">
+                          <p className="ff-cg--semibold text-[18px]">Email</p>
+                          <p>johndoe@microsoft.com</p>
+                        </div>
+                        <div className="col-span-3">
+                          <div className="flex items-center justify-end">
+                            <a className="flex items-center" href="">
+                              <XCircleIcon className="h-6 w-6"/>
+                              <span className="ff-cg--semibold ml-2">Remove</span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="md:flex items-center justify-center gap-4 lg:gap-10 mt-10">
+                    <button className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
+                      <span className="ff-cg--semibold">Cancel and Return</span>
+                    </button>              
+                    <button type="submit" className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
+                      <span className="ff-cg--semibold">Assign Seats</span>
+                    </button>
                   </div>
                 </div>
               </div>
