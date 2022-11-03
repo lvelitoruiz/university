@@ -20,6 +20,7 @@ import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 import axios from "axios";
 
 const Course = ({ location, params }: any) => {
+  console.log(location)
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
 
   const headerRef: any = useRef();
@@ -168,7 +169,7 @@ const Course = ({ location, params }: any) => {
                     <span className="ff-cg--bold leading-none text-[28px] text-[#fdbf38]">${price}</span>
                     <span className="ff-cg--semibold text-[12px] text-white leading-none">Price</span>
                   </button>
-                  { sponsor && (sponsor.name == 'Springboard' || sponsor.name == 'MedCerts') ? (
+                  { sponsor && (sponsor.title == 'Springboard' || sponsor.title == 'MedCerts') ? (
                   <button className="lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[20px] mr-[20px]" onClick={() => openApplication()}>
                     <span className="ff-cg--semibold mr-[20px]">Apply Now </span>
                     <PencilSquareIcon className="h-6 w-6"/>
@@ -240,8 +241,8 @@ const Course = ({ location, params }: any) => {
               {
                 (courseObject !== null) && 
                 <>
-                  <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">{courseObject.detail.highlight}</h3>
-                  <p className="lg:text-[26px]">{courseObject.detail.description}</p>
+                  <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">{courseObject.detail ? courseObject.detail.highlight : ''}</h3>
+                  <p className="lg:text-[26px]">{courseObject.detail ? courseObject.detail.description : ''}</p>
                 </>                
               }
               
