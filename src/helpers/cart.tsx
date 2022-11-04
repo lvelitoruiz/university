@@ -114,3 +114,28 @@ export const deleteCourseCart = (id:any) => {
             console.log(error);
         });
 }
+
+export const getPaymentSession = async () => {
+    const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
+    let payElement;
+
+    var config = {
+        method: 'post',
+        url: `https://accelered-api.whiz.pe/api/payment`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    await axios(config)
+        .then(function (response) {
+            payElement = response.data.data.url;
+        })
+        .catch( function (error) {
+            console.log(error);
+        })
+
+        return payElement;
+}
