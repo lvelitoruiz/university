@@ -68,15 +68,12 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
     }, [ref]);
 
     const setCoursesCircle = () => {
-        console.log('get parent');
         if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
             const cartNow = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
-            console.log(cartNow.length);
             setCoursesCart(cartNow.length);
         } else {
             getCart().then((response) => {
                 if (response !== undefined) {
-                    console.log('***** cart from header **** ', response);
                     if (response.status) {
                         setCoursesCart(response.data.courses.length)
                     }
@@ -89,9 +86,9 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
         setCoursesCircle
     }));
 
-    useEffect(() => {
-        console.log('***** model courses **** ', coursesCart);
-    }, [coursesCart]);
+    // useEffect(() => {
+    //     console.log('***** model courses **** ', coursesCart);
+    // }, [coursesCart]);
 
     return (
         <section className="bg-white shadow-lg z-100 relative" style={{ zIndex: '100' }}>

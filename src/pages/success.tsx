@@ -1,126 +1,119 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Layout from "../components/Layout/Layout"
-import { 
-  ClockIcon,
-  ArrowRightCircleIcon,
+import Header from "../components/Header/Header"
+import {
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 
+import logoIso from "../images/iso.png";
 import logo from "../images/logo-full.png";
-import logoWhite from "../images/logo-white.png";
-import Header from "../components/Header/Header";
-import product1 from "../images/product-1.png";
-import { navigate } from "gatsby";
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-// import Tippy from '@tippyjs/react/headless';
+import { Link } from "gatsby";
+import SuccessList from "../components/SucessList/SuccessList";
+import { useReactToPrint } from 'react-to-print';
 
 const Success = () => {
-  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
-  const [signed,setSigned] = useState(false);
 
-  const [upcoming,setUpcoming] = useState(true);
-  const [progress,setProgress] = useState(false);
-  const [completed,setCompleted] = useState(false);
-  const [achievements,setAchievements] = useState(false);
+  const cartLocal = typeof window !== 'undefined' && localStorage.getItem('cartToPay');
+  const [items, setItems] = useState([]);
+  const [signed, setSigned] = useState(false);
 
-  useEffect( () => {
-    if(userName !== null) {
-      setSigned(true);
-    }else {
-      navigate("/");
+  const componentRef = useRef<any>(null);
+
+  useEffect(() => {
+
+    if (cartLocal !== null) {
+      setItems(JSON.parse(cartLocal.toString()));
     }
-  },[userName]);
 
-  const handleChange = (status: string) => {
-		if (status === 'upcoming') {
-			setUpcoming(true);
-			setProgress(false);
-			setCompleted(false);
-      setAchievements(false);
-		} else if (status === 'progress') {
-			setUpcoming(false);
-			setProgress(true);
-			setCompleted(false);
-      setAchievements(false);
-		} else if (status === 'completed') {
-			setUpcoming(false);
-			setProgress(false);
-			setCompleted(true);
-      setAchievements(false);
-		} 
-    else {
-			setUpcoming(false);
-			setProgress(false);
-			setCompleted(false);
-      setAchievements(true);
-		}
-	};
+  }, [cartLocal]);
+
+  const toPrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
     <Layout>
       <div className="bg-[#f5f5f5] bg-slate-50 min-h-screen relative pb-[140px]">
         <Header isSignIn={signed} />
+
         <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] flex justify-center">
             <div className="bg-[#222222] rounded-2xl py-[40px] px-[40px] flex items-center justify-between container">
-                <div className="text-left">
-                  <h2 className="text-white ff-cg--bold text-[80px] leading-none">Success!</h2>
-                  <p className="text-white text-[24px]">Thanks for filling out your application!</p>
-                </div>
-                <div>
-                  <p className="text-white text-[22px] text-right">You will also receive a confirmation message with this <br /> information to your email.</p>
-                </div>
+               <div className="text-left">
+                    <h2 className="text-white ff-cg--bold text-[80px] leading-none">Success!</h2>
+                    <p className="text-white text-[24px]">Thanks for filling out your application!</p>
+               </div>
+               <div>
+                    <p className="text-white text-[22px] text-right">You will also receive a confirmation message with this <br /> information to your email.</p>
+               </div>
             </div>
         </section>
 
-        <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] flex justify-center">
-            <div className="bg-white shadow-xl rounded-2xl flex items-center justify-between container">
-                <div className="w-[30%] py-[40px] px-[40px] text-left">
-                    <h3 className="text-black ff-cg--bold text-[18px] leading-none">Application Date</h3>
-                    <p className="text-[26px]">September 26, 2022</p>
-                </div>
-                <div className="w-[40%] py-[40px] px-[40px] border-left border-r border-l text-left">
-                    <h3 className="text-black ff-cg--bold text-[18px] leading-none">Course</h3>
-                    <p className="text-[26px]">Machine Learning Introduction</p>
-                </div>
-                <div className="w-[30%] py-[40px] px-[40px] text-left">
-                    <h3 className="text-black ff-cg--bold text-[18px] leading-none">Status</h3>
-                    <p className="text-[26px]">Application Received</p>
-                </div>
+        {/* <section className="bg-white shadow-lg">
+          <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
+            <div className="flex items-center justify-between">
+              <div className="">
+                <h1>
+                  <img className="object-cover hidden lg:block min-w-[332px] h-[60px]" src={logo} alt="" />
+                  <img className="object-cover lg:hidden w-[50px] h-[50px]" src={logoIso} alt="" />
+                </h1>
+              </div>
+              <div >
+                <Link className="flex items-center" to="/">
+                  <span className="text-[#da1a32] ff-cg--semibold mr-3 underline">Close and Return</span>
+                  <XMarkIcon className="h-8 w-8 border border-solid border-[#222222] p-1 rounded-md" />
+                </Link>
+              </div>
             </div>
-        </section>
+          </div>
+        </section> */}
 
-        <section className="w-full px-[15px] mx-auto pt-[10px] pb-[10px] flex justify-center">
-            <div className="bg-white shadow-xl rounded-2xl py-[30px] px-[30px] text-left container">
-                <h3 className="text-[#da1a33] ff-cg--bold text-[54px] leading-none mb-8">What's next?</h3>
-                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">1. Interview via phone with an Admissions Director</h4>
-                <p className="ff-cg--light text-[22px] mb-8">If your application and profile meet certain standards, we'll soon reach out by phone for a fit interview - be ready for a call shortly from a number with either a local area code or a 240 area code. This interview is required to gain provisional acceptance into the program.</p>
-
-                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">2. Complete the technical skills survey</h4>
-                <p className="ff-cg--light text-[22px] mb-8">In parallel with your fit interview, we'll send you a survey via email to assess any knowledge gaps you may have before the program begins. Plan to complete this within 24 hours - mosts applicants take between 20 minutes to one hour to do this.</p>
-
-                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">3. Reserve your seat</h4>
-                <p className="ff-cg--light text-[22px] mb-8">Our programs are very selective. If you are accepted, we will send you a registration link via email to fill out within 24 hours. You will choose a start date and payment plan, and fill out your student profile to complete your enrollment and be eligible for mentor matching.</p>
+        <section className="container px-[15px] mx-auto pt-[40px] lg:pt-[60px] pb-[60px]">
+          <div className="grid gap-5 lg:gap-10 lg:grid-cols-12">
+            <div className="col-span-12">
+              <div className="lg:flex items-center justify-between p-4 lg:py-14 lg:px-10 bg-[#222222] rounded-2xl">
+                <div className="w-full">
+                  <h3 className="ff-cg--semibold text-white text-[26px] lg:text-[80px] leading-none">Success!</h3>
+                  <p className="text-white text-base lg:text-[24px]">You order in complete</p>
+                </div>
+                <div className="w-full mt-2 lg:mt-0">
+                  <p className="text-white text-base lg:text-[20px] lg:text-right">If you need a receipt, you can print this page. You will also receive a confirmation message with this information to you email.</p>
+                </div>
+              </div>
             </div>
-        </section>
-
-        <section className="w-full px-[15px] mx-auto pt-[10px] pb-[10px] flex justify-center">
-            <div className="bg-[#da1a33] rounded-2xl py-[30px] px-[30px] text-center container">
-                <h4 className="text-white ff-cg--bold text-[34px] leading-none mb-4">Any questions about your application? Give us a call!</h4>
-                <p className="text-white text-[28px]">You can reach us Monday to Friday from 8am - 6pm <br />
-                240-410-0492</p>
+            <div className="col-span-12">
+              <div className="rounded-xl bg-white shadow-lg h-full">
+                <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12">
+                  <div className="md:col-span-4 lg:col-span-4 p-6 border-r border-solid">
+                    <p className="ff-cg--semibold mb-1">Order Number</p>
+                    <p className="text-base lg:text-[20px]">3789-909390</p>
+                  </div>
+                  <div className="md:col-span-4 lg:col-span-4 p-6 border-r border-solid">
+                    <p className="ff-cg--semibold mb-1">Order Date</p>
+                    <p className="text-base lg:text-[20px]">September 26, 2022</p>
+                  </div>
+                  <div className="md:col-span-4 lg:col-span-4 p-6">
+                    <div>
+                      <p className="text-base lg:text-[20px] text-right">****** 0039</p>
+                      <p className="ff-cg--semibold mt-1 text-right">Expires 09/2023</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </section>
+            <SuccessList items={items} ref={componentRef} />
 
-            
-
-
-            
-
-        {/* footer */}
-        <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] absolute bottom-0 flex justify-center">
-          <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between container">
-            <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={ logoWhite } alt="" />
-            <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
+            <div className="col-span-12">
+              <div className="lg:flex items-center justify-center w-full gap-4">
+                <Link to="/account">
+                  <button className="w-full lg:w-[300px] bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
+                    <span className="ff-cg--semibold">Go to Account Page</span>
+                  </button>
+                </Link>
+                <button className="w-full lg:w-[300px] bg-white py-[14px] px-[16px] rounded-2xl mt-[30px] shadow-lg" onClick={() => toPrint()}>
+                  <span className="ff-cg--semibold">Print this Page</span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -129,4 +122,3 @@ const Success = () => {
 }
 
 export default Success;
-  

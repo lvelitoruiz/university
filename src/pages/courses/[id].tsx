@@ -240,8 +240,13 @@ const Course = ({ location, params }: any) => {
               {
                 (courseObject !== null) && 
                 <>
-                  <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">{courseObject.detail ? courseObject.detail.highlight : ''}</h3>
-                  <p className="lg:text-[26px]">{courseObject.detail ? courseObject.detail.description : ''}</p>
+                  {
+                    (courseObject.detail !== undefined) && 
+                    <>
+                      <h3 className="text-[20px] lg:text-[30px] mb-[20px] ff-cg--semibold">{courseObject.detail.highlight}</h3>
+                      <p className="lg:text-[26px]">{courseObject.detail.description}</p>
+                    </>
+                  }
                 </>                
               }
               
