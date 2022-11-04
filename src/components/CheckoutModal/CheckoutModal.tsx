@@ -1,7 +1,7 @@
 import { ComputerDesktopIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Link } from 'gatsby';
 import React, { useEffect, useState } from 'react'
-import { getCart, deleteCourseCart } from "../../helpers/cart";
+import { getCart, deleteCourseCart, getPaymentSession } from "../../helpers/cart";
 
 export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: any) => {
 
@@ -21,7 +21,6 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     }
 
     useEffect(() => {
-        console.log('established title',userName);
         if (userName !== null) {
             setSigned(true);
         }
@@ -32,15 +31,11 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     },[]);
 
     useEffect(() => {
-        console.log('set local user',signed);
         if (userName !== null) {
-            console.log('set signed now');
             getCartClient().then((response) => {
-                console.log('this is the response',response)
                 setCart(response.data);
             })
         } else {
-            console.log('*** testing items: **** ',cartLocal);
             if (cartLocal !== null) {
                 setItems(JSON.parse(cartLocal.toString()));
             } else {
@@ -77,7 +72,6 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     useEffect(() => {
         if(signed) {
             if (cart !== null) {
-                console.log('getting the actual cart ***** ', cart);
                 if (cart.courses !== undefined) {
                     setItems(cart.courses);
                 } else {
@@ -116,6 +110,17 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     const sentToLogin = () => {
         typeof window !== 'undefined' && localStorage.setItem('fromCart', 'true');
         redirectLogin();
+    }
+
+    const sentToCheckout = () => {
+        typeof window !== 'undefined' && localStorage.setItem('cartToPay', JSON.stringify(items));
+        const paymentUrl = getPaymentSession().then( (response) => {
+            const urlToGo = response;
+            if(urlToGo !== undefined) {
+                typeof window !== 'undefined' && window.location.replace(urlToGo);
+            }
+        });
+        
     }
 
     return (
@@ -190,7 +195,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                         <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
                             {
                                 (signed) ?
-                                <Link to="/checkout"><span className="ff-cg--semibold mr-[20px]">Checkout</span></Link> :
+                                <a onClick={() => sentToCheckout()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a> :
                                 <a onClick={() => sentToLogin()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a>
                             }
                             

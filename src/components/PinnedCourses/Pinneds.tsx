@@ -16,16 +16,15 @@ export const Pinneds = ( {uuid}: pinObject ) => {
           axios
           .get(API_URL + `api/info/algolia/search?query=${uuid}&limit=12&page=0`)
             .then((response) => {
-              console.log('***** got the data ***', response?.data?.data);
               setItem(response?.data?.data?.hits[0]);
             }).catch(function (error) {
               console.log('[DEBUG]', error);
             });
       }, []);
 
-      useEffect( () => {
-        console.log('from component: ***** ',item);
-      },[item])
+      // useEffect( () => {
+      //   console.log('from component: ***** ',item);
+      // },[item])
 
     return(
         <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">

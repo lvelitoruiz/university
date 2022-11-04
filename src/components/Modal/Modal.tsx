@@ -36,7 +36,6 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
             const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
             coursesToSend.push(itemToPush)
           })
-          console.log('**** these are the courses ***** ',coursesToSend);
           
           // const isCart = getCart().then( response => {
           //   if(!response.status) {
@@ -115,9 +114,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
 
   const firstCart = async (coursesToSend: any) => {
     await getCart().then( response => {
-      console.log(response);
       if(!response.status) {
-        console.log('groceries');
         createCart(coursesToSend);
       } else {
         coursesToSend.map( (item: any) => {
