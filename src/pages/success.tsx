@@ -60,16 +60,15 @@ const Success = () => {
     <Layout>
       <div className="bg-[#f5f5f5] bg-slate-50 min-h-screen relative pb-[140px]">
         <Header isSignIn={signed} />
-
         <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] flex justify-center">
             <div className="bg-[#222222] rounded-2xl py-[40px] px-[40px] flex items-center justify-between container">
-               <div className="text-left">
-                    <h2 className="text-white ff-cg--bold text-[80px] leading-none">Success!</h2>
-                    <p className="text-white text-[24px]">Thanks for filling out your application!</p>
-               </div>
-               <div>
-                    <p className="text-white text-[22px] text-right">You will also receive a confirmation message with this <br /> information to your email.</p>
-               </div>
+                <div className="text-left">
+                  <h2 className="text-white ff-cg--bold text-[80px] leading-none">Success!</h2>
+                  <p className="text-white text-[24px]">Thanks for filling out your application!</p>
+                </div>
+                <div>
+                  <p className="text-white text-[22px] text-right">You will also receive a confirmation message with this <br /> information to your email.</p>
+                </div>
             </div>
         </section>
 

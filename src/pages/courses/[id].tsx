@@ -11,7 +11,6 @@ import {
   ComputerDesktopIcon,
 } from '@heroicons/react/24/outline'
 import logoWhite from "../../images/logo-white.png";
-import { API_URL } from '../../const';
 import Header from "../../components/Header/Header";
 import ModalApplication from "../../components/Modal/Application";
 import { navigate } from "gatsby";
@@ -59,7 +58,7 @@ const Course = ({ location, params }: any) => {
 
   useEffect(() => {
     if (cursoUuid !== null) {
-      axios.get(API_URL + 'api/course/' + cursoUuid)
+      axios.get(process.env.API_URL + '/api/course/' + cursoUuid)
         .then((response) => {
           const learnsArray: any = [];
           setCourseObject(response.data.data);
@@ -402,7 +401,7 @@ const Course = ({ location, params }: any) => {
       </div>
       {
         (modalOpen) ?
-        <ModalApplication handleModal={handleModal} /> : ""
+        <ModalApplication handleModal={handleModal} courseUuid={cursoUuid} /> : ""
       }
     </Layout>
   )
