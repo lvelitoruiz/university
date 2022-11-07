@@ -77,7 +77,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   const loginUser = (user: string, password: string) => {
     setLoader(true);
     axios.post(
-      API_URL + 'api/auth', { username: user, password: password })
+      API_URL + '/api/auth', { username: user, password: password })
 		.then((response) => {
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
@@ -96,7 +96,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   const createUser = (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
 		axios
-      .post(API_URL + 'api/users', {
+      .post(API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
         email: email,

@@ -34,7 +34,7 @@ const SearchInput = ({handleTerm}: SearchProps) => {
         const delayDebounceFn = setTimeout(() => {
             if( value !== null) {
                 axios
-                .get(process.env.API_URL + `api/info/algolia/search?query=${value}&limit=12&page=0`)
+                .get(process.env.API_URL + `/api/info/algolia/search?query=${value}&limit=12&page=0`)
                 .then((response) => {
                     // setUserInfo(response.data);
                     setItems(response.data.data.hits);
