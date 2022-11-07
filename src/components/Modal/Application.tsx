@@ -86,8 +86,6 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
         createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
       }
 			createApplication(values);
-      handleModal();
-      return navigate("/success");
 		},
 	});
 
@@ -191,7 +189,8 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 			if(response.data.status){
         toast.success('Aplicado exitosamente')
 				setTimeout( () => {
-					return navigate("/success");
+          handleModal();
+					return navigate("/courses/success");
 				}, 3000);
 			}
 			else{
