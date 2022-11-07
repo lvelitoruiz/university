@@ -1,4 +1,4 @@
-import { Bars3CenterLeftIcon, MagnifyingGlassCircleIcon, HomeIcon, RectangleStackIcon, ShoppingCartIcon, UserCircleIcon, BellIcon, BookOpenIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Bars3CenterLeftIcon, UserGroupIcon, NewspaperIcon, MagnifyingGlassCircleIcon, HomeIcon, RectangleStackIcon, ShoppingCartIcon, UserCircleIcon, BellIcon, BookOpenIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import logo from "../../images/logo-full.png";
 import logoIso from "../../images/iso.png";
@@ -29,6 +29,8 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
     const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
 
     const [coursesCart, setCoursesCart] = useState(0);
+
+    const administrator = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
 
     const handleModal = () => {
         setModalOpen(!modalOpen);
@@ -189,11 +191,27 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                     <nav className="w-max">
                                         <ul className="flex items-center">
                                             <li className="mx-[15px]">
-                                                <Link className="flex flex-col items-center" to="/learning">
-                                                    <BookOpenIcon className="h-6 w-6" />
-                                                    <p className="ff-cg--semibold whitespace-nowrap">Your Learning</p>
-                                                </Link>
+                                                {
+                                                    (administrator !== null) ?
+                                                        <Link className="flex flex-col items-center" to="/students">
+                                                            <UserGroupIcon className="h-6 w-6" />
+                                                            <p className="ff-cg--semibold whitespace-nowrap">Students</p>
+                                                        </Link> :
+                                                        <Link className="flex flex-col items-center" to="/learning">
+                                                            <BookOpenIcon className="h-6 w-6" />
+                                                            <p className="ff-cg--semibold whitespace-nowrap">Your Learning</p>
+                                                        </Link>
+                                                }
                                             </li>
+                                            {
+                                                (administrator !== null) &&
+                                                <li className="mx-[15px]">
+                                                    <Link className="flex flex-col items-center" to="/courses">
+                                                        <NewspaperIcon className="h-6 w-6" />
+                                                        <p className="ff-cg--semibold whitespace-nowrap">Courses</p>
+                                                    </Link>
+                                                </li>
+                                            }
                                             <li className="mx-[15px]">
                                                 <Link className="flex flex-col items-center" to="/search">
                                                     <RectangleStackIcon className="h-6 w-6" />
@@ -211,11 +229,16 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                     <ShoppingCartIcon className="h-8 w-8" />
                                                 </a>
                                             </li>
-                                            <li className="mx-[15px]">
-                                                <a className="flex flex-col items-center cursor-pointer">
-                                                    <BellIcon className="h-8 w-8" />
-                                                </a>
-                                            </li>
+
+                                            {
+                                                (administrator !== null) ? "" :
+                                                    <li className="mx-[15px]">
+                                                        <a className="flex flex-col items-center cursor-pointer">
+                                                            <BellIcon className="h-8 w-8" />
+                                                        </a>
+                                                    </li>
+
+                                            }
                                             <li className="ml-[15px] pb-1 relative">
                                                 <div className='flex items-center border-2 border-[#222222] border-solid rounded-2xl px-4 py-3 cursor-pointer relative'>
                                                     <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" onClick={() => { setOptionsOpen(true) }} />
@@ -230,7 +253,10 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                             <img className="object-cover w-[30px] h-[30px]" src={logoIso} alt="" />
                                                             <div className="ff-cg--semibold px-2">
                                                                 <p>{userName}</p>
-                                                                <p className='text-xs text-gray-400'>{user?.profile.login}</p>
+                                                                {
+                                                                    (user?.profile !== null) && 
+                                                                    <p className='text-xs text-gray-400'>{user?.profile.login}</p>
+                                                                }
                                                             </div>
                                                         </button>
                                                         <Link className='flex py-4 w-[100%] px-8 border-b-2 border-[#222222] border-solid' onClick={() => { setOptionsOpen(false) }} to={'/account'} state={{ editStatus: 'edit' }}>
