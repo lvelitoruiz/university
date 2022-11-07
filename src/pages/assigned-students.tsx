@@ -9,10 +9,11 @@ import {
   UserPlusIcon,
   MagnifyingGlassCircleIcon,
   AdjustmentsVerticalIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  ArrowLeftCircleIcon
 } from '@heroicons/react/24/outline'
 
-const Students = () => {
+const AssignedStudents = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
 
@@ -36,29 +37,16 @@ const Students = () => {
               <div className="flex items-center">
                 <img src="" alt="" />
                 <div className="mb-4 md:mb-0">
-                  <h2 className="text-[30px] lg:text-[60px] ff-cg--semibold leading-none">Students</h2>
+                  <div className="flex items-center mb-2">
+                    <a className="flex items-center" href="">
+                      <ArrowLeftCircleIcon className="h-6 w-6"/>
+                      <span className="ff-cg--medium ml-2">BACK TO COURSES</span>
+                    </a>
+                  </div>
+                  <h2 className="text-[30px] lg:text-[60px] ff-cg--semibold leading-none">Assigned Seats</h2>
+                  <p className="text-[18px] lg:text-[30px] ff-cg--semibold">Course: Intro to Cybersecurity</p>
                 </div>
               </div>
-              <div className="md:flex items-center gap-4">
-                <button className="mb-4 md:mb-0 w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                  <CircleStackIcon className="h-6 w-6"/>
-                  <span className="ff-cg--semibold ml-[20px]">Export CSV</span>
-                </button>
-                <button className="mb-4 md:mb-0 w-full lg:w-fit flex items-center justify-between border border-solid border-[#fdbf38] bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl">
-                  <UserPlusIcon className="h-6 w-6"/>
-                  <span className="ff-cg--semibold ml-[20px]">Add Students</span>
-                </button>
-              </div>
-            </div>
-            <div className="lg:flex lg:items-center gap-8 pb-10">
-              <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl w-full cursor-pointer bg-white mb-4 md:mb-0">
-                <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]" />
-                <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="search" placeholder="Search Students" />
-              </div>
-              <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                <AdjustmentsVerticalIcon className="h-6 w-6"/>
-                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Filter By</span>
-              </button>
             </div>
             <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12">
               <div className="col-span-12">
@@ -69,8 +57,6 @@ const Students = () => {
                         <tr>
                           <th className="bg-[#da1a32] rounded-tl-xl text-left ff-cg--semibold py-4 px-8">Name</th>
                           <th className="bg-[#da1a32] text-left ff-cg--semibold py-4 px-8">Email</th>
-                          <th className="bg-[#da1a32] text-left ff-cg--semibold py-4 px-8">Enrollments</th>
-                          <th className="bg-[#da1a32] text-left ff-cg--semibold py-4 px-8">Status</th>
                           <th className="bg-[#da1a32] rounded-tr-xl text-right ff-cg--semibold py-4 px-8"></th>
                         </tr>
                       </thead>
@@ -78,36 +64,50 @@ const Students = () => {
                         <tr className="border-b border-solid">
                           <td className="py-4 px-8">John Doe</td>
                           <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">3 Courses</td>
-                          <td className="py-4 px-8">Active</td>
                           <td className="py-4 px-8">
                             <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
                               <Link to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Edit</span></Link>
+                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span></Link>
                             </button>
                           </td>
                         </tr>
                         <tr className="border-b border-solid">
                           <td className="py-4 px-8">John Doe</td>
                           <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">3 Courses</td>
-                          <td className="py-4 px-8">Active</td>
                           <td className="py-4 px-8">
                             <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
                               <Link to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Edit</span></Link>
+                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span></Link>
                             </button>
                           </td>
                         </tr>
                         <tr className="border-b border-solid">
                           <td className="py-4 px-8">John Doe</td>
                           <td className="py-4 px-8">john@microsoft.com</td>
-                          <td className="py-4 px-8">3 Courses</td>
-                          <td className="py-4 px-8">Active</td>
                           <td className="py-4 px-8">
                             <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
                               <Link to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
-                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Edit</span></Link>
+                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span></Link>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr className="border-b border-solid">
+                          <td className="py-4 px-8">John Doe</td>
+                          <td className="py-4 px-8">john@microsoft.com</td>
+                          <td className="py-4 px-8">
+                            <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
+                              <Link to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
+                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span></Link>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr className="border-b border-solid">
+                          <td className="py-4 px-8">John Doe</td>
+                          <td className="py-4 px-8">john@microsoft.com</td>
+                          <td className="py-4 px-8">
+                            <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
+                              <Link to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
+                              <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span></Link>
                             </button>
                           </td>
                         </tr>
@@ -144,4 +144,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default AssignedStudents;

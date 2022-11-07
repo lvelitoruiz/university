@@ -40,7 +40,7 @@ const Students = () => {
                       <span className="ff-cg--medium ml-2">BACK TO COURSES</span>
                     </a>
                   </div>
-                  <h2 className="text-[30px] lg:text-[60px] ff-cg--semibold leading-none">Assigned Seats</h2>
+                  <h2 className="text-[30px] lg:text-[60px] ff-cg--semibold leading-none">Assign Seats</h2>
                   <p className="text-[18px] lg:text-[30px] ff-cg--semibold">Course: Intro to Cybersecurity</p>
                 </div>
               </div>
