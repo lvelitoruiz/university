@@ -57,6 +57,32 @@ const ApplicationSuccess = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="w-full px-[15px] mx-auto pt-[10px] pb-[10px] flex justify-center">
+            <div className="bg-white shadow-xl rounded-2xl py-[30px] px-[30px] text-left container">
+                
+                <h3 className="text-[#da1a33] ff-cg--bold text-[54px] leading-none mb-8">What's next?</h3>
+                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">1. Interview via phone with an Admissions Director</h4>
+                <p className="ff-cg--light text-[22px] mb-8">If your application and profile meet certain standards, we'll soon reach out by phone for a fit interview - be ready for a call shortly from a number with either a local area code or a 240 area code. This interview is required to gain provisional acceptance into the program.</p>
+
+                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">2. Complete the technical skills survey</h4>
+                <p className="ff-cg--light text-[22px] mb-8">In parallel with your fit interview, we'll send you a survey via email to assess any knowledge gaps you may have before the program begins. Plan to complete this within 24 hours - mosts applicants take between 20 minutes to one hour to do this.</p>
+
+                <h4 className="ff-cg--bold text-[28px] leading-none mb-2">3. Reserve your seat</h4>
+                <p className="ff-cg--light text-[22px] mb-8">Our programs are very selective. If you are accepted, we will send you a registration link via email to fill out within 24 hours. You will choose a start date and payment plan, and fill out your student profile to complete your enrollment and be eligible for mentor matching.</p>
+
+            </div>
+        </section>
+
+        <section className="w-full px-[15px] mx-auto pt-[10px] pb-[10px] flex justify-center">
+            <div className="bg-[#da1a33] rounded-2xl py-[30px] px-[30px] text-center container">
+                <h4 className="text-white ff-cg--bold text-[34px] leading-none mb-4">Any questions about your application? Give us a call!</h4>
+                <p className="text-white text-[28px]">You can reach us Monday to Friday from 8am - 6pm <br />
+                240-410-0492</p>
+            </div>
+        </section>
 
             <div className="col-span-12">
               <div className="lg:flex items-center justify-center w-full gap-4">
@@ -65,13 +91,10 @@ const ApplicationSuccess = () => {
                     <span className="ff-cg--semibold">Go to Account Page</span>
                   </button>
                 </Link>
-                <button className="w-full lg:w-[300px] bg-white py-[14px] px-[16px] rounded-2xl mt-[30px] shadow-lg" onClick={() => toPrint()}>
-                  <span className="ff-cg--semibold">Print this Page</span>
-                </button>
               </div>
             </div>
-          </div>
-        </section>
+
+
       </div>
     </Layout>
   )
