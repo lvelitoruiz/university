@@ -39,7 +39,7 @@ const Learning = () => {
   const getEnrolls = async () => {
     var config = {
       method: 'get',
-      url: 'https://accelered-api.whiz.pe/api/enrollment',
+      url: process.env.API_URL + '/api/enrollment',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const Learning = () => {
     
     const config = {
       method: 'post',
-      url: 'https://accelered-api.whiz.pe/api/enrollment/sso',
+      url: process.env.API_URL + '/api/enrollment/sso',
       headers: { 
         'Authorization': 'Bearer ' + token, 
         'Content-Type': 'application/json'

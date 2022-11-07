@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export const getCart = async () => {
 
     const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
@@ -8,7 +7,7 @@ export const getCart = async () => {
 
     var config = {
         method: 'get',
-        url: 'https://accelered-api.whiz.pe/api/shopping-car/current',
+        url: process.env.API_URL + '/api/shopping-car/current',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -47,7 +46,7 @@ export const createCart = async (courses: any) => {
 
     var config = {
         method: 'post',
-        url: 'https://accelered-api.whiz.pe/api/shopping-car',
+        url: process.env.API_URL + '/api/shopping-car',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -75,7 +74,7 @@ export const addCourseToCart = async (course: any) => {
 
     var config = {
         method: 'post',
-        url: 'https://accelered-api.whiz.pe/api/shopping-car/add',
+        url: process.env.API_URL + '/api/shopping-car/add',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -98,7 +97,7 @@ export const deleteCourseCart = (id:any) => {
 
     var config = {
         method: 'delete',
-        url: `https://accelered-api.whiz.pe/api/shopping-car/remove/${id}`,
+        url: process.env.API_URL + `/api/shopping-car/remove/${id}`,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -121,7 +120,7 @@ export const getPaymentSession = async () => {
 
     var config = {
         method: 'post',
-        url: `https://accelered-api.whiz.pe/api/payment`,
+        url: process.env.API_URL + `/api/payment`,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

@@ -2,7 +2,6 @@ import { MagnifyingGlassCircleIcon, ChevronRightIcon } from '@heroicons/react/24
 import React, { useEffect, useState } from 'react'
 import Results from '../../Results/Results';
 import axios from 'axios';
-import { API_URL } from '../../const';
 
 type SearchProps = {
     handleTerm?: (newTerm: string) => void
