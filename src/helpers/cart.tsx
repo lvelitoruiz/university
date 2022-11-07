@@ -7,7 +7,7 @@ export const getCart = async () => {
 
     var config = {
         method: 'get',
-        url: process.env.API_URL + '/api/shopping-car/current',
+        url: process.env.GATSBY_ENDPOINT + '/api/shopping-car/current',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export const createCart = async (courses: any) => {
 
     var config = {
         method: 'post',
-        url: process.env.API_URL + '/api/shopping-car',
+        url: process.env.GATSBY_ENDPOINT + '/api/shopping-car',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const addCourseToCart = async (course: any) => {
 
     var config = {
         method: 'post',
-        url: process.env.API_URL + '/api/shopping-car/add',
+        url: process.env.GATSBY_ENDPOINT + '/api/shopping-car/add',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export const deleteCourseCart = (id:any) => {
 
     var config = {
         method: 'delete',
-        url: process.env.API_URL + `/api/shopping-car/remove/${id}`,
+        url: process.env.GATSBY_ENDPOINT + `/api/shopping-car/remove/${id}`,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export const getPaymentSession = async () => {
 
     var config = {
         method: 'post',
-        url: process.env.API_URL + `/api/payment`,
+        url: process.env.GATSBY_ENDPOINT + `/api/payment`,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
