@@ -21,6 +21,7 @@ import axios from "axios";
 const Course = ({ location, params }: any) => {
   console.log(location)
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
+  const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
 
   const headerRef: any = useRef();
 
@@ -406,7 +407,7 @@ const Course = ({ location, params }: any) => {
       </div>
       {
         (modalOpen) ?
-        <ModalApplication handleModal={handleModal} courseUuid={cursoUuid} /> : ""
+        <ModalApplication handleModal={handleModal} userUuid={user.id} courseUuid={cursoUuid} /> : ""
       }
     </Layout>
   )

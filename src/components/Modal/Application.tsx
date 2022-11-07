@@ -11,21 +11,45 @@ import { UserInfo } from '../../const';
 import toast from 'react-hot-toast';
 import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
 
-const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
+const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}: any) => {
   const [isApplication,setApplication] = useState<boolean>(true);
+  const [isLogIn, setLogIn] = useState<boolean>(false);
   const [isSignIn,setSignIn] = useState<boolean>(false);
+  const [userData, setUserData] = useState<any>(false);
   const [compare,setCompare] = useState<any>(null);
   const [errorLogin,setErrorLogin] = useState<boolean>(false);
   const [strongPassword,setStrongPassword] = useState<any>(0);
 
   const changeSignIn = () => {
     setApplication(!isApplication);
-    setSignIn(!isSignIn);
+    setLogIn(!isLogIn);
   }
+
+  useEffect(() => {
+		getUser();
+	}, [userUuid]);
+
+  const getUser = () => {
+		axios.get(process.env.API_URL + '/api/users/' + userUuid )
+		.then((response) => {
+			let user = response.data.data.profile;
+			user.id = response.data.data.id;
+			user.status = response.data.data.status;
+			setUserData(user);
+      setSignIn(true);
+		})
+		.catch( (error) => {
+			console.log('**** error from user **** ',error);
+		});
+	}
 
   const formikApp = useFormik({
 		enableReinitialize: true,
 		initialValues: {
+      name: userData ? userData.firstName + ' ' + userData.lastName : '',
+      email: userData ? userData.email : '',
+      phone: userData ? userData.mobilePhone : '',
+      password: '',
       courseUuid: courseUuid,
       paymentMethod: '',
       preferredStart: '',
@@ -56,6 +80,11 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
 		validateOnChange: false,
 		onSubmit: (values: any) => {
 			console.log(values);
+      if(values.acceptRegister){
+        values.firstName = values.name.split(' ').slice(0, -1).join(' ');
+        values.lastName = values.name.split(' ').slice(-1).join(' ');
+        createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
+      }
 			createApplication(values);
 		},
 	});
@@ -160,7 +189,8 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
 			if(response.data.status){
         toast.success('Aplicado exitosamente')
 				setTimeout( () => {
-					return navigate("/success");
+          handleModal();
+					return navigate("/courses/success");
 				}, 3000);
 			}
 			else{
@@ -242,37 +272,46 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
               <p className='text-center ff-cg--semibold'>Machine Learning Introduction Course</p>
               <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-0">Start your application</h3>
               <div className='text-center mb-1'>
-                <p>Already have an account? <a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign In for 1 Click Apply</a></p>
+                { !isSignIn && !userData && (
+                  <p>Already have an account? <a className='ff-cg--semibold text-[#da1a32] ml-2 underline' onClick={changeSignIn}>Sign In for 1 Click Apply</a></p>
+                )}
               </div>
               <form onSubmit={ formikApp.handleSubmit } className="flex items-center justify-center">
                 <div className="w-full lg:w-[80%]">
-                <div className="mb-6">
-                    <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
-                    <input
-                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
-                      type="text"
-                      name='firstName'
-                      onChange={formikApp.handleChange}
-                      placeholder="Your Full Name" />
-                  </div>
-                  <div className="mb-6">
-                    <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
-                    <input
-                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
-                      type="text"
-                      name='email'
-                      onChange={formikApp.handleChange}
-                      placeholder="Student@domain.com" />
-                  </div>
-                  <div className="mb-6">
-                    <label className="text-sm ff-cg--semibold" htmlFor="">Mobile Phone</label>
-                    <input
-                      className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
-                      type="text"
-                      name='phoneNumber'
-                      onChange={formikApp.handleChange}
-                      placeholder="Your Phone Number" />
-                  </div>
+                  { !isSignIn && !userData && (
+                    <>
+                      <div className="mb-6">
+                        <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
+                        <input
+                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          type="text"
+                          name='name'
+                          value={formikApp.values.name}
+                          onChange={formikApp.handleChange}
+                          placeholder="Your Full Name" />
+                      </div>
+                      <div className="mb-6">
+                        <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
+                        <input
+                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          type="text"
+                          name='email'
+                          value={formikApp.values.email}
+                          onChange={formikApp.handleChange}
+                          placeholder="Student@domain.com" />
+                      </div>
+                      <div className="mb-6">
+                        <label className="text-sm ff-cg--semibold" htmlFor="">Mobile Phone</label>
+                        <input
+                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          type="text"
+                          name='phoneNumber'
+                          value={formikApp.values.phone}
+                          onChange={formikApp.handleChange}
+                          placeholder="Your Phone Number" />
+                      </div>
+                    </>
+                  )}
                   <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Preferred Method of Payment</label>
                     <div className="rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2">
@@ -401,7 +440,8 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
                 </div>
                   
                   <div className="bg-white rounded-[10px] py-8 px-4 shadow">
-                        <div className="flex items-center mb-5">
+                        { !isSignIn && !userData && (
+                          <div className="flex items-center mb-5">
                             <input 
                               id="acceptRegister" 
                               type="checkbox" 
@@ -411,6 +451,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
                             />
                             <label htmlFor="acceptRegister" className="ml-2">save my details and create an account to follow application status</label>
                         </div>
+                        ) }
                         <div>
                             <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
                             <input
@@ -445,7 +486,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, courseUuid}: any) => {
             </div>) : ""
         }
         {
-          (isSignIn) ? 
+          (isLogIn) ? 
           (<div className="">
             <h3 className="text-[26px] lg:text-[30px] ff-cg--semibold text-center mb-0">Welcome back</h3>
             <div className='text-center mb-1'>
