@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
 import Layout from "../components/Layout/Layout"
-import Header from "../components/Header/Header"
 import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
@@ -15,7 +14,6 @@ const Success = () => {
 
   const cartLocal = typeof window !== 'undefined' && localStorage.getItem('cartToPay');
   const [items, setItems] = useState([]);
-  const [signed, setSigned] = useState(false);
 
   const componentRef = useRef<any>(null);
 
@@ -33,22 +31,8 @@ const Success = () => {
 
   return (
     <Layout>
-      <div className="bg-[#f5f5f5] bg-slate-50 min-h-screen relative pb-[140px]">
-        <Header isSignIn={signed} />
-
-        <section className="w-full px-[15px] mx-auto pt-[20px] pb-[20px] flex justify-center">
-            <div className="bg-[#222222] rounded-2xl py-[40px] px-[40px] flex items-center justify-between container">
-               <div className="text-left">
-                    <h2 className="text-white ff-cg--bold text-[80px] leading-none">Success!</h2>
-                    <p className="text-white text-[24px]">Thanks for filling out your application!</p>
-               </div>
-               <div>
-                    <p className="text-white text-[22px] text-right">You will also receive a confirmation message with this <br /> information to your email.</p>
-               </div>
-            </div>
-        </section>
-
-        {/* <section className="bg-white shadow-lg">
+      <div className="bg-slate-50">
+        <section className="bg-white shadow-lg">
           <div className="container px-[15px] mx-auto py-[20px] lg:py-[24px]">
             <div className="flex items-center justify-between">
               <div className="">
@@ -65,7 +49,7 @@ const Success = () => {
               </div>
             </div>
           </div>
-        </section> */}
+        </section>
 
         <section className="container px-[15px] mx-auto pt-[40px] lg:pt-[60px] pb-[60px]">
           <div className="grid gap-5 lg:gap-10 lg:grid-cols-12">
