@@ -18,7 +18,7 @@ deploy_staging:
         "cd $PROJECT_ROOT &&
         sudo git pull origin develop &&
         npm ci &&
-        sudo aws s3api get-object --bucket $BUCKET_DEVOPS_DEV --key $PROJECT_NAME.env .env.development &&
+        sudo aws s3api get-object --bucket $BUCKET_DEVOPS_DEV --key $PROJECT_NAME.env .env.production &&
         sudo npm run clean &&
         sudo npm run build &&
         exit"
