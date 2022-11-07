@@ -110,7 +110,7 @@ const Search = ({location}: any) => {
       term = "";
     }
     axios
-      .get(API_URL + `api/info/algolia/search?query=${term}&limit=12&page=0`)
+      .get(process.env.API_URL + `api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -132,7 +132,7 @@ const Search = ({location}: any) => {
 
   const getForCourse = () => {
     axios
-      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
+      .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -155,7 +155,7 @@ const Search = ({location}: any) => {
 
   const getCombined = (catTerm: string, sTerm: string) => {
     axios
-      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
+      .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -181,7 +181,7 @@ const Search = ({location}: any) => {
 
   const getForCategory = (catTerm: string) => {
     axios
-      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
+      .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -207,7 +207,7 @@ const Search = ({location}: any) => {
 
   const getForSkill = (skillTerm: string) => {
     axios
-      .get(API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
+      .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -230,7 +230,7 @@ const Search = ({location}: any) => {
 
   const getCategories = () => {
     axios
-      .get(API_URL + `api/category`)
+      .get(process.env.API_URL + `api/category`)
       .then((response) => {
         let catElements: any = [];
         response.data.data.map( (item: any) => {
@@ -248,7 +248,7 @@ const Search = ({location}: any) => {
 
   const getSkills = () => {
     axios
-      .get(API_URL + `api/skill`)
+      .get(process.env.API_URL + `api/skill`)
       .then((response) => {
         let skillElements: any = [];
         response.data.data.map( (item: any) => {
@@ -263,7 +263,7 @@ const Search = ({location}: any) => {
 
   const handlePagination = (pageIndex: number) => {
     axios
-    .get(API_URL + `api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
+    .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -311,7 +311,7 @@ const Search = ({location}: any) => {
     }
     setQueryList(newQuery)
     axios
-    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
+    .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -359,7 +359,7 @@ const Search = ({location}: any) => {
     }
     setQueryCat(newQuery)
     axios
-    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
+    .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
@@ -407,7 +407,7 @@ const Search = ({location}: any) => {
     }
     setQuerySkill(newQuery)
     axios
-    .get(API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}`)
+    .get(process.env.API_URL + `api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];

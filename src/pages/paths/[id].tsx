@@ -46,7 +46,7 @@ const Path = ({location,params}: any) => {
 
   useEffect(() => {
     if (cursoUuid !== null) {
-      axios.get(API_URL + 'api/course/' + cursoUuid)
+      axios.get(process.env.API_URL + 'api/course/' + cursoUuid)
         .then((response) => {
           console.log(response);
           const learnsArray: any = [];
