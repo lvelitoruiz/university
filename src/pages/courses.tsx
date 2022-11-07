@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import { navigate } from "gatsby";
+import { Link, navigate } from "gatsby";
 import { Header } from "../components/Header/Header";
 import logoWhite from "../images/logo-white.png";
 
@@ -87,12 +87,16 @@ const Students = () => {
                           <td className="py-4 px-8">
                             <div className="flex items-center justify-end gap-6">
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <EyeIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                <Link to="/assigned-students" className="flex">
+                                  <EyeIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                </Link>
                               </button>
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <PencilSquareIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                <Link to="/assigned" className="flex">
+                                  <PencilSquareIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                </Link>
                               </button>
                             </div>
                           </td>
@@ -110,12 +114,16 @@ const Students = () => {
                           <td className="py-4 px-8">
                             <div className="flex items-center justify-end gap-6">
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <EyeIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                <Link to="/assigned-students" className="flex">
+                                  <EyeIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                </Link>
                               </button>
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <PencilSquareIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                <Link to="/assigned" className="flex">
+                                  <PencilSquareIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                </Link>
                               </button>
                             </div>
                           </td>
@@ -133,12 +141,16 @@ const Students = () => {
                           <td className="py-4 px-8">
                             <div className="flex items-center justify-end gap-6">
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <EyeIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                <Link to="/assigned-students" className="flex">
+                                  <EyeIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">View Seats</span>
+                                </Link>
                               </button>
                               <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                                <PencilSquareIcon className="h-6 w-6"/>
-                                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                <Link to="/assigned" className="flex">
+                                  <PencilSquareIcon className="h-6 w-6"/>
+                                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Assign Seats</span>
+                                </Link>
                               </button>
                             </div>
                           </td>
