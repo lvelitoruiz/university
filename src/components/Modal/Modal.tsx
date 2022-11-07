@@ -53,9 +53,15 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
         setCoursesCircle();
         const comesFromcart = typeof window !== 'undefined' && localStorage.getItem('fromCart');
         if(comesFromcart === "true") {
-          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/checkout' ));
+          if((compare == UserInfo.USER_ADMIN_GROUP)) {
+            typeof window !== 'undefined' && localStorage.setItem('isAdmin','true');
+          }
+          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/org-admin' : '/checkout' ));
         } else {
-          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/admin' : '/' ));
+          if((compare == UserInfo.USER_ADMIN_GROUP)) {
+            typeof window !== 'undefined' && localStorage.setItem('isAdmin','true');
+          }
+          navigate(( (compare == UserInfo.USER_ADMIN_GROUP) ? '/org-admin' : '/' ));
         }
         
       } else {
