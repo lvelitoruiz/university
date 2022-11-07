@@ -9,5 +9,3 @@ export const UserInfo = {
     USER_GROUP: 'bea4d79e-9082-4842-890c-a0d635a3bf44',
     USER_ADMIN_GROUP: '7b612f56-b0f5-42ed-9237-4f27b15af5a4'
 }
-
-export const API_URL = 'https://accelered-api.whiz.pe/';

@@ -2,7 +2,6 @@ import { ClockIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
 import { Link } from 'gatsby'
 import React, { useEffect, useState } from 'react'
-import { API_URL } from '../../const';
 
 type pinObject = {
     uuid: string
@@ -14,7 +13,7 @@ export const Pinneds = ( {uuid}: pinObject ) => {
 
     useEffect( () => {
           axios
-          .get(API_URL + `api/info/algolia/search?query=${uuid}&limit=12&page=0`)
+          .get(process.env.API_URL + `/api/info/algolia/search?query=${uuid}&limit=12&page=0`)
             .then((response) => {
               setItem(response?.data?.data?.hits[0]);
             }).catch(function (error) {
