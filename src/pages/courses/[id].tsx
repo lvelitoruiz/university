@@ -59,7 +59,7 @@ const Course = ({ location, params }: any) => {
 
   useEffect(() => {
     if (cursoUuid !== null) {
-      axios.get(process.env.GATSBY_ENDPOINT + '/api/course/' + cursoUuid)
+      axios.get(process.env.API_URL + '/api/course/' + cursoUuid)
         .then((response) => {
           const learnsArray: any = [];
           setCourseObject(response.data.data);
