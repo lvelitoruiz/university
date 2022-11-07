@@ -160,7 +160,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 
   const loginUser = (values: any) => {
     axios.post(
-      process.env.GATSBY_ENDPOINT + '/api/auth', values)
+      process.env.API_URL + '/api/auth', values)
 		.then((response) => {
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
@@ -178,7 +178,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
     console.log(values);  
 		axios({
 			method: 'post',
-			url: process.env.GATSBY_ENDPOINT + '/api/applications',
+			url: process.env.API_URL + '/api/applications',
 			headers: { 
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${token}`
@@ -219,7 +219,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
   const createUser = (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
 		axios
-      .post(process.env.GATSBY_ENDPOINT + '/api/users', {
+      .post(process.env.API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
         email: email,

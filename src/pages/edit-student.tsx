@@ -100,7 +100,7 @@ const Account = ({ location }: any) => {
 	}, []);
 
   const getUser = () => {
-		axios.get(process.env.GATSBY_ENDPOINT + '/api/users/' + user.id )
+		axios.get(process.env.API_URL + '/api/users/' + user.id )
 		.then((response) => {
 			let user = response.data.data.profile;
 			user.id = response.data.data.id;
@@ -116,7 +116,7 @@ const Account = ({ location }: any) => {
 		let token = localStorage.getItem("access_token");
 		axios({
 			method: 'patch',
-			url: process.env.GATSBY_ENDPOINT + '/api/users/current/me',
+			url: process.env.API_URL + '/api/users/current/me',
 			headers: {
 				Authorization : `Bearer ${token}`
 			},
@@ -144,7 +144,7 @@ const Account = ({ location }: any) => {
 		  
 		axios({
 			method: 'post',
-			url: process.env.GATSBY_ENDPOINT + '/api/users/' + user.id + '/changePassword',
+			url: process.env.API_URL + '/api/users/' + user.id + '/changePassword',
 			headers: { 
 			  'Content-Type': 'application/json',
 			  'Authorization': `Bearer ${token}`
