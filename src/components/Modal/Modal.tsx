@@ -36,17 +36,6 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
             const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
             coursesToSend.push(itemToPush)
           })
-          
-          // const isCart = getCart().then( response => {
-          //   if(!response.status) {
-          //     console.log('groceries');
-          //     createCart(coursesToSend);
-          //   } else {
-          //     coursesToSend.map( (item: any) => {
-          //       addCourseToCart(item);
-          //     })
-          //   }
-          // });
           firstCart(coursesToSend);
           typeof window !== 'undefined' && localStorage.removeItem('cart');
         }
@@ -114,15 +103,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   } 
 
   const firstCart = async (coursesToSend: any) => {
-    await getCart().then( response => {
-      if(!response.status) {
-        createCart(coursesToSend);
-      } else {
-        coursesToSend.map( (item: any) => {
-          addCourseToCart(item);
-        })
-      }
-    });
+    await getCart(coursesToSend);
   }
 
   
