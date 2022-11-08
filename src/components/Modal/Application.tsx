@@ -57,36 +57,42 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
       acceptRegister: true
     },
 		validate: (values) => {
-			const errors: { courseUuid?: string; paymentMethod?: string; preferredStart?: string; acceptRegister?: string; password?: string; } = {};
+			const errors: { name?:string; email?:string; phone?:string; courseUuid?: string; paymentMethod?: string; preferredStart?: string; acceptRegister?: string; password?: string; } = {};
 
+      if (!values.name || !(values.name.indexOf(' ') >= 0)) {
+				errors.name = 'Required';
+			}
+      if (!values.email) {
+				errors.email = 'Required';
+			}
+      if (!values.phone) {
+				errors.phone = 'Required';
+			}
       if (!values.courseUuid) {
 				errors.courseUuid = 'Required';
 			}
-
       if (!values.acceptRegister) {
 				errors.acceptRegister = 'Required';
 			}
-
 			if (!values.paymentMethod) {
 				errors.paymentMethod = 'Required';
 			}
-
       if (!values.preferredStart) {
 				errors.preferredStart = 'Required';
 			}
-
       if (!values.password) {
 				errors.password = 'Required';
 			}
-
+      console.log(errors);
 			return errors;
 		},
 		validateOnChange: false,
 		onSubmit: async (values: any) => {
 			console.log(values);
+      let fullname = values.name;
       if(values.acceptRegister){
-        values.firstName = values.name.split(' ').slice(0, -1).join(' ');
-        values.lastName = values.name.split(' ').slice(-1).join(' ');
+        values.firstName = fullname.split(' ').slice(0, -1).join(' ') ? fullname.split(' ').slice(0, -1).join(' ') : fullname;
+        values.lastName = fullname.indexOf(' ') >= 0 ? fullname.split(' ').slice(-1).join(' ') : '';
         await createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
       }
       await loginUser(values.email, values.password);
@@ -199,12 +205,12 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 				}, 3000);
 			}
 			else{
-				toast.error('Ha ocurrido un error intenta nuevamente <br/> Mensaje del sistema: ' + response.data.message)
+				toast.error('Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: ' + response.data.message)
 			}
 		})
 		.catch(function (error) {
 			console.log(error);
-			toast.error('Ha ocurrido un error intenta nuevamente <br/> Mensaje del sistema: ' + error.message)
+			toast.error('Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: ' + error.message)
 		});
   }
 
@@ -288,17 +294,22 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2' + (formikApp.errors.name == 'Required' ? ' border border-red-500' : '') }
                           type="text"
                           name='name'
                           value={formikApp.values.name}
                           onChange={formikApp.handleChange}
                           placeholder="Your Full Name" />
+                        {
+                          formikApp.errors.name == 'Required' && (
+                            <p className='text-sm ff-cg--regular text-[#da1a32]'>You must enter your full name: first name and last name.</p> 
+                          )
+                        }
                       </div>
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2'  + (formikApp.errors.email == 'Required' ? ' border border-red-500' : '') }
                           type="text"
                           name='email'
                           value={formikApp.values.email}
@@ -308,7 +319,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Mobile Phone</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2'  + (formikApp.errors.phone == 'Required' ? ' border border-red-500' : '') }
                           type="text"
                           name='phone'
                           value={formikApp.values.phone}
@@ -319,7 +330,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                   )}
                   <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Preferred Method of Payment</label>
-                    <div className="rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2">
+                    <div className={'rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2' + (formikApp.errors.paymentMethod == 'Required' ? ' border border-red-500' : '') }>
                         <div className="flex items-start">
                             <div className="flex items-center mr-4">
                             <input 
@@ -390,7 +401,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                 </div>
                 <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Preferred Start Date</label>
-                    <div className="rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2">
+                    <div className={'rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2' + (formikApp.errors.preferredStart == 'Required' ? ' border border-red-500' : '') }>
                         <div className="flex items-start">
                             <div className="flex items-center mr-4">
                             <input 
@@ -460,7 +471,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                         <div>
                             <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
                             <input
-                              className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                              className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md' + (formikApp.errors.name == 'Required' ? ' border border-red-500' : '') }
                               type='password'
                               name='password'
                               value={formikApp.values.password}
@@ -469,14 +480,12 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                               placeholder="*******" 
                             />
                         </div>
-                        { !isSignIn && !userData && (
-                          <div className='flex items-center gap-2 mt-4'>
+                        <div className='flex items-center gap-2 mt-4'>
                               <span className={'w-full h-2 rounded-md' + (strongPassword > 0 ? ' bg-green-400' : ' bg-gray-100')}></span>
                               <span className={'w-full h-2 rounded-md' + (strongPassword > 1 ? ' bg-green-400' : ' bg-gray-100')}></span>
                               <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
                               <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                          </div> 
-                        ) }
+                        </div> 
                     </div>
                   <button 
                     type="submit" 

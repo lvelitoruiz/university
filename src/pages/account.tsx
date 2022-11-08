@@ -135,7 +135,7 @@ const Account = ({ location }: any) => {
       }
 		})
 		.catch( (error: any) => {
-      toast.error("Ha ocurrido un error intenta nuevamente")
+      toast.error("Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: " + error.message)
 			console.log(error)
 		});
 	};
@@ -164,7 +164,7 @@ const Account = ({ location }: any) => {
       }
 		})
 		.catch(function (error) {
-      toast.error("Ha ocurrido un error intenta nuevamente")
+      toast.error("Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: " + error.message)
 			console.log(error)
 		})
 	}
