@@ -11,9 +11,16 @@ import { Link } from "gatsby";
 import { useReactToPrint } from 'react-to-print';
 
 const ApplicationSuccess = () => {
+  const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed, setSigned] = useState(false);
 
   const componentRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (userName !== null) {
+      setSigned(true);
+    }
+  }, [userName]);
 
   const toPrint = useReactToPrint({
     content: () => componentRef.current,
@@ -40,20 +47,20 @@ const ApplicationSuccess = () => {
             <div className="col-span-12">
               <div className="rounded-xl bg-white shadow-lg h-full">
                 <div className="lg:grid gap-4 lg:gap-10 lg:grid-cols-12">
-                  <div className="md:col-span-4 lg:col-span-4 p-6 border-r border-solid">
+                  <div className="md:col-span-6 lg:col-span-6 p-6 border-r border-solid">
                     <p className="ff-cg--semibold mb-1">Order Number</p>
                     <p className="text-base lg:text-[20px]">3789-909390</p>
                   </div>
-                  <div className="md:col-span-4 lg:col-span-4 p-6 border-r border-solid">
+                  <div className="md:col-span-6 lg:col-span-6 p-6 border-solid">
                     <p className="ff-cg--semibold mb-1">Order Date</p>
                     <p className="text-base lg:text-[20px]">September 26, 2022</p>
                   </div>
-                  <div className="md:col-span-4 lg:col-span-4 p-6">
+                  {/* <div className="md:col-span-4 lg:col-span-4 p-6">
                     <div>
                       <p className="text-base lg:text-[20px] text-right">****** 0039</p>
                       <p className="ff-cg--semibold mt-1 text-right">Expires 09/2023</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
