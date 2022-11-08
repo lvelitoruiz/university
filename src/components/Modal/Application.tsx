@@ -305,7 +305,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                         <input
                           className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
                           type="text"
-                          name='phoneNumber'
+                          name='phone'
                           value={formikApp.values.phone}
                           onChange={formikApp.handleChange}
                           placeholder="Your Phone Number" />
