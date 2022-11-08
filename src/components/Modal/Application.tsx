@@ -30,7 +30,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 	}, [userUuid]);
 
   const getUser = () => {
-		axios.get(process.env.GATSBY_ENDPOINT + '/api/users/' + userUuid )
+		axios.get(process.env.API_URL + '/api/users/' + userUuid )
 		.then((response) => {
 			let user = response.data.data.profile;
 			user.id = response.data.data.id;
