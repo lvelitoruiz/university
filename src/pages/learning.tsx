@@ -13,12 +13,16 @@ import { navigate } from "gatsby";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import axios from "axios";
+import { getApplications } from "../helpers/courses";
+
 // import Tippy from '@tippyjs/react/headless';
 
 const Learning = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
-  const [enrolls, setEnrolls] = useState([]);
+  const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
+  const [enrolls, setEnrolls] = useState<any>([]);
+  const [applications, setApplications] = useState([]);
   const [signed, setSigned] = useState(false);
 
   const [link, setLink] = useState("");
@@ -49,6 +53,7 @@ const Learning = () => {
 
     await axios(config)
       .then(function (response) {
+        console.log('enrolls: **** ',response);
         setEnrolls(response.data.data);
       })
       .catch(function (error) {
@@ -56,14 +61,15 @@ const Learning = () => {
       });
   }
 
-  const getLink = async() => {
+  const getLink = async(uuid: string) => {
 
-    const data = {
-      "email": "luis.diaz@whiz.one",
-      "firstName": "Luis",
-      "lastName": "Diaz",
-      "cid": 305
-    };
+    let element: any;
+
+    console.log('response from link');
+
+    const data = JSON.stringify({
+      "courseUuid": uuid,
+    });
     
     const config = {
       method: 'post',
@@ -77,20 +83,35 @@ const Learning = () => {
     
     await axios(config)
     .then(function (response) {
+      console.log('the sso: **** ',response)
       setLink(response.data.data.login_link);
     })
     .catch(function (error) {
       console.log(error);
     });
+
+    return element;
     
+  }
+
+  const resApplications = async () => {
+    const applications = await getApplications();
+    console.log('this are the applications',applications);
+    setApplications(applications);
   }
 
   useEffect(() => {
     if (token !== null) {
       getEnrolls();
-      getLink();
+      resApplications();
     }
   }, [token]);
+
+  useEffect( () => {
+    if(enrolls.length) {
+      getLink(enrolls[0].course.uuid);
+    }
+  },[enrolls]);
 
   const handleChange = (status: string) => {
     if (status === 'upcoming') {
@@ -153,40 +174,51 @@ const Learning = () => {
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">Upcoming Courses</h3>
-              <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row">
-                <div className="relative w-full md:w-[200px]">
-                  <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
-                  <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={product1} alt="" />
-                </div>
-                <div className="p-[15px] md:pl-8 md:p-5 md:flex md:items-center md:justify-between w-full">
-                  <div>
-                    <h4 className="text-[16px] lg:text-[26px] ff-cg--semibold leading-none mb-[10px]">Introduction to Cybersecurity Tools & Cyber Attacks</h4>
-                    <div className="flex items-center lex-wrap">
-                      <span className="flex items-center border border-red-200 rounded-full px-[10px] mr-4 whitespace-nowrap">
-                        <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                      </span>
-                      <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
-                        <ClockIcon className="h-4 w-4 mr-[6px]" />
-                        <span className="ff-cg--semibold text-[12px]">4 Course</span>
-                      </span>
-                      <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
-                        <ClockIcon className="h-4 w-4 mr-[6px]" />
-                        <span className="ff-cg--semibold text-[12px]">Course</span>
-                      </span>
-                    </div>
-                  </div>
-                  <button className="w-full lg:w-fit flex flex-col items-center justify-between border solid border-black py-3 px-[16px] rounded-2xl md:ml-[20px] mt-4 md:mt-0 relative">
-                    <Tippy content={<>
-                      <h3 className="text-center font-bold mb-2 pt-1 text-sm text-gray-900">We're configurin the access to your courses</h3>
-                      <p className="text-center pb-2 text-xs text-gray-900">We are currently working to have everything ready for you. You will start your learning path soon.</p>
-                    </>} >
-                      <span className="absolute text-xs top-0 right-0 bg-yellow-500 border-2 border-gray-800rounded-full w-4 h-4 flex justify-center items-center">i</span>
-                    </Tippy>
-                    <span className="leading-none text-[12px]">Status</span>
-                    <span className="ff-cg--semibold text-[12px] leading-none">Pending</span>
-                  </button>
-                </div>
-              </div>
+              {
+                (false) ?
+                <>
+                  {
+                    applications.map( (item: any,index) => {
+                      return(
+                        <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-6" key={index}>
+                          <div className="relative w-full md:w-[200px]">
+                            <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
+                            <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={item.course.imgUrl} alt="" />
+                          </div>
+                          <div className="p-[15px] md:pl-8 md:p-5 md:flex md:items-center md:justify-between w-full">
+                            <div>
+                              <h4 className="text-[16px] lg:text-[26px] ff-cg--semibold leading-none mb-[10px]">{item.course.title}</h4>
+                              <div className="flex items-center lex-wrap">
+                                <span className="flex items-center border border-red-200 rounded-full px-[10px] mr-4 whitespace-nowrap">
+                                  <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                                </span>
+                                <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                  <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                  <span className="ff-cg--semibold text-[12px]">{item.course.duration}</span>
+                                </span>
+                                <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                  <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                  <span className="ff-cg--semibold text-[12px]">{item.preferredStart}</span>
+                                </span>
+                              </div>
+                            </div>
+                            <button className="w-full lg:w-fit flex flex-col items-center justify-between border solid border-black py-3 px-[16px] rounded-2xl md:ml-[20px] mt-4 md:mt-0 relative">
+                              <Tippy content={<>
+                                <h3 className="text-center font-bold mb-2 pt-1 text-sm text-gray-900">We're configurin the access to your courses</h3>
+                                <p className="text-center pb-2 text-xs text-gray-900">We are currently working to have everything ready for you. You will start your learning path soon.</p>
+                              </>} >
+                                <span className="absolute text-xs top-0 right-0 bg-yellow-500 border-2 border-gray-800rounded-full w-4 h-4 flex justify-center items-center">i</span>
+                              </Tippy>
+                              <span className="leading-none text-[12px]">Status</span>
+                              <span className="ff-cg--semibold text-[12px] leading-none">Pending</span>
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+                </> : ""
+              }
             </div>
           </section>
         }
@@ -207,7 +239,7 @@ const Learning = () => {
                   (enrolls.length) && 
                   <>
                     {
-                      enrolls.map( (item: any,index) => {
+                      enrolls.map( (item: any,index: number) => {
                         return(
                           <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-8" key={index}>
                             <div className="relative w-full md:w-[200px]">
@@ -304,10 +336,12 @@ const Learning = () => {
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">From you</h3>
               {
-                (enrolls.length) && 
+                (enrolls.length) ? 
                 <>
                   {
-                    enrolls.map( (item: any,index) => {
+                    enrolls.map( (item: any,index: number) => {
+                      // let link: any = getLink(item.course.uuid);
+                      // console.log(link);
                       return(
                         <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-8" key={index}>
                           <div className="relative w-full md:w-[200px]">
@@ -342,7 +376,7 @@ const Learning = () => {
                       )
                     })
                   }
-                </>
+                </> : ""
               }
               {/* <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row">
                 <div className="relative w-full md:w-[200px]">
