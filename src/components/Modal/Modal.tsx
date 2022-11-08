@@ -96,7 +96,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   const createUser = (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
 		axios
-      .post(API_URL + '/api/users', {
+      .post(process.env.API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
         email: email,
