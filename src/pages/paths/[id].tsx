@@ -16,7 +16,6 @@ import { navigate } from "gatsby";
 import { HeaderAlternative } from "../../components/HeaderAlternative/HeaderAlternative";
 import { getCart, createCart, addCourseToCart } from "../../helpers/cart";
 import axios from "axios";
-import { API_URL } from "../../const";
 
 const Path = ({location,params}: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');

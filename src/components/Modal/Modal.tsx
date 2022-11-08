@@ -6,7 +6,7 @@ import { navigate } from 'gatsby';
 import { 
   AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline'
-import { UserInfo, API_URL } from '../../const';
+import { UserInfo } from '../../const';
 import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
 import { Loader } from '../Loader/Loader';
 import toast from 'react-hot-toast';
@@ -77,7 +77,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   const loginUser = (user: string, password: string) => {
     setLoader(true);
     axios.post(
-      API_URL + '/api/auth', { username: user, password: password })
+      process.env.API_URL + '/api/auth', { username: user, password: password })
 		.then((response) => {
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
@@ -96,7 +96,7 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
   const createUser = (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
 		axios
-      .post(API_URL + '/api/users', {
+      .post(process.env.API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -108,13 +108,8 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
       })
       .then((response) => {
         handleModal();
-        // return navigate("/user/students");
-        // setPost(jwt_decode(response.data.access_token));
       }).catch( function(error) {
         console.log('[DEBUG]', error)
-        // console.log(error);
-        // setNoUser(true);
-        // setErrors(false);
       });
   } 
 
