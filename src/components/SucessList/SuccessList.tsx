@@ -6,9 +6,6 @@ interface ISuccessList {
 
 const SuccessList = forwardRef<HTMLDivElement, ISuccessList>(({ items }: ISuccessList, ref) => {
 
-    useEffect(() => {
-        console.log('these are the items here: *** ', items)
-    }, [items]);
 
     return (
         <div className="col-span-12" ref={ref}>
