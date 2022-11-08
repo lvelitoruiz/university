@@ -21,10 +21,6 @@ export const Pinneds = ( {uuid}: pinObject ) => {
             });
       }, []);
 
-      // useEffect( () => {
-      //   console.log('from component: ***** ',item);
-      // },[item])
-
     return(
         <div className="min-w-[80%] md:min-w-[60%] lg:min-w-fit lg:col-span-4">
           {

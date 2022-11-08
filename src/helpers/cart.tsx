@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getCart = async () => {
+export const getCart = async (courses?: any) => {
 
     const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
     let element: any;
@@ -17,7 +17,9 @@ export const getCart = async () => {
 
     await axios(config)
         .then(function (response) {
-            console.log(' this response: **** ', JSON.stringify(response.data));
+            if(!response.data.status) {
+                createCart(courses);
+            }
             element = response.data;
         })
         .catch(function (error) {
@@ -28,13 +30,11 @@ export const getCart = async () => {
 
 }
 
-export const createCart = async (courses: any) => {
+export const createCart = async (courses: any = []) => {
     const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
     let element: any;
 
     if(courses.length <= 1) {
-        console.log('only one course');
-        console.log('this courses: ',courses);
         var data = JSON.stringify({
             "courses": courses
         });

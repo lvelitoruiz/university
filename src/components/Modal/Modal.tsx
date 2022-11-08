@@ -6,7 +6,7 @@ import { navigate } from 'gatsby';
 import { 
   AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline'
-import { UserInfo, API_URL } from '../../const';
+import { UserInfo } from '../../const';
 import { createCart,getCart,addCourseToCart } from '../../helpers/cart';
 import { Loader } from '../Loader/Loader';
 import toast from 'react-hot-toast';
@@ -36,17 +36,6 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
             const itemToPush = {'uuid': item.uuid, 'price': parseFloat(item.price)}
             coursesToSend.push(itemToPush)
           })
-          
-          // const isCart = getCart().then( response => {
-          //   if(!response.status) {
-          //     console.log('groceries');
-          //     createCart(coursesToSend);
-          //   } else {
-          //     coursesToSend.map( (item: any) => {
-          //       addCourseToCart(item);
-          //     })
-          //   }
-          // });
           firstCart(coursesToSend);
           typeof window !== 'undefined' && localStorage.removeItem('cart');
         }
@@ -108,26 +97,13 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
       })
       .then((response) => {
         handleModal();
-        // return navigate("/user/students");
-        // setPost(jwt_decode(response.data.access_token));
       }).catch( function(error) {
         console.log('[DEBUG]', error)
-        // console.log(error);
-        // setNoUser(true);
-        // setErrors(false);
       });
   } 
 
   const firstCart = async (coursesToSend: any) => {
-    await getCart().then( response => {
-      if(!response.status) {
-        createCart(coursesToSend);
-      } else {
-        coursesToSend.map( (item: any) => {
-          addCourseToCart(item);
-        })
-      }
-    });
+    await getCart(coursesToSend);
   }
 
   
