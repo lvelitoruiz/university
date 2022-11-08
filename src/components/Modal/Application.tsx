@@ -54,13 +54,17 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
       paymentMethod: '',
       preferredStart: '',
       password: '',
-      acceptRegister: false
+      acceptRegister: true
     },
 		validate: (values) => {
-			const errors: { courseUuid?: string; paymentMethod?: string; preferredStart?: string; password?: string; } = {};
+			const errors: { courseUuid?: string; paymentMethod?: string; preferredStart?: string; acceptRegister?: string; password?: string; } = {};
 
       if (!values.courseUuid) {
 				errors.courseUuid = 'Required';
+			}
+
+      if (!values.acceptRegister) {
+				errors.acceptRegister = 'Required';
 			}
 
 			if (!values.paymentMethod) {
@@ -78,14 +82,15 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 			return errors;
 		},
 		validateOnChange: false,
-		onSubmit: (values: any) => {
+		onSubmit: async (values: any) => {
 			console.log(values);
       if(values.acceptRegister){
         values.firstName = values.name.split(' ').slice(0, -1).join(' ');
         values.lastName = values.name.split(' ').slice(-1).join(' ');
-        createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
+        await createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
       }
-			createApplication(values);
+      await loginUser(values.email, values.password);
+			await createApplication(values);
 		},
 	});
 
@@ -109,8 +114,8 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 			return errors;
 		},
 		validateOnChange: false,
-		onSubmit: (values: any) => {
-			loginUser(values);
+		onSubmit: async (values: any) => {
+			await loginUser(values.username, values.password);
 		},
 	});
 
@@ -158,9 +163,9 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
     setErrorLogin(false);
   },[]);
 
-  const loginUser = (values: any) => {
-    axios.post(
-      process.env.API_URL + '/api/auth', values)
+  const loginUser = async (user: string, password: string) => {
+    await axios.post(
+      process.env.API_URL + '/api/auth', { username: user, password: password })
 		.then((response) => {
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
@@ -173,10 +178,10 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 		});
   }
 
-  const createApplication = (values: any) => {
+  const createApplication = async (values: any) => {
     let token = localStorage.getItem("access_token");		
     console.log(values);  
-		axios({
+		await axios({
 			method: 'post',
 			url: process.env.API_URL + '/api/applications',
 			headers: { 
@@ -216,9 +221,9 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
     console.log('strong pass: ' + strongPassword);
   }
 
-  const createUser = (
+  const createUser = async (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
-		axios
+		await axios
       .post(process.env.API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
@@ -445,7 +450,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                             <input 
                               id="acceptRegister" 
                               type="checkbox" 
-                              value={formikApp.values.acceptRegister} 
+                              checked={formikApp.values.acceptRegister} 
                               onChange={formikApp.handleChange} 
                               className="w-4 h-4 text-white bg-white rounded border-gray-300 focus:ring-white focus:ring-2"
                             />
@@ -464,12 +469,14 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                               placeholder="*******" 
                             />
                         </div>
-                        <div className='flex items-center gap-2 mt-4'>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 0 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 1 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                        </div>
+                        { !isSignIn && !userData && (
+                          <div className='flex items-center gap-2 mt-4'>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 0 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 1 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                          </div> 
+                        ) }
                     </div>
                   <button 
                     type="submit" 
