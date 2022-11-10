@@ -11,10 +11,12 @@ import {
   AdjustmentsVerticalIcon,
   PencilSquareIcon
 } from '@heroicons/react/24/outline'
+import { getUsers } from "../helpers/courses";
 
 const Students = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
+  const [students,setStudents] = useState<any>(null);
 
   useEffect( () => {
     if(userName !== null) {
@@ -23,6 +25,17 @@ const Students = () => {
       navigate("/");
     }
   },[userName]);
+
+  const getStudents = async () => {
+    const users = await getUsers();
+    setStudents(users);
+  }
+
+  useEffect( () => {
+    if(signed) {
+      getStudents();
+    }
+  },[signed]);
   
   return (
     <Layout>
@@ -46,7 +59,7 @@ const Students = () => {
                 </button>
                 <button className="mb-4 md:mb-0 w-full lg:w-fit flex items-center justify-between border border-solid border-[#fdbf38] bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl">
                   <UserPlusIcon className="h-6 w-6"/>
-                  <span className="ff-cg--semibold ml-[20px]">Add Students</span>
+                  <Link to="/add-student" className="ff-cg--semibold ml-[20px]">Add Students</Link>
                 </button>
               </div>
             </div>
@@ -60,7 +73,7 @@ const Students = () => {
                 <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Filter By</span>
               </button>
             </div>
-            <div className="grid gap-4 gap-5 lg:gap-10 lg:grid-cols-12">
+            <div className="grid gap-5 lg:gap-10 lg:grid-cols-12">
               <div className="col-span-12">
                 <div className="rounded-xl bg-white shadow-lg h-full p-[3px]">
                   <div className="overflow-x-auto">
@@ -75,7 +88,30 @@ const Students = () => {
                         </tr>
                       </thead>
                       <tbody className="">
-                        <tr className="border-b border-solid">
+                        {
+                          (students !== null) ?
+                          <>
+                            {
+                              students.map( (item: any,index: number) => {
+                                return(
+                                  <tr key={index}>
+                                    <td className="py-4 px-8">{item.profile.firstName} {item.profile.lastName}</td>
+                                    <td className="py-4 px-8">{item.profile.login}</td>
+                                    <td className="py-4 px-8">3 Courses</td>
+                                    <td className="py-4 px-8">{item.status}</td>
+                                    <td className="py-4 px-8">
+                                      <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
+                                        <Link state={{ user: item }} to="/edit-student" className="flex"><PencilSquareIcon className="h-6 w-6"/>
+                                        <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Edit</span></Link>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                )
+                              })
+                            }
+                          </> : ""
+                        }
+                        {/* <tr className="border-b border-solid">
                           <td className="py-4 px-8">John Doe</td>
                           <td className="py-4 px-8">john@microsoft.com</td>
                           <td className="py-4 px-8">3 Courses</td>
@@ -110,7 +146,7 @@ const Students = () => {
                               <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Edit</span></Link>
                             </button>
                           </td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </table>
                   </div>
