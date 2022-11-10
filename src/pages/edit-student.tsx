@@ -9,8 +9,7 @@ import { useFormik } from 'formik';
 import { MuiTelInput } from 'mui-tel-input';
 import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
-import product1 from "../images/product-1.png";
-import { navigate } from "gatsby";
+import { Link, navigate } from "gatsby";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
@@ -19,11 +18,11 @@ const Account = ({ location }: any) => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
   const [userData, setUserData] = useState<any>([]);
-  const [signed,setSigned] = useState(false);
-  const [edit,setEdit] = useState(false);
-  const [change,setChange] = useState(false);
-  const [application,setApplication] = useState(false);
-  const [notification,setNotification] = useState(false);
+  const [signed, setSigned] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [change, setChange] = useState(false);
+  const [application, setApplication] = useState(false);
+  const [notification, setNotification] = useState(false);
 
   useEffect(() => {
     console.log('this is the location', location.state);
@@ -34,179 +33,173 @@ const Account = ({ location }: any) => {
   }, [location]);
 
   const formikEdit = useFormik({
-		enableReinitialize: true,
-		initialValues: {
-			firstName: userData.firstName,
-			lastName: userData.lastName,
-			email: userData.email,
-			mobilePhone: userData.mobilePhone
-		},
-		validate: (values) => {
-			const errors: { firstName?: string; lastName?: string; email?: string; mobilePhone?: string; } = {};
+    enableReinitialize: true,
+    initialValues: {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      mobilePhone: userData.mobilePhone
+    },
+    validate: (values) => {
+      const errors: { firstName?: string; lastName?: string; email?: string; mobilePhone?: string; } = {};
 
-			if (!values.firstName) {
-				errors.firstName = 'Required';
-			}
+      if (!values.firstName) {
+        errors.firstName = 'Required';
+      }
 
-			if (!values.lastName) {
-				errors.lastName = 'Required';
-			}
+      if (!values.lastName) {
+        errors.lastName = 'Required';
+      }
 
-			if (!values.email) {
-				errors.email = 'Required';
-			}
+      if (!values.email) {
+        errors.email = 'Required';
+      }
 
-			if (!values.mobilePhone) {
-				errors.mobilePhone = 'Required';
-			}
+      if (!values.mobilePhone) {
+        errors.mobilePhone = 'Required';
+      }
 
-			return errors;
-		},
-		validateOnChange: false,
-		onSubmit: (values) => {
-			//console.log(values);
+      return errors;
+    },
+    validateOnChange: false,
+    onSubmit: (values) => {
+      //console.log(values);
       updateUser(values);
-		}
-	});
+    }
+  });
 
   const formikChange = useFormik({
-		enableReinitialize: true,
-		initialValues: {
-			oldPassword: '',
-			newPassword: ''
-		},
-		validate: (values) => {
-			const errors: { oldPassword?: string; newPassword?: string; } = {};
+    enableReinitialize: true,
+    initialValues: {
+      oldPassword: '',
+      newPassword: ''
+    },
+    validate: (values) => {
+      const errors: { oldPassword?: string; newPassword?: string; } = {};
 
-			if (!values.oldPassword) {
-				errors.oldPassword = 'Required';
-			}
+      if (!values.oldPassword) {
+        errors.oldPassword = 'Required';
+      }
 
-			if (!values.newPassword) {
-				errors.newPassword = 'Required';
-			}
+      if (!values.newPassword) {
+        errors.newPassword = 'Required';
+      }
 
-			return errors;
-		},
-		validateOnChange: false,
-		onSubmit: (values) => {
-			//console.log(values);
+      return errors;
+    },
+    validateOnChange: false,
+    onSubmit: (values) => {
+      //console.log(values);
       changePassword(values);
-		}
-	});
+    }
+  });
 
   useEffect(() => {
-		getUser();
-	}, []);
+    getUser();
+  }, []);
 
   const getUser = () => {
-		axios.get(process.env.API_URL + '/api/users/' + user.id )
-		.then((response) => {
-			let user = response.data.data.profile;
-			user.id = response.data.data.id;
-			user.status = response.data.data.status;
-			setUserData(user);
-		})
-		.catch( (error) => {
-			console.log('**** error from user **** ',error);
-		});
-	}
+    let user = location.state.user.profile;
+    user.id = location.state.user.id;
+    user.status = location.state.user.status;
+    setUserData(user);
+  }
 
   const updateUser = (data: any) => {
-		let token = localStorage.getItem("access_token");
-		axios({
-			method: 'patch',
-			url: process.env.API_URL + '/api/users/current/me',
-			headers: {
-				Authorization : `Bearer ${token}`
-			},
-			data: data
-		})
-		.then( (response: any) => {
-			if(response.data.status){
-        toast.success('Editado exitosamente')
-				setTimeout( () => {
-					return navigate("/account")
-				}, 3000)
-			}
-      else{
+    let token = localStorage.getItem("access_token");
+    axios({
+      method: 'patch',
+      url: process.env.API_URL + '/api/admin-group/users/' + userData.id,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: data
+    })
+      .then((response: any) => {
+        if (response.data.status) {
+          toast.success('Editado exitosamente')
+          setTimeout(() => {
+            return navigate("/students")
+          }, 500)
+        }
+        else {
+          toast.error("Ha ocurrido un error intenta nuevamente")
+        }
+      })
+      .catch((error: any) => {
         toast.error("Ha ocurrido un error intenta nuevamente")
-      }
-		})
-		.catch( (error: any) => {
-      toast.error("Ha ocurrido un error intenta nuevamente")
-			console.log(error)
-		});
-	};
+        console.log(error)
+      });
+  };
 
   const changePassword = (data: any) => {
-		let token = localStorage.getItem("access_token");
-		  
-		axios({
-			method: 'post',
-			url: process.env.API_URL + '/api/users/' + user.id + '/changePassword',
-			headers: { 
-			  'Content-Type': 'application/json',
-			  'Authorization': `Bearer ${token}`
-			},
-			data: data
-		})
-		.then(function (response) {
-			if(response.data.status){
-        toast.success('Editado exitosamente')
-				setTimeout( () => {
-					return navigate("/account")
-				}, 3000);
-			}
-      else{
+    let token = localStorage.getItem("access_token");
+
+    axios({
+      method: 'post',
+      url: process.env.API_URL + '/api/admin-group/users/' + userData.id + '/changePassword',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      data: data
+    })
+      .then(function (response) {
+        if (response.data.status) {
+          toast.success('Editado exitosamente')
+          setTimeout(() => {
+            return navigate("/students")
+          }, 500);
+        }
+        else {
+          toast.error("Ha ocurrido un error intenta nuevamente")
+        }
+      })
+      .catch(function (error) {
         toast.error("Ha ocurrido un error intenta nuevamente")
-      }
-		})
-		.catch(function (error) {
-      toast.error("Ha ocurrido un error intenta nuevamente")
-			console.log(error)
-		})
-	}
+        console.log(error)
+      })
+  }
 
   useEffect(() => {
-		setEdit(true);
-		setChange(false);
-		setApplication(false);
+    setEdit(true);
+    setChange(false);
+    setApplication(false);
     setNotification(false);
-	}, []);
+  }, []);
 
-	const handleChange = (status: string) => {
-		if (status === 'edit') {
-			setEdit(true);
-			setChange(false);
-			setApplication(false);
+  const handleChange = (status: string) => {
+    if (status === 'edit') {
+      setEdit(true);
+      setChange(false);
+      setApplication(false);
       setNotification(false);
-		} else if (status === 'change') {
-			setEdit(false);
-			setChange(true);
-			setApplication(false);
+    } else if (status === 'change') {
+      setEdit(false);
+      setChange(true);
+      setApplication(false);
       setNotification(false);
-		} else if (status === 'application') {
-			setEdit(false);
-			setChange(false);
-			setApplication(true);
+    } else if (status === 'application') {
+      setEdit(false);
+      setChange(false);
+      setApplication(true);
       setNotification(false);
-		} 
+    }
     else {
-			setEdit(false);
-			setChange(false);
-			setApplication(false);
+      setEdit(false);
+      setChange(false);
+      setApplication(false);
       setNotification(true);
-		}
-	};
+    }
+  };
 
-  useEffect( () => {
-    if(userName !== null) {
+  useEffect(() => {
+    if (userName !== null) {
       setSigned(true);
-    }else {
+    } else {
       navigate("/");
     }
-  },[userName]);
+  }, [userName]);
 
   return (
     <Layout>
@@ -217,10 +210,10 @@ const Account = ({ location }: any) => {
           <div className="mt-10  mb-10 flex lg:items-center justify-between flex-col lg:flex-row">
             <div className="mb-4 md:mb-0">
               <div className="flex items-center mb-2">
-                <a className="flex items-center" href="">
-                  <ArrowLeftCircleIcon className="h-6 w-6"/>
+                <Link to="/students" className="flex items-center">
+                  <ArrowLeftCircleIcon className="h-6 w-6" />
                   <span className="ff-cg--medium ml-2">BACK TO STUDENTS</span>
-                </a>
+                </Link>
               </div>
               <h2 className="text-[30px] lg:text-[60px] ff-cg--semibold leading-none">Edit Student</h2>
             </div>
@@ -246,19 +239,19 @@ const Account = ({ location }: any) => {
         </section>
 
         {/* Edit Profile */}
-        { edit && (
+        {edit && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <form onSubmit={formikEdit.handleSubmit} className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
-              <h3 className="text-[20px] ff-cg--semibold  lg:text-[30px] lg:text-[30px] mb-6">Personal Information</h3>
+              <h3 className="text-[20px] ff-cg--semibold lg:text-[30px] mb-6">Personal Information</h3>
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mb-10">
                 <div className="md:col-span-6 lg:col-span-6">
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">First Name</p>
                   </div>
-                  <input 
+                  <input
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="firstName"
-                    type="text" 
+                    type="text"
                     onChange={formikEdit.handleChange}
                     value={formikEdit.values.firstName}
                   />
@@ -267,10 +260,10 @@ const Account = ({ location }: any) => {
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">Last Name</p>
                   </div>
-                  <input 
+                  <input
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="lastName"
-                    type="text" 
+                    type="text"
                     onChange={formikEdit.handleChange}
                     value={formikEdit.values.lastName}
                   />
@@ -279,10 +272,10 @@ const Account = ({ location }: any) => {
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">Email Address</p>
                   </div>
-                  <input 
+                  <input
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="email"
-                    type="email" 
+                    type="email"
                     onChange={formikEdit.handleChange}
                     value={formikEdit.values.email}
                   />
@@ -291,18 +284,18 @@ const Account = ({ location }: any) => {
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">Phone Number</p>
                   </div>
-                  <MuiTelInput 
+                  <MuiTelInput
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="mobilePhone"
                     onChange={(value) => formikEdit.setFieldValue("mobilePhone", value)}
-                    value={formikEdit.values.mobilePhone} 
+                    value={formikEdit.values.mobilePhone}
                   />
                 </div>
               </div>
               <div className="md:flex items-center justify-center gap-4 lg:gap-10">
                 <button onClick={() => navigate("/")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
                   <span className="ff-cg--semibold">Return</span>
-                </button>              
+                </button>
                 <button type="submit" className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
                   <span className="ff-cg--semibold">Save Change</span>
                 </button>
@@ -312,10 +305,10 @@ const Account = ({ location }: any) => {
         )}
 
         {/* Change Password */}
-        { change && (
+        {change && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <form onSubmit={formikChange.handleSubmit} className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
-              <h3 className="text-center text-[20px] ff-cg--semibold  lg:text-[30px] lg:text-[30px] mb-6">Change Picture</h3>
+              <h3 className="text-center text-[20px] ff-cg--semibold  lg:text-[30px] mb-6">Change Picture</h3>
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mb-10">
                 <div className="col-span-12 text-center">
                   <img className="w-[220px] h-[220px] m-auto rounded-full" src="" alt="" />
@@ -325,9 +318,9 @@ const Account = ({ location }: any) => {
               <div className="md:flex items-center justify-center gap-4 lg:gap-10">
                 <button onClick={() => navigate("/")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
                   <span className="ff-cg--semibold">Return</span>
-                </button>              
+                </button>
                 <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
-                  <ArrowUpTrayIcon className="h-6 w-6"/>
+                  <ArrowUpTrayIcon className="h-6 w-6" />
                   <span className="ff-cg--semibold whitespace-nowrap ml-2">Upload New Picture</span>
                 </button>
               </div>
@@ -336,19 +329,19 @@ const Account = ({ location }: any) => {
         )}
 
         {/* Your Applications */}
-        { application && (
+        {application && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <form onSubmit={formikChange.handleSubmit} className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
-              <h3 className="text-[20px] ff-cg--semibold  lg:text-[30px] lg:text-[30px] mb-6">Change Password</h3>
+              <h3 className="text-[20px] ff-cg--semibold lg:text-[30px] mb-6">Change Password</h3>
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mb-10">
                 <div className="md:col-span-6 lg:col-span-6">
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">Old Password</p>
                   </div>
-                  <input 
+                  <input
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="oldPassword"
-                    type="password" 
+                    type="password"
                     onChange={formikChange.handleChange}
                     value={formikChange.values.oldPassword}
                   />
@@ -357,19 +350,19 @@ const Account = ({ location }: any) => {
                   <div className="flex items-center justify-between">
                     <p className="ff-cg--semibold">New Password</p>
                   </div>
-                  <input 
+                  <input
                     className="placeholder:text-slate-400 focus:outline-none w-full bg-slate-50 p-4 mt-2 rounded-2xl ff-cg--medium"
                     name="newPassword"
-                    type="password" 
+                    type="password"
                     onChange={formikChange.handleChange}
                     value={formikChange.values.newPassword}
                   />
                 </div>
               </div>
               <div className="md:flex items-center justify-center gap-4 lg:gap-10">
-                <button onClick={() => navigate("/")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
+                <button onClick={() => navigate("/students")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
                   <span className="ff-cg--semibold">Return</span>
-                </button>              
+                </button>
                 <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
                   <span className="ff-cg--semibold">Save Change</span>
                 </button>
@@ -379,21 +372,21 @@ const Account = ({ location }: any) => {
         )}
 
         {/* Manage Notifications */}
-        { notification && (
+        {notification && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <div className="rounded-md bg-white shadow-lg">
               <h3 className="text-[20px] ff-cg--semibold  lg:text-[30px] lg:text-[30px] border-b border-solid p-[15px] md:p-[30px]">Current Enrollments</h3>
               <div className="flex items-center justify-between border-b boder-solid p-[15px] md:p-[30px] md:py-[20px]">
                 <p className="underline">Cybersecurity Bootcamp</p>
                 <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                  <PencilSquareIcon className="h-6 w-6"/>
+                  <PencilSquareIcon className="h-6 w-6" />
                   <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span>
                 </button>
               </div>
               <div className="flex items-center justify-between border-b boder-solid p-[15px] md:p-[30px] md:py-[20px]">
                 <p className="underline">Cybersecurity Bootcamp</p>
                 <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                  <PencilSquareIcon className="h-6 w-6"/>
+                  <PencilSquareIcon className="h-6 w-6" />
                   <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Remove Seat</span>
                 </button>
               </div>
@@ -404,7 +397,7 @@ const Account = ({ location }: any) => {
         {/* footer */}
         <section className="container px-[15px] mx-auto pt-[20px] pb-[20px]">
           <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between">
-            <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={ logoWhite } alt="" />
+            <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={logoWhite} alt="" />
             <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
           </div>
         </section>
@@ -414,4 +407,3 @@ const Account = ({ location }: any) => {
 }
 
 export default Account;
-  

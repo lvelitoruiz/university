@@ -46,8 +46,10 @@ const Students = () => {
                   <span className="ff-cg--semibold ml-[20px]">Export CSV</span>
                 </button>
                 <button className="mb-4 md:mb-0 w-full lg:w-fit flex items-center justify-between border border-solid border-[#fdbf38] bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl">
-                  <ShoppingCartIcon className="h-6 w-6"/>
-                  <span className="ff-cg--semibold ml-[20px]">Buy Courses</span>
+                  <Link to="search">
+                    <ShoppingCartIcon className="h-6 w-6"/>
+                    <span className="ff-cg--semibold ml-[20px]">Buy Courses</span>
+                  </Link>
                 </button>
               </div>
             </div>

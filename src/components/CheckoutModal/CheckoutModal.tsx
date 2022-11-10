@@ -2,6 +2,7 @@ import { ComputerDesktopIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/o
 import { Link } from 'gatsby';
 import React, { useEffect, useState } from 'react'
 import { getCart, deleteCourseCart, getPaymentSession } from "../../helpers/cart";
+import { LicenseControl } from '../LicenseControl/LicenseControl';
 
 export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: any) => {
 
@@ -15,6 +16,8 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
     const [fprice, setFprice] = useState(0);
 
     const [items, setItems] = useState<any>([]);
+
+    const administrator = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
 
     const closeModal = () => {
         handleCheck();
@@ -166,6 +169,9 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {
+                                                            (administrator !== null) && <LicenseControl quantity={1} />
+                                                        }
                                                         <div className="flex items-center">
                                                             <div className="lg:w-fit flex flex-col items-center border-black justify-between border solid py-[5px] px-[16px] rounded-xl">
                                                                 <span className="ff-cg--bold leading-none text-[20px]">${item.price}</span>
@@ -192,14 +198,31 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                     </div>
                     {
                         (items.length) ?
-                        <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
-                            {
-                                (signed) ?
-                                <a onClick={() => sentToCheckout()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a> :
-                                <a onClick={() => sentToLogin()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a>
-                            }
-                            
-                        </button> : ""
+                        <> 
+                        {
+                            (administrator !== null) ? 
+                            <div className='flex justify-between w-full'>
+                                <button className="flex items-center justify-center bg-white border border-black py-[14px] px-[16px] rounded-2xl  w-[49%]">
+                                    <Link to='/review'><span className="ff-cg--semibold mr-[20px]">Place for Review</span></Link>
+                                </button>
+                                <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl  w-[49%]">
+                                    {
+                                        (signed) ?
+                                        <a onClick={() => sentToCheckout()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a> :
+                                        <a onClick={() => sentToLogin()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a>
+                                    }
+                                </button>
+                            </div> : 
+                            <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mr-[20px] w-full">
+                                {
+                                    (signed) ?
+                                    <a onClick={() => sentToCheckout()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a> :
+                                    <a onClick={() => sentToLogin()}><span className="ff-cg--semibold mr-[20px]">Checkout</span></a>
+                                }
+                                
+                            </button>
+                        }
+                        </> : ""
                     }
                     
                     <p className="text-center mt-4 text-[13px]">Taxes, shipping, and delivery options calculated at checkout</p>

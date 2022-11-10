@@ -63,6 +63,8 @@ const Learning = () => {
 
   const getLink = async(uuid: string) => {
 
+    console.log('items here: **** ', uuid);
+
     let element: any;
 
     console.log('response from link');
@@ -83,14 +85,13 @@ const Learning = () => {
     
     await axios(config)
     .then(function (response) {
-      console.log('the sso: **** ',response)
-      setLink(response.data.data.login_link);
+      // console.log('the sso: **** ',response)
+      console.log(response.data.data.login_link);
+      typeof window !== 'undefined' && window.open(response.data.data.login_link, '_blank');
     })
     .catch(function (error) {
       console.log(error);
     });
-
-    return element;
     
   }
 
@@ -107,11 +108,11 @@ const Learning = () => {
     }
   }, [token]);
 
-  useEffect( () => {
-    if(enrolls.length) {
-      getLink(enrolls[0].course.uuid);
-    }
-  },[enrolls]);
+  // useEffect( () => {
+  //   if(enrolls.length) {
+  //     getLink(enrolls[0].course.uuid);
+  //   }
+  // },[enrolls]);
 
   const handleChange = (status: string) => {
     if (status === 'upcoming') {
@@ -175,45 +176,50 @@ const Learning = () => {
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">Upcoming Courses</h3>
               {
-                (false) ?
+                (applications) ?
                 <>
                   {
                     applications.map( (item: any,index) => {
                       return(
-                        <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-6" key={index}>
-                          <div className="relative w-full md:w-[200px]">
-                            <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
-                            <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={item.course.imgUrl} alt="" />
-                          </div>
-                          <div className="p-[15px] md:pl-8 md:p-5 md:flex md:items-center md:justify-between w-full">
-                            <div>
-                              <h4 className="text-[16px] lg:text-[26px] ff-cg--semibold leading-none mb-[10px]">{item.course.title}</h4>
-                              <div className="flex items-center lex-wrap">
-                                <span className="flex items-center border border-red-200 rounded-full px-[10px] mr-4 whitespace-nowrap">
-                                  <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
-                                </span>
-                                <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
-                                  <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                  <span className="ff-cg--semibold text-[12px]">{item.course.duration}</span>
-                                </span>
-                                <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
-                                  <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                  <span className="ff-cg--semibold text-[12px]">{item.preferredStart}</span>
-                                </span>
+                        <>
+                          {
+                            (item.course !== null && item.course !== undefined) &&
+                            <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-6" key={index}>
+                              <div className="relative w-full md:w-[200px]">
+                                <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
+                                <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={item.course.imgUrl} alt="" />
+                              </div>
+                              <div className="p-[15px] md:pl-8 md:p-5 md:flex md:items-center md:justify-between w-full">
+                                <div>
+                                  <h4 className="text-[16px] lg:text-[26px] ff-cg--semibold leading-none mb-[10px]">{item.course.title}</h4>
+                                  <div className="flex items-center lex-wrap">
+                                    <span className="flex items-center border border-red-200 rounded-full px-[10px] mr-4 whitespace-nowrap">
+                                      <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                                    </span>
+                                    <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                      <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                      <span className="ff-cg--semibold text-[12px]">{item.course.duration}</span>
+                                    </span>
+                                    <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                      <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                      <span className="ff-cg--semibold text-[12px]">{item.preferredStart}</span>
+                                    </span>
+                                  </div>
+                                </div>
+                                <button className="w-full lg:w-fit flex flex-col items-center justify-between border solid border-black py-3 px-[16px] rounded-2xl md:ml-[20px] mt-4 md:mt-0 relative">
+                                  <Tippy content={<>
+                                    <h3 className="text-center font-bold mb-2 pt-1 text-sm text-gray-900">We're configurin the access to your courses</h3>
+                                    <p className="text-center pb-2 text-xs text-gray-900">We are currently working to have everything ready for you. You will start your learning path soon.</p>
+                                  </>} >
+                                    <span className="absolute text-xs top-0 right-0 bg-yellow-500 border-2 border-gray-800rounded-full w-4 h-4 flex justify-center items-center">i</span>
+                                  </Tippy>
+                                  <span className="leading-none text-[12px]">Status</span>
+                                  <span className="ff-cg--semibold text-[12px] leading-none">Pending</span>
+                                </button>
                               </div>
                             </div>
-                            <button className="w-full lg:w-fit flex flex-col items-center justify-between border solid border-black py-3 px-[16px] rounded-2xl md:ml-[20px] mt-4 md:mt-0 relative">
-                              <Tippy content={<>
-                                <h3 className="text-center font-bold mb-2 pt-1 text-sm text-gray-900">We're configurin the access to your courses</h3>
-                                <p className="text-center pb-2 text-xs text-gray-900">We are currently working to have everything ready for you. You will start your learning path soon.</p>
-                              </>} >
-                                <span className="absolute text-xs top-0 right-0 bg-yellow-500 border-2 border-gray-800rounded-full w-4 h-4 flex justify-center items-center">i</span>
-                              </Tippy>
-                              <span className="leading-none text-[12px]">Status</span>
-                              <span className="ff-cg--semibold text-[12px] leading-none">Pending</span>
-                            </button>
-                          </div>
-                        </div>
+                          }
+                        </>
                       )
                     })
                   }
@@ -366,10 +372,10 @@ const Learning = () => {
                               </div>
                             </div>
                             <button className="w-full lg:w-fit flex items-center justify-between border border-[#222222] py-[14px] px-[16px] rounded-2xl mt-4 md:mt-0">
-                              <a href={link} target="_blank" className="flex">
+                              <span className="flex" onClick={ () => getLink(item.course.uuid)}>
                                 <span className="ff-cg--semibold mr-[20px]">Continue</span>
                                 <ArrowRightCircleIcon className="h-6 w-6" />
-                              </a>
+                              </span>
                             </button>
                           </div>
                         </div>
