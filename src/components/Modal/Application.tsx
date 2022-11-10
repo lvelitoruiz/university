@@ -30,7 +30,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 	}, [userUuid]);
 
   const getUser = () => {
-		axios.get(process.env.GATSBY_ENDPOINT + '/api/users/' + userUuid )
+		axios.get(process.env.API_URL + '/api/users/' + userUuid )
 		.then((response) => {
 			let user = response.data.data.profile;
 			user.id = response.data.data.id;
@@ -54,38 +54,49 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
       paymentMethod: '',
       preferredStart: '',
       password: '',
-      acceptRegister: false
+      acceptRegister: true
     },
 		validate: (values) => {
-			const errors: { courseUuid?: string; paymentMethod?: string; preferredStart?: string; password?: string; } = {};
+			const errors: { name?:string; email?:string; phone?:string; courseUuid?: string; paymentMethod?: string; preferredStart?: string; acceptRegister?: string; password?: string; } = {};
 
+      if (!values.name || !(values.name.indexOf(' ') >= 0)) {
+				errors.name = 'Required';
+			}
+      if (!values.email) {
+				errors.email = 'Required';
+			}
+      if (!values.phone) {
+				errors.phone = 'Required';
+			}
       if (!values.courseUuid) {
 				errors.courseUuid = 'Required';
 			}
-
+      if (!values.acceptRegister) {
+				errors.acceptRegister = 'Required';
+			}
 			if (!values.paymentMethod) {
 				errors.paymentMethod = 'Required';
 			}
-
       if (!values.preferredStart) {
 				errors.preferredStart = 'Required';
 			}
-
       if (!values.password) {
 				errors.password = 'Required';
 			}
-
+      console.log(errors);
 			return errors;
 		},
 		validateOnChange: false,
-		onSubmit: (values: any) => {
+		onSubmit: async (values: any) => {
 			console.log(values);
+      let fullname = values.name;
       if(values.acceptRegister){
-        values.firstName = values.name.split(' ').slice(0, -1).join(' ');
-        values.lastName = values.name.split(' ').slice(-1).join(' ');
-        createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
+        values.firstName = fullname.split(' ').slice(0, -1).join(' ') ? fullname.split(' ').slice(0, -1).join(' ') : fullname;
+        values.lastName = fullname.indexOf(' ') >= 0 ? fullname.split(' ').slice(-1).join(' ') : '';
+        await createUser(values.email,values.firstName,values.lastName,values.phone,values.password);
       }
-			createApplication(values);
+      await loginUser(values.email, values.password);
+			await createApplication(values);
 		},
 	});
 
@@ -109,8 +120,8 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 			return errors;
 		},
 		validateOnChange: false,
-		onSubmit: (values: any) => {
-			loginUser(values);
+		onSubmit: async (values: any) => {
+			await loginUser(values.username, values.password);
 		},
 	});
 
@@ -158,9 +169,9 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
     setErrorLogin(false);
   },[]);
 
-  const loginUser = (values: any) => {
-    axios.post(
-      process.env.API_URL + '/api/auth', values)
+  const loginUser = async (user: string, password: string) => {
+    await axios.post(
+      process.env.API_URL + '/api/auth', { username: user, password: password })
 		.then((response) => {
 			typeof window !== 'undefined' && localStorage.setItem('access_token', response?.data?.access_token);
 			typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(response?.data?.data?._embedded?.user));
@@ -173,10 +184,10 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 		});
   }
 
-  const createApplication = (values: any) => {
+  const createApplication = async (values: any) => {
     let token = localStorage.getItem("access_token");		
     console.log(values);  
-		axios({
+		await axios({
 			method: 'post',
 			url: process.env.API_URL + '/api/applications',
 			headers: { 
@@ -194,12 +205,12 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
 				}, 3000);
 			}
 			else{
-				toast.error('Ha ocurrido un error intenta nuevamente <br/> Mensaje del sistema: ' + response.data.message)
+				toast.error('Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: ' + response.data.message)
 			}
 		})
 		.catch(function (error) {
 			console.log(error);
-			toast.error('Ha ocurrido un error intenta nuevamente <br/> Mensaje del sistema: ' + error.message)
+			toast.error('Ha ocurrido un error intenta nuevamente.\nMensaje del sistema: ' + error.message)
 		});
   }
 
@@ -216,9 +227,9 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
     console.log('strong pass: ' + strongPassword);
   }
 
-  const createUser = (
+  const createUser = async (
     email: string, firstName: string, lastName: string, phoneNumber: string, password: string) => {
-		axios
+		await axios
       .post(process.env.API_URL + '/api/users', {
         firstName: firstName,
         lastName: lastName,
@@ -283,17 +294,22 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Full Name</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2' + (formikApp.errors.name == 'Required' ? ' border border-red-500' : '') }
                           type="text"
                           name='name'
                           value={formikApp.values.name}
                           onChange={formikApp.handleChange}
                           placeholder="Your Full Name" />
+                        {
+                          formikApp.errors.name == 'Required' && (
+                            <p className='text-sm ff-cg--regular text-[#da1a32]'>You must enter your full name: first name and last name.</p> 
+                          )
+                        }
                       </div>
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Email</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2'  + (formikApp.errors.email == 'Required' ? ' border border-red-500' : '') }
                           type="text"
                           name='email'
                           value={formikApp.values.email}
@@ -303,9 +319,9 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                       <div className="mb-6">
                         <label className="text-sm ff-cg--semibold" htmlFor="">Mobile Phone</label>
                         <input
-                          className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2"
+                          className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md mt-2'  + (formikApp.errors.phone == 'Required' ? ' border border-red-500' : '') }
                           type="text"
-                          name='phoneNumber'
+                          name='phone'
                           value={formikApp.values.phone}
                           onChange={formikApp.handleChange}
                           placeholder="Your Phone Number" />
@@ -314,7 +330,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                   )}
                   <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Preferred Method of Payment</label>
-                    <div className="rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2">
+                    <div className={'rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2' + (formikApp.errors.paymentMethod == 'Required' ? ' border border-red-500' : '') }>
                         <div className="flex items-start">
                             <div className="flex items-center mr-4">
                             <input 
@@ -385,7 +401,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                 </div>
                 <div className="mb-6">
                     <label className="text-sm ff-cg--semibold" htmlFor="">Preferred Start Date</label>
-                    <div className="rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2">
+                    <div className={'rounded-[30px] bg-white p-2 md:p-[15px] bg-gray-100 mt-2' + (formikApp.errors.preferredStart == 'Required' ? ' border border-red-500' : '') }>
                         <div className="flex items-start">
                             <div className="flex items-center mr-4">
                             <input 
@@ -445,7 +461,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                             <input 
                               id="acceptRegister" 
                               type="checkbox" 
-                              value={formikApp.values.acceptRegister} 
+                              checked={formikApp.values.acceptRegister} 
                               onChange={formikApp.handleChange} 
                               className="w-4 h-4 text-white bg-white rounded border-gray-300 focus:ring-white focus:ring-2"
                             />
@@ -455,7 +471,7 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                         <div>
                             <label className="text-sm ff-cg--semibold" htmlFor="">Password</label>
                             <input
-                              className="w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md"
+                              className={'w-full bg-gray-100 placeholder:text-[#000000] p-[10px] focus:outline-none rounded-md' + (formikApp.errors.name == 'Required' ? ' border border-red-500' : '') }
                               type='password'
                               name='password'
                               value={formikApp.values.password}
@@ -465,11 +481,11 @@ const ModalApplication = ({handleModal, setCoursesCircle, userUuid, courseUuid}:
                             />
                         </div>
                         <div className='flex items-center gap-2 mt-4'>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 0 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 1 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                            <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
-                        </div>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 0 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 1 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                              <span className={'w-full h-2 rounded-md' + (strongPassword > 2 ? ' bg-green-400' : ' bg-gray-100')}></span>
+                        </div> 
                     </div>
                   <button 
                     type="submit" 

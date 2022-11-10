@@ -92,6 +92,8 @@ const Learning = () => {
     .catch(function (error) {
       console.log(error);
     });
+
+    return element;
     
   }
 
