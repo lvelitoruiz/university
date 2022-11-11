@@ -334,7 +334,7 @@ const Account = ({ location }: any) => {
                 <div className="col-span-12 text-center">
                   <label form="profile_url">
                     <img className="w-[220px] h-[220px] m-auto rounded-full" src={userData.profileUrl} alt="" />
-                    <p className="pt-2 text-[18px] ff-cg--semibold">John Doe</p>
+                    <p className="pt-2 text-[18px] ff-cg--semibold">{userData.firstName} {userData.lastName}</p>
                     <input
                       id="profile_url"
                       name="profile_url"

@@ -150,7 +150,7 @@ const Students = () => {
                       </tbody>
                     </table>
                   </div>
-                  <div className="flex items-center justify-between py-4 px-8">
+                  {/* <div className="flex items-center justify-between py-4 px-8">
                     <p className="ff-cg--semibold">Showing 1 - 5 of 10 Items</p>
                     <div className="flex items-center gap-4">
                       <button className="rounded-md flex items-center justify-center text-[18px] bg-[#da1a32] text-white w-10 h-10">
@@ -160,7 +160,7 @@ const Students = () => {
                         <span className="ff-cg--semibold">2</span>
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
