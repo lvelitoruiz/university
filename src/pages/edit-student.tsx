@@ -94,6 +94,27 @@ const Account = ({ location }: any) => {
     }
   });
 
+  const formikImage = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      profile_url: ''
+    },
+    validate: (values) => {
+      const errors: { profile_url?: any; } = {};
+
+      return errors;
+    },
+    validateOnChange: false,
+    onSubmit: (values) => {
+      //console.log(values);
+      let data = new FormData();
+      if(formikImage.values.profile_url){
+        data.append('img', formikImage.values.profile_url, "imagen.png");
+      }
+      updateUser(data);
+    }
+  });
+
   useEffect(() => {
     getUser();
   }, []);
@@ -307,19 +328,28 @@ const Account = ({ location }: any) => {
         {/* Change Password */}
         {change && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
-            <form onSubmit={formikChange.handleSubmit} className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
+            <form onSubmit={formikImage.handleSubmit} className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-center text-[20px] ff-cg--semibold  lg:text-[30px] mb-6">Change Picture</h3>
               <div className="grid gap-4 lg:gap-10 md:grid-cols-12 mb-10">
                 <div className="col-span-12 text-center">
-                  <img className="w-[220px] h-[220px] m-auto rounded-full" src="" alt="" />
-                  <p className="pt-2 text-[18px] ff-cg--semibold">John Doe</p>
+                  <label form="profile_url">
+                    <img className="w-[220px] h-[220px] m-auto rounded-full" src={userData.profileUrl} alt="" />
+                    <p className="pt-2 text-[18px] ff-cg--semibold">John Doe</p>
+                    <input
+                      id="profile_url"
+                      name="profile_url"
+                      type="file"
+                      className="hidden"
+                      onChange={(event: any) => formikImage.setFieldValue('profile_url', event.target.files[0])}
+                      value={""} />
+                  </label>
                 </div>
               </div>
               <div className="md:flex items-center justify-center gap-4 lg:gap-10">
-                <button onClick={() => navigate("/")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
+                <button onClick={() => navigate("/students")} className="w-full lg:w-[200px] flex items-center justify-center border border-[#222222] py-[14px] px-[16px] rounded-2xl mb-4 md:mb-0">
                   <span className="ff-cg--semibold">Return</span>
                 </button>
-                <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
+                <button type="submit" className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl w-full lg:w-[200px]">
                   <ArrowUpTrayIcon className="h-6 w-6" />
                   <span className="ff-cg--semibold whitespace-nowrap ml-2">Upload New Picture</span>
                 </button>
@@ -375,7 +405,7 @@ const Account = ({ location }: any) => {
         {notification && (
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <div className="rounded-md bg-white shadow-lg">
-              <h3 className="text-[20px] ff-cg--semibold  lg:text-[30px] lg:text-[30px] border-b border-solid p-[15px] md:p-[30px]">Current Enrollments</h3>
+              <h3 className="text-[20px] ff-cg--semibold lg:text-[30px] border-b border-solid p-[15px] md:p-[30px]">Current Enrollments</h3>
               <div className="flex items-center justify-between border-b boder-solid p-[15px] md:p-[30px] md:py-[20px]">
                 <p className="underline">Cybersecurity Bootcamp</p>
                 <button className="ml-auto w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">

@@ -24,7 +24,7 @@ const Students = () => {
       password: "",
 			email: "",
 			mobilePhone: "",
-      img: ""
+      profile_url: ""
 		},
 		validate: (values) => {
 			const errors: { firstName?: string; lastName?: string; email?: string; mobilePhone?: string; password?: string } = {};
@@ -53,11 +53,19 @@ const Students = () => {
 		},
 		validateOnChange: false,
 		onSubmit: (values: any) => {
-      let data = values;
-      data.group = "Unidad",
-      data.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+      let data = new FormData();
+      data.append('firstName', formikCreate.values.firstName);
+      data.append('lastName', formikCreate.values.lastName);
+      data.append('email', formikCreate.values.email);
+      data.append('password', formikCreate.values.password);
+      data.append('mobilePhone', formikCreate.values.mobilePhone);
+      data.append('group', "Unidad");
+      data.append('timeZone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+      if(formikCreate.values.profile_url){
+        data.append('img', formikCreate.values.profile_url, "imagen.png");
+      }
       console.log(data);
-      // createUser(data);
+      createUser(data);
 		}
 	});
 
@@ -185,15 +193,18 @@ const Students = () => {
                     <div className="md:col-span-12">
                       <p className="ff-cg--semibold mb-2">Avatar Picture</p>
                       <div className="flex justify-center items-center w-full">
-                        <label form="dropzone-file" className="flex flex-col justify-center items-center w-full h-64 bg-[#f7f7f7] rounded-lg border-2 border-gray-300 border-dashed cursor-pointer">
+                        <label form="profile_url" className="flex flex-col justify-center items-center w-full h-64 bg-[#f7f7f7] rounded-lg border-2 border-gray-300 border-dashed cursor-pointer">
                           <div className="flex flex-col justify-center items-center pt-5 pb-6">
                             <svg aria-hidden="true" className="mb-3 w-20 h-20 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                             <p className="mb-2 text-[18px] ff-cg--medium">Drag and drop your file, or  <span className="underline">Browse</span></p>
                           </div>
                           <input
-                            id="dropzone-file"
+                            id="profile_url"
+                            name="profile_url"
                             type="file"
-                            className="hidden"/>
+                            className="hidden"
+                            onChange={(event: any) => formikCreate.setFieldValue('profile_url',event.target.files[0])}
+                            value={""}/>
                         </label>
                       </div> 
                     </div>
