@@ -56,11 +56,11 @@ const Review = () => {
             <div className="col-span-12">
               <div className="lg:flex items-center justify-between p-4 lg:py-14 lg:px-10 bg-[#222222] rounded-2xl">
                 <div className="w-full">
-                  <h3 className="ff-cg--semibold text-white text-[26px] lg:text-[80px] leading-none">Success!</h3>
-                  <p className="text-white text-base lg:text-[24px]">You order in complete</p>
+                  <h3 className="ff-cg--semibold text-white text-[26px] lg:text-[80px] leading-none">All Set!</h3>
+                  <p className="text-white text-base lg:text-[24px]">You order is in review</p>
                 </div>
                 <div className="w-full mt-2 lg:mt-0">
-                  <p className="text-white text-base lg:text-[20px] lg:text-right">If you need a receipt, you can print this page. You will also receive a confirmation message with this information to you email.</p>
+                  <p className="text-white text-base lg:text-[20px] lg:text-right">Your order has been placed for Review. a Customer Care representative will be in touch with you soon. You will also receive a confirmation message with this information to your email.</p>
                 </div>
               </div>
             </div>
