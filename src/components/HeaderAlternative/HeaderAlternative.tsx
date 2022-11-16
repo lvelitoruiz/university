@@ -27,6 +27,7 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
   const user = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('user') || '{}');
 
   const [coursesCart, setCoursesCart] = useState(0);
+  const [cartItems,setCartItems] = useState([]);
 
   const handleModal = () => {
       setModalOpen(!modalOpen);
@@ -60,6 +61,7 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
               if (response !== undefined) {
                   if(response.status) {
                       setCoursesCart(response.data.courses.length)
+                      setCartItems(response.data)
                   }
               }
           });
@@ -147,7 +149,7 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
                         }
                         {
                             (checkOpen) ?
-                                <CheckoutModal setCoursesCircle={setCoursesCircle} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
+                                <CheckoutModal setCoursesCircle={setCoursesCircle} cartItems={cartItems} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
                         }
                     </div> :
                     <section className="">
@@ -236,7 +238,7 @@ export const HeaderAlternative = React.forwardRef(({ isSignIn, handleTerm }: Hea
                                         </ul>
                                         {
                                             (checkOpen) ?
-                                                <CheckoutModal handleCheck={handleCheck} setCoursesCircle={setCoursesCircle} redirectLogin={redirectLogin} /> : ""
+                                                <CheckoutModal handleCheck={handleCheck} cartItems={cartItems} setCoursesCircle={setCoursesCircle} redirectLogin={redirectLogin} /> : ""
                                         }
                                     </nav>
                                 </div>

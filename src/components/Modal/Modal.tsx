@@ -96,7 +96,8 @@ const Modal = ({handleModal, setCoursesCircle}: any) => {
         timeZone: "UTC-5"
       })
       .then((response) => {
-        handleModal();
+        // handleModal();
+        loginUser(email,password);
       }).catch( function(error) {
         console.log('[DEBUG]', error)
       });

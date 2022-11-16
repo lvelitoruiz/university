@@ -16,7 +16,6 @@ import logoWhite from "../images/logo-white.png";
 import Header from "../components/Header/Header";
 import axios from "axios";
 import { Link } from "gatsby";
-import { API_URL } from '../const';
 
 const Search = ({location}: any) => {
 
@@ -44,6 +43,7 @@ const Search = ({location}: any) => {
   const [queryList,setQueryList] = useState("");
   const [queryCat,setQueryCat] = useState("");
   const [querySkill,setQuerySkill] = useState("");
+  const [numberResults,setNumberResults] = useState(0);
 
 
   const [searchTerm,setSearchTerm] = useState<any>("");
@@ -112,6 +112,7 @@ const Search = ({location}: any) => {
     axios
       .get(process.env.API_URL + `/api/info/algolia/search?query=${term}&limit=12&page=0`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -134,6 +135,7 @@ const Search = ({location}: any) => {
     axios
       .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -157,6 +159,7 @@ const Search = ({location}: any) => {
     axios
       .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0&facetFilters[type.name]=${catTerm}&query=${sTerm}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -183,6 +186,7 @@ const Search = ({location}: any) => {
     axios
       .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0&facetFilters[categories.name]=${catTerm}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -209,6 +213,7 @@ const Search = ({location}: any) => {
     axios
       .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0&facetFilters[skills.name]=${skillTerm}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -265,6 +270,7 @@ const Search = ({location}: any) => {
     axios
     .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=${pageIndex}${queryCat}${queryList}${querySkill}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -313,6 +319,7 @@ const Search = ({location}: any) => {
     axios
     .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0${newQuery}${querySkill}${queryCat}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -361,6 +368,7 @@ const Search = ({location}: any) => {
     axios
     .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0${newQuery}${queryList}${querySkill}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -409,6 +417,7 @@ const Search = ({location}: any) => {
     axios
     .get(process.env.API_URL + `/api/info/algolia/search?limit=12&page=0${newQuery}`)
       .then((response) => {
+        setNumberResults(response.data.data.nbHits);
         if(parseInt(response.data.data.nbPages) > 1) {
           let pagesToUse = [];
           setPage(response.data.data.nbPages);
@@ -442,7 +451,7 @@ const Search = ({location}: any) => {
         <section className="container px-[15px] mx-auto mt-[60px] mb-[40px]">
           <div className="lg:flex items-center justify-between">
             <div>
-              <h2 className="text-[30px] leading-[30px] lg:leading-10 mb-3 lg:text-[40px] ff-cg--semibold">{items.length} results for {(searchTerm !== "") ? searchTerm : "Todos"}</h2>
+              <h2 className="text-[30px] leading-[30px] lg:leading-10 mb-3 lg:text-[40px] ff-cg--semibold">{numberResults} results {(searchTerm !== "" && searchTerm !== undefined) ? `for "${searchTerm}"` : ''}</h2>
               {/* <p className="flex flex-wrap items-center text-base ff-cg--semibold">
                 <span className="mr-3">Topic related:</span>
                 <p className="flex flex-wrap items-center text-base ff-cg--semibold">

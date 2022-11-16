@@ -94,6 +94,14 @@
             display: block;
         }
     }
+
+    .filter-options {
+        display: none;
+
+        .filter-parent:hover & {
+            display: block;
+        } 
+    }
   }
 
 .MuiTelInput-TextField{

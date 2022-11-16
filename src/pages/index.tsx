@@ -84,12 +84,16 @@ const IndexPage = () => {
                 <p className="text-[24px] mb-[20px]">We're ready to help you start, develop, and grow your career by providing the best learning tools and resources you need. <span className="ff-cg--semibold">Happy learning!</span></p>
                 <div className="md:flex items-center gap-4">
                   <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                    <span className="ff-cg--semibold mr-[20px]">See Your Learning</span>
-                    <ArrowRightCircleIcon className="h-6 w-6"/>
+                    <Link to="/learning">
+                      <span className="ff-cg--semibold mr-[20px]">See Your Learning</span>
+                      <ArrowRightCircleIcon className="h-6 w-6"/>
+                    </Link>
                   </button>
                   <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                    <span className="ff-cg--semibold mr-[20px]">Explore the Catalog</span>
-                    <ArrowRightCircleIcon className="h-6 w-6"/>
+                    <Link to="/search">
+                      <span className="ff-cg--semibold mr-[20px]">Explore the Catalog</span>
+                      <ArrowRightCircleIcon className="h-6 w-6"/>
+                    </Link>
                   </button>
                 </div>
               </div>
@@ -324,8 +328,10 @@ const IndexPage = () => {
             </div>
             <div className="hidden lg:block">
               <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px]">
-                <span className="ff-cg--semibold mr-[20px]">Go to All Courses</span>
-                <ArrowRightCircleIcon className="h-6 w-6"/>
+                <Link to="/search">
+                  <span className="ff-cg--semibold mr-[20px]">Go to All Courses</span>
+                  <ArrowRightCircleIcon className="h-6 w-6"/>
+                </Link>
               </button>
             </div>
           </div>
@@ -395,8 +401,10 @@ const IndexPage = () => {
               </div>
               <div className="hidden lg:block">
                 <button className="w-full lg:w-fit flex items-center justify-between bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl mt-[30px] lg:mt-0">
-                  <span className="ff-cg--semibold mr-[20px]">Go to All Paths</span>
-                  <ArrowRightCircleIcon className="h-6 w-6"/>
+                  <Link to="/search">
+                    <span className="ff-cg--semibold mr-[20px]">Go to All Paths</span>
+                    <ArrowRightCircleIcon className="h-6 w-6"/>
+                  </Link>
                 </button>
               </div>
             </div>

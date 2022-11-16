@@ -138,3 +138,31 @@ export const getPaymentSession = async () => {
 
         return payElement;
 }
+
+export const createOrder = async () => {
+
+    const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
+    let element: boolean = false;
+
+    var config = {
+        method: 'post',
+        url: process.env.API_URL + '/api/order/car',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    await axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            element = true;
+        })
+        .catch(function (error) {
+            console.log('****** this error: ', error);
+        });
+
+    return element;
+
+}

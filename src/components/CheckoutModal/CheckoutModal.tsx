@@ -1,10 +1,10 @@
 import { ComputerDesktopIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import React, { useEffect, useState } from 'react'
-import { getCart, deleteCourseCart, getPaymentSession } from "../../helpers/cart";
+import { getCart, deleteCourseCart, getPaymentSession, createOrder } from "../../helpers/cart";
 import { LicenseControl } from '../LicenseControl/LicenseControl';
 
-export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: any) => {
+export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, cartItems }: any) => {
 
     const userName = typeof window !== 'undefined' && localStorage.getItem('name');
 
@@ -31,13 +31,17 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
 
     useEffect( () => {
         setCoursesCircle();
+        console.log('***** items on the cart *****',cartItems);
     },[]);
 
     useEffect(() => {
         if (userName !== null) {
-            getCartClient().then((response) => {
-                setCart(response.data);
-            })
+            // getCartClient().then((response) => {
+            //     setCart(response.data);
+            //     console.log('checking for changes: *** ',response.data);
+            // })
+            console.log(cartItems);
+            setCart(cartItems);
         } else {
             if (cartLocal !== null) {
                 setItems(JSON.parse(cartLocal.toString()));
@@ -126,6 +130,14 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
         
     }
 
+    const creatingOrder = async () => {
+        typeof window !== 'undefined' && localStorage.setItem('cartToPay', JSON.stringify(items));
+        const orderCreation = await createOrder();
+        if(orderCreation) {
+            navigate('/review')
+        }
+    }
+
     return (
         <div className="fixed left-0 top-0 h-screen w-screen z-50 flex items-start justify-end md:p-10">
             <div className="bg-opacity-40 bg-black z-10 absolute left-0 top-0 h-screen w-screen"></div>
@@ -203,7 +215,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle }: 
                             (administrator !== null) ? 
                             <div className='flex justify-between w-full'>
                                 <button className="flex items-center justify-center bg-white border border-black py-[14px] px-[16px] rounded-2xl  w-[49%]">
-                                    <Link to='/review'><span className="ff-cg--semibold mr-[20px]">Place for Review</span></Link>
+                                    <span onClick={ () => creatingOrder()}><span className="ff-cg--semibold mr-[20px]">Place for Review</span></span>
                                 </button>
                                 <button className="flex items-center justify-center bg-[#fdbf38] py-[14px] px-[16px] rounded-2xl  w-[49%]">
                                     {

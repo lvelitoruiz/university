@@ -32,6 +32,8 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
 
     const administrator = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
 
+    const [cartItems,setCartItems] = useState([]);
+
     const handleModal = () => {
         setModalOpen(!modalOpen);
     }
@@ -78,6 +80,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                 if (response !== undefined) {
                     if (response.status) {
                         setCoursesCart(response.data.courses.length)
+                        setCartItems(response.data)
                     }
                 }
             });
@@ -165,7 +168,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                         }
                         {
                             (checkOpen) ?
-                                <CheckoutModal setCoursesCircle={setCoursesCircle} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
+                                <CheckoutModal setCoursesCircle={setCoursesCircle} cartItems={cartItems} handleCheck={handleCheck} redirectLogin={redirectLogin} /> : ""
                         }
                     </div> :
                     <section className="bg-white shadow-lg">
@@ -254,8 +257,13 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                                             <div className="ff-cg--semibold px-2">
                                                                 <p>{userName}</p>
                                                                 {
-                                                                    (user?.profile !== null) && 
-                                                                    <p className='text-xs text-gray-400'>{user?.profile.login}</p>
+                                                                    (user !== null) &&
+                                                                    <>
+                                                                        {
+                                                                            (user?.profile !== null) && 
+                                                                            <p className='text-xs text-gray-400'>{user?.profile.login}</p>
+                                                                        }
+                                                                    </>
                                                                 }
                                                             </div>
                                                         </button>
@@ -281,7 +289,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
                                         </ul>
                                         {
                                             (checkOpen) ?
-                                                <CheckoutModal handleCheck={handleCheck} setCoursesCircle={setCoursesCircle} redirectLogin={redirectLogin} /> : ""
+                                                <CheckoutModal handleCheck={handleCheck} cartItems={cartItems} setCoursesCircle={setCoursesCircle} redirectLogin={redirectLogin} /> : ""
                                         }
                                     </nav>
                                 </div>

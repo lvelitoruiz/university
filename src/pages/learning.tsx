@@ -178,10 +178,11 @@ const Learning = () => {
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">Upcoming Courses</h3>
               {
-                (applications) ?
+                (applications.length) ?
                 <>
                   {
                     applications.map( (item: any,index) => {
+                      console.log('anyways here');
                       return(
                         <>
                           {
@@ -225,7 +226,10 @@ const Learning = () => {
                       )
                     })
                   }
-                </> : ""
+                </> : 
+                <div className="p-8">
+                  <p className="font-bold text-3xl text-center w-full">No Courses found for this section</p>
+                </div>
               }
             </div>
           </section>
@@ -244,7 +248,7 @@ const Learning = () => {
                   <img className="object-cover h-[40px]" src={logo} alt="" />
                 </div>
                 {
-                  (enrolls.length) && 
+                  (enrolls.length) ? 
                   <>
                     {
                       enrolls.map( (item: any,index: number) => {
@@ -280,7 +284,10 @@ const Learning = () => {
                         )
                       })
                     }
-                  </>
+                  </> :
+                  <div className="p-8">
+                    <p className="font-bold text-3xl text-center w-full">No Courses found for this section</p>
+                  </div>
                 }
                 {/* <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-8">
                   <div className="relative w-full md:w-[200px]">
@@ -384,7 +391,10 @@ const Learning = () => {
                       )
                     })
                   }
-                </> : ""
+                </> : 
+                <div className="p-8">
+                  <p className="font-bold text-3xl text-center w-full">No Courses found for this section</p>
+                </div>
               }
               {/* <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row">
                 <div className="relative w-full md:w-[200px]">
@@ -462,6 +472,9 @@ const Learning = () => {
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">Certificates and Badges (TBD)</h3>
+              <div className="p-8">
+                <p className="font-bold text-3xl text-center w-full">No Courses found for this section</p>
+              </div>
             </div>
           </section>
         }

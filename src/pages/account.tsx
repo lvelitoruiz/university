@@ -14,6 +14,9 @@ import { navigate } from "gatsby";
 import bannerCourse from "../images/banner-course.png";
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { getApplications } from "../helpers/courses";
+import Tippy from "@tippyjs/react";
+import 'tippy.js/dist/tippy.css';
 
 const Account = ({ location }: any) => {
 
@@ -25,6 +28,7 @@ const Account = ({ location }: any) => {
   const [change,setChange] = useState(false);
   const [application,setApplication] = useState(false);
   const [notification,setNotification] = useState(false);
+  const [applications, setApplications] = useState([]);
 
   useEffect(() => {
     console.log('this is the location', location.state);
@@ -112,6 +116,12 @@ const Account = ({ location }: any) => {
 			console.log('**** error from user **** ',error);
 		});
 	}
+
+  const resApplications = async () => {
+    const applications = await getApplications();
+    console.log('this are the applications',applications);
+    setApplications(applications);
+  }
 
   const updateUser = (data: any) => {
 		let token = localStorage.getItem("access_token");
@@ -366,7 +376,61 @@ const Account = ({ location }: any) => {
           <section className="container px-[15px] mx-auto md:mb-20 mb-10">
             <div className="rounded-md bg-white shadow-lg p-[15px] md:p-[30px] pb-10 md:pb-16">
               <h3 className="text-[20px] lg:text-[30px] mb-6">Your Applications</h3>
-              <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row">
+              {
+                (applications.length) ?
+                <>
+                  {
+                    applications.map( (item: any,index) => {
+                      console.log('anyways here');
+                      return(
+                        <>
+                          {
+                            (item.course !== null && item.course !== undefined) &&
+                            <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row mb-6" key={index}>
+                              <div className="relative w-full md:w-[200px]">
+                                <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
+                                <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={item.course.imgUrl} alt="" />
+                              </div>
+                              <div className="p-[15px] md:pl-8 md:p-5 md:flex md:items-center md:justify-between w-full">
+                                <div>
+                                  <h4 className="text-[16px] lg:text-[26px] ff-cg--semibold leading-none mb-[10px]">{item.course.title}</h4>
+                                  <div className="flex items-center lex-wrap">
+                                    <span className="flex items-center border border-red-200 rounded-full px-[10px] mr-4 whitespace-nowrap">
+                                      <span className="ff-cg--semibold text-[12px]">Cybersecurity</span>
+                                    </span>
+                                    <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                      <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                      <span className="ff-cg--semibold text-[12px]">{item.course.duration}</span>
+                                    </span>
+                                    <span className="flex items-center border border-red-200 rounded-full pl-[3px] pr-[10px] whitespace-nowrap mr-4">
+                                      <ClockIcon className="h-4 w-4 mr-[6px]" />
+                                      <span className="ff-cg--semibold text-[12px]">{item.preferredStart}</span>
+                                    </span>
+                                  </div>
+                                </div>
+                                <button className="w-full lg:w-fit flex flex-col items-center justify-between border solid border-black py-3 px-[16px] rounded-2xl md:ml-[20px] mt-4 md:mt-0 relative">
+                                  <Tippy content={<>
+                                    <h3 className="text-center font-bold mb-2 pt-1 text-sm text-gray-900">We're configurin the access to your courses</h3>
+                                    <p className="text-center pb-2 text-xs text-gray-900">We are currently working to have everything ready for you. You will start your learning path soon.</p>
+                                  </>} >
+                                    <span className="absolute text-xs top-0 right-0 bg-yellow-500 border-2 border-gray-800rounded-full w-4 h-4 flex justify-center items-center">i</span>
+                                  </Tippy>
+                                  <span className="leading-none text-[12px]">Status</span>
+                                  <span className="ff-cg--semibold text-[12px] leading-none">Pending</span>
+                                </button>
+                              </div>
+                            </div>
+                          }
+                        </>
+                      )
+                    })
+                  }
+                </> : 
+                <div className="p-8">
+                  <p className="font-bold text-3xl text-center w-full">No Courses found for this section</p>
+                </div>
+              }
+              {/* <div className="rounded-xl bg-white flex shadow-lg relative items-center flex-col md:flex-row">
                 <div className="relative w-full md:w-[200px]">
                   <div className="before:bg-black before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:rounded-xl before:opacity-50"></div>
                   <img className="w-full md:w-[200px] object-cover h-[100px] lg:h-[120px] rounded-xl bg-slate-300" src={ product1 } alt="" />
@@ -386,7 +450,7 @@ const Account = ({ location }: any) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </section>
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import { Link, navigate } from "gatsby";
 import { Header } from "../components/Header/Header";
@@ -11,12 +11,14 @@ import {
   AdjustmentsVerticalIcon,
   PencilSquareIcon
 } from '@heroicons/react/24/outline'
-import { getUsers } from "../helpers/courses";
+import { getUsers, searchUsers } from "../helpers/courses";
 
 const Students = () => {
   const userName = typeof window !== 'undefined' && localStorage.getItem('name');
   const [signed,setSigned] = useState(false);
   const [students,setStudents] = useState<any>(null);
+  const [name,setName] = useState('');
+  const [status,setStatus] = useState('');
 
   useEffect( () => {
     if(userName !== null) {
@@ -31,11 +33,32 @@ const Students = () => {
     setStudents(users);
   }
 
+  const searchingStudents = async () => {
+    const filteredUsers = await searchUsers(name,status);
+    console.log('filtered users here',filteredUsers);
+    setStudents(filteredUsers);
+  }
+
+  const onChangeValue = (event: any) => {
+    setStatus(event.target.value);
+  }
+
   useEffect( () => {
-    if(signed) {
-      getStudents();
-    }
-  },[signed]);
+
+    console.log('these are the states: **** ',name,status);
+
+    const delayDebounceFn = setTimeout(() => {
+      if(name === "" && status === "") {
+        getStudents();
+      } else {
+        searchingStudents();
+      }
+    }, 500)
+
+
+    return () => clearTimeout(delayDebounceFn)
+
+  },[name,status]);
   
   return (
     <Layout>
@@ -66,12 +89,35 @@ const Students = () => {
             <div className="lg:flex lg:items-center gap-8 pb-10">
               <div className="shadow-lg flex items-center px-[14px] py-[7px] rounded-2xl w-full cursor-pointer bg-white mb-4 md:mb-0">
                 <MagnifyingGlassCircleIcon className="h-6 w-6 text-[#da1a32] mr-[15px]" />
-                <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="search" placeholder="Search Students" />
+                <input className="w-full ff-cg--semibold placeholder:text-[#000000] p-[10px] focus:outline-none" type="search" value={name} onChange={(e) => setName(e.target.value)} placeholder="Search Students" />
               </div>
-              <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
-                <AdjustmentsVerticalIcon className="h-6 w-6"/>
-                <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Filter By</span>
-              </button>
+              <div className="relative filter-parent pb-2">
+                <button className="w-full lg:w-fit flex items-center justify-between border border-solid border-black py-[14px] px-[16px] rounded-2xl">
+                  <AdjustmentsVerticalIcon className="h-6 w-6"/>
+                  <span className="ff-cg--semibold ml-[20px] whitespace-nowrap">Filter By</span>
+                </button>
+                  <ul onChange={onChangeValue} className="absolute bg-white rounded-xl overflow-hidden p-4 border border-black mt-0 w-60 right-0 filter-options top-full">
+                    <li className="font-bold text-2xl mb-3">Status</li>
+                    <li className="cursor-pointer mb-2">
+                      <label>
+                        <input type="radio" name="status" value="" checked={ status === ""} />
+                        <span className="ml-2">All</span>
+                      </label>
+                    </li>
+                    <li className="cursor-pointer mb-2">
+                      <label>
+                        <input type="radio" name="status" value="ACTIVE" checked={ status === "ACTIVE"} />
+                        <span className="ml-2">Active</span>
+                      </label>
+                    </li>
+                    <li className="cursor-pointer mb-2">
+                      <label>
+                        <input type="radio" name="status" value="INACTIVE" checked={ status === "INACTIVE"} />
+                        <span className="ml-2">Inactive</span>
+                      </label>
+                    </li>
+                  </ul>
+              </div>
             </div>
             <div className="grid gap-5 lg:gap-10 lg:grid-cols-12">
               <div className="col-span-12">
