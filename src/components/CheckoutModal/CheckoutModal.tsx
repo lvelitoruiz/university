@@ -30,8 +30,8 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
     }, [userName]);
 
     useEffect( () => {
-        setCoursesCircle();
-        console.log('***** items on the cart *****',cartItems);
+        // setCoursesCircle();
+        // console.log('***** items on the cart *****',cartItems);
     },[]);
 
     useEffect(() => {
@@ -79,8 +79,8 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
     useEffect(() => {
         if(signed) {
             if (cart !== null) {
-                if (cart.courses !== undefined) {
-                    setItems(cart.courses);
+                if (cart.shopping_car_items !== undefined) {
+                    setItems(cart.shopping_car_items);
                 } else {
                     setItems([]);
                 }
@@ -93,8 +93,8 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                 setItems([]);
                 setFprice(0);
             }
+            setCoursesCircle();
         }
-        setCoursesCircle();
     }, [cart]);
 
     useEffect(() => {
@@ -105,12 +105,15 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                     final = final + parseFloat(item.price)
                 })
                 setFprice(final);
+                console.log('st circle on final price, why??');
                 setCoursesCircle();
             } else {
                 setFprice(0);
+                console.log('set circle again here');
                 setCoursesCircle();
             }
         }
+        console.log('and setting here too!');
         setCoursesCircle();
     }, [items])
 
@@ -182,7 +185,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                                                             </div>
                                                         </div>
                                                         {
-                                                            (administrator !== null) && <LicenseControl quantity={1} />
+                                                            (administrator !== null) && <LicenseControl quantity={item.quantity} uuid={item.uuidCourse} />
                                                         }
                                                         <div className="flex items-center">
                                                             <div className="lg:w-fit flex flex-col items-center border-black justify-between border solid py-[5px] px-[16px] rounded-xl">

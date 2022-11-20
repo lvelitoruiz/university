@@ -62,16 +62,17 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
         setCoursesCircle()
     }, [])
 
-    useEffect(() => {
-        const handleClickOutside = (event: any) => {
-            if (!ref?.current?.contains(event.target)) {
-                setOptionsOpen(false);
-            }
-        };
-        // typeof window !== 'undefined' && document.addEventListener("mousedown", handleClickOutside);
-    }, [ref]);
+    // useEffect(() => {
+    //     const handleClickOutside = (event: any) => {
+    //         if (!ref?.current?.contains(event.target)) {
+    //             setOptionsOpen(false);
+    //         }
+    //     };
+    //     // typeof window !== 'undefined' && document.addEventListener("mousedown", handleClickOutside);
+    // }, [ref]);
 
     const setCoursesCircle = () => {
+        console.log('called the bluff');
         if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
             const cartNow = typeof window !== 'undefined' && JSON.parse(localStorage.getItem('cart') || '{}');
             setCoursesCart(cartNow.length);
@@ -79,7 +80,7 @@ export const Header = React.forwardRef(({ isSignIn, handleTerm }: HeaderProps, r
             getCart().then((response) => {
                 if (response !== undefined) {
                     if (response.status) {
-                        setCoursesCart(response.data.courses.length)
+                        setCoursesCart(response.data.shopping_car_items.length)
                         setCartItems(response.data)
                     }
                 }

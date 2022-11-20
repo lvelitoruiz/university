@@ -32,7 +32,6 @@ export const getCart = async (courses?: any) => {
 
 export const createCart = async (courses: any = []) => {
     const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
-    let element: any;
 
     if(courses.length <= 1) {
         var data = JSON.stringify({
@@ -165,4 +164,32 @@ export const createOrder = async () => {
 
     return element;
 
+}
+
+export const changeQuantity = async (quantity: number, uuid: string) => {
+    const token = typeof window !== 'undefined' && localStorage.getItem('access_token');
+
+        const data = JSON.stringify({
+            "courseUuid": uuid,
+            "quantity": quantity
+        });
+
+    var config = {
+        method: 'patch',
+        url: process.env.API_URL + '/api/shopping-car/item',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        data: data
+    };
+
+    axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }

@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { changeQuantity } from '../../helpers/cart';
 
 type Ilicense = {
-    quantity: number
+    quantity: number,
+    uuid: string
 }
 
-export const LicenseControl = ({quantity}: Ilicense) => {
+export const LicenseControl = ({quantity, uuid}: Ilicense) => {
 
     const [number,setNumber] = useState(quantity);
 
-    const increaseNumber = () => {
+    const increaseNumber = async () => {
         setNumber(number + 1)
+        await changeQuantity(number,uuid).then( response => {
+            console.log('response: *** ', response);
+        });
     }
 
-    const decreaseNumber = () => {
+    const decreaseNumber = async () => {
         if(number >= 1) {
             setNumber(number - 1);
-        }
+            await changeQuantity(number,uuid).then( response => {
+                console.log('response: *** ', response);
+            });
+        };
     }
 
 
