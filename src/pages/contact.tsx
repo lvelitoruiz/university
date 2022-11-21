@@ -99,7 +99,22 @@ const Contact = () => {
           <section className="container px-[15px] mx-auto pt-[50px] pb-[20px]">
             <div className="bg-[#222222] rounded-2xl py-[20px] px-[30px] flex items-center justify-between">
               <img className="object-cover w-[50px] h-[50px] lg:w-[340px] lg:h-[60px]" src={ logoWhite } alt="" />
-              <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
+              <div className="flex flex-col items-end">
+                <div className="hidden md:flex items-center mb-1">
+                  <a className="text-white ff-cg--medium mr-3" href="">Home</a>
+                  <span className="h-[10px] w-[2px] bg-white"></span>
+                  <a className="text-white ff-cg--medium mx-3" href="">Catalog</a>
+                  <span className="h-[10px] w-[2px] bg-white"></span>
+                  <a className="text-white ff-cg--medium mx-3" href="">About</a>
+                  <span className="h-[10px] w-[2px] bg-white"></span>
+                  <a className="text-white ff-cg--medium mx-3" href="">Business</a>
+                  <span className="h-[10px] w-[2px] bg-white"></span>
+                  <a className="text-white ff-cg--medium mx-3" href="">Cobtact Us</a>
+                  <span className="h-[10px] w-[2px] bg-white"></span>
+                  <a className="text-white ff-cg--medium ml-3" href="">FAQs</a>
+                </div>
+                <p className="text-white ff-cg--semibold text-right text-[11px] ml-[20px] lg:text-[16px]">Copyright © 2022 University of Maryland Global Campus. All Rights Reserved.</p>
+              </div>
             </div>
           </section>
         </div>
