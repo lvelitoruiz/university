@@ -84,6 +84,14 @@ const Course = ({ location, params }: any) => {
     setModalOpen(true);
   }
 
+  const askingCart = async (uuidItem: string, priceItem: string) => {
+    await addCourseToCart({ "uuid": uuidItem, "price": parseFloat( priceItem) });
+    if (headerRef.current) {
+      console.log('getting current and setting circle');
+      headerRef.current.setCoursesCircle();
+    }
+  }
+
   const addToCart = async (item: any) => {
 
     if (signed) {
@@ -92,9 +100,9 @@ const Course = ({ location, params }: any) => {
         cartIsOn = response.status;
       });
       if (!cartIsOn) {
-        createCart({ "uuid": item.uuid, "price": parseFloat(item.price) });
+        await createCart({ "uuid": item.uuid, "price": parseFloat(item.price) });
       } else {
-        addCourseToCart({ "uuid": item.uuid, "price": parseFloat(item.price) })
+        askingCart( item.uuid, item.price);
       }
     } else {
       let cartItems = []
@@ -109,12 +117,11 @@ const Course = ({ location, params }: any) => {
         alert('This item already is on your cart')
       }
       typeof window !== 'undefined' && localStorage.setItem('cart', JSON.stringify(cartItems));
+      if (headerRef.current) {
+        console.log('getting current and setting circle');
+        headerRef.current.setCoursesCircle();
+      }
     }
-
-    if (headerRef.current) {
-      headerRef.current.setCoursesCircle();
-    }
-
   }
 
   useEffect(() => {

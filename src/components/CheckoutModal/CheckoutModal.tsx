@@ -94,7 +94,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                 setFprice(0);
             }
             setCoursesCircle();
-        }
+        }   
     }, [cart]);
 
     useEffect(() => {
@@ -167,9 +167,9 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                                                 <div className="lg:flex flex-col border-b solid py-8" key={index}>
                                                     <div className="flex items-center justify-between">
                                                         <div className='flex items-center'>
-                                                            <img className="w-[50px] mb-[10px] lg:mb-0 h-[50px] lg:w-[100px] lg:h-[60px] rounded-2xl object-cover" src={item.imgUrl} alt="" />
+                                                            <img className="w-[50px] mb-[10px] lg:mb-0 h-[50px] lg:w-[100px] lg:h-[60px] rounded-2xl object-cover" src={item.course.imgUrl} alt="" />
                                                             <div className="ml-[10px]">
-                                                                <p className="ff-cg--semibold text-[20px] mb-1 leading-none">{item.title}</p>
+                                                                <p className="ff-cg--semibold text-[20px] mb-1 leading-none">{item.course.title}</p>
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="flex items-center flex-wrap">
                                                                         <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
@@ -178,7 +178,7 @@ export const CheckoutModal = ({ handleCheck, redirectLogin, setCoursesCircle, ca
                                                                         </span>
                                                                         <span className="flex items-center border border-[#da1a32] rounded-full pl-[3px] pr-[10px] mr-[10px]">
                                                                             <ClockIcon className="h-4 w-4 mr-[6px]" />
-                                                                            <span className="ff-cg--semibold text-[12px]">{item.duration}</span>
+                                                                            <span className="ff-cg--semibold text-[12px]">{item.course.duration}</span>
                                                                         </span>
                                                                     </div>
                                                                 </div>

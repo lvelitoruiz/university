@@ -82,13 +82,16 @@ export const addCourseToCart = async (course: any) => {
         data: data
     };
 
-    axios(config)
+    await axios(config)
         .then(function (response) {
             console.log(JSON.stringify(response.data));
+            element = response.data;
         })
         .catch(function (error) {
             console.log(error);
         });
+
+    return element;
 }
 
 export const deleteCourseCart = (id:any) => {
